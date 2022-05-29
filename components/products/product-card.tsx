@@ -7,19 +7,14 @@ import {
   Stack,
   Image,
 } from '@chakra-ui/react';
+import { ProductDetailInterface } from 'lib/services/types';
 
 interface Props {
   productDetails: ProductDetailInterface
 }
 
-interface ProductDetailInterface {
-  img: string
-  description: string
-  price: number
-  oldPrice?: number
-}
 
-export default function ProductCard({ productDetails: { img, description, price, oldPrice } }: Props) {
+export default function ProductCard({ productDetails: { SKU, Imagen, Descripcion, Precio, OldPrice } }: Props) {
   return (
     <Center py={12}>
       <Box
@@ -45,7 +40,7 @@ export default function ProductCard({ productDetails: { img, description, price,
             pos: 'absolute',
             top: 5,
             left: 0,
-            backgroundImage: `url(${img})`,
+            backgroundImage: `url(${Imagen || '/images/vasija_card.webp'})`,
             filter: 'blur(15px)',
             zIndex: -1,
           }}
@@ -59,7 +54,7 @@ export default function ProductCard({ productDetails: { img, description, price,
             height={230}
             width={282}
             objectFit={'cover'}
-            src={img}
+            src={Imagen || '/images/vasija_card.webp'}
             alt='img'
           />
         </Box>
@@ -68,15 +63,15 @@ export default function ProductCard({ productDetails: { img, description, price,
             Arterra
           </Text>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            {description}
+            {Descripcion}
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
-              {price}
+              {Precio}
             </Text>
-            {oldPrice && (
+            {OldPrice && (
               <Text textDecoration={'line-through'} color={'gray.600'}>
-                {oldPrice}
+                {OldPrice}
               </Text>
             )}
           </Stack>

@@ -1,11 +1,13 @@
-import { Button, useColorMode, Image, Box, Text, Heading, SimpleGrid } from '@chakra-ui/react'
-import ProductCard from 'components/products/product-card'
-import type { NextPage } from 'next'
+import { Image, Box, Text, Heading, SimpleGrid } from '@chakra-ui/react'
+import ProductCardList from 'components/products/product-card-list'
+import { getAllProducts } from 'lib/services/products-api'
+import { ProductDetailInterface } from 'lib/services/types'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 
+type Props = { products: ProductDetailInterface[] }
 
-const Home: NextPage = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+const Home: NextPage<Props> = ({ products }) => {
   return (
     < >
       <Head>
@@ -23,18 +25,18 @@ const Home: NextPage = () => {
           </Heading>
         </Box>
       </Box>
-      <SimpleGrid minChildWidth={'400px'} spacing='40px>'>
-        <ProductCard productDetails={{
-          img: '/images/vasija_card.webp',
-          description: 'una vasija', price: 10, oldPrice: 20
-        }} />
-        <ProductCard productDetails={{
-          img: '/images/vasija_card.webp',
-          description: 'una vasija', price: 10
-        }} />
-      </SimpleGrid>
+      <ProductCardList products={products} />
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const products = await getAllProducts()
+  return {
+    props: {
+      products
+    }
+  }
 }
 
 export default Home

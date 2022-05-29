@@ -38,7 +38,7 @@ export default function NavBar() {
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} position='fixed' top='0'
       width='100%'
-      zIndex='1'
+      zIndex='9999'
     >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <Box>arterra</Box>

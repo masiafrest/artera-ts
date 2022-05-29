@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         />
         <Box position={'absolute'} top='50%' left='50%' transform='translate(-50%, -50%)' >
           <Heading size={'4xl'} >
-            Artera
+            arterra
           </Heading>
         </Box>
       </Box>

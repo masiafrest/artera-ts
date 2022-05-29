@@ -5,10 +5,10 @@ import NavBar from 'components/sections/navBar'
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-  return <ChakraProvider theme={theme}>
+  return (<ChakraProvider theme={theme}>
     <NavBar />
     <Component {...pageProps} />
-  </ChakraProvider>
+  </ChakraProvider>)
 }
 
 export default MyApp

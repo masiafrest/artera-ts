@@ -65,7 +65,7 @@ export default function ProductCard({ productDetails: { img, description, price,
         </Box>
         <Stack pt={10} align={'center'}>
           <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-            Artera
+            Arterra
           </Text>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
             {description}

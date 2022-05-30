@@ -146,10 +146,11 @@ export default function Product({ product }: Props) {
 
 export const getStaticPaths: GetStaticPaths<Query> = async () => {
   const products = await getAllProducts()
-  // if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-  //   await staticPathDataToProps.cache.set(products)
-  // }
-  await staticPathDataToProps.cache.set(products)
+  if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
+    await staticPathDataToProps.cache.set(products)
+  } else {
+    await staticPathDataToProps.cache.set(products)
+  }
 
   return {
     paths: products.map((product) => ({

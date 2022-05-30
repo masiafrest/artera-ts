@@ -63,7 +63,7 @@ export default function ProductCard({ productDetails: { SKU, Imagen, Descripcion
             />
           </Box>
           <Stack pt={10} align={'center'}>
-            <NextLink href={`/product/${SKU}`} passHref>
+            <NextLink href={`/products/${SKU}`} passHref>
               <LinkOverlay />
             </NextLink>
             <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>

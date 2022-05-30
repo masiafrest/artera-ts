@@ -7,7 +7,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (<ChakraProvider theme={theme}>
     <NavBar />
-    <Component {...pageProps} />
+    <Box paddingTop={'60px'}>
+      <Component {...pageProps} />
+    </Box>
   </ChakraProvider>)
 }
 

@@ -15,8 +15,10 @@ import {
   Stack,
   useColorMode,
   Center,
+  Heading,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import NextLink from 'next/link'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -38,10 +40,18 @@ export default function NavBar() {
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} position='fixed' top='0'
       width='100%'
-      zIndex='9999'
+      zIndex='10'
     >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-        <Box>arterra</Box>
+        <Box>
+          <Heading><NextLink href='/' passHref>
+            <Link
+              _hover={{
+                textDecoration: 'none',
+              }}
+            >Arterra</Link>
+          </NextLink></Heading>
+        </Box>
         <Flex alignItems={'center'}>
           <Stack direction={'row'} spacing={7}>
             <Button onClick={toggleColorMode}>

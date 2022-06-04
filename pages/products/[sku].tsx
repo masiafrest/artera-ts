@@ -1,9 +1,9 @@
-import { getAllProducts } from 'lib/services/products-api'
-import staticPathDataToProps from 'lib/services/static-path-data-to-props'
-import { ProductDetailInterface } from 'lib/services/types'
-import type { GetStaticProps, GetStaticPaths } from 'next'
-import { PHASE_PRODUCTION_BUILD } from 'next/constants'
-import { ParsedUrlQuery } from 'querystring'
+import { getAllProducts } from "lib/services/products-api";
+import staticPathDataToProps from "lib/services/static-path-data-to-props";
+import { ProductDetailInterface } from "lib/types";
+import type { GetStaticProps, GetStaticPaths } from "next";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { ParsedUrlQuery } from "querystring";
 import {
   Box,
   chakra,
@@ -21,135 +21,157 @@ import {
   VisuallyHidden,
   List,
   ListItem,
-} from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { MdLocalShipping } from 'react-icons/md';
-import React from 'react'
+  useToast,
+} from "@chakra-ui/react";
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { MdLocalShipping } from "react-icons/md";
+import React from "react";
+import { useCart } from "lib/context/cart";
 
 interface Query extends ParsedUrlQuery {
-  sku: string
+  sku: string;
 }
 
-type Props = { product: ProductDetailInterface }
+type Props = { product: ProductDetailInterface };
 
 export default function Product({ product }: Props) {
-  const { Descripcion, Imagen, SKU, Precio, OldPrice } = product
+  const toast = useToast();
+  const { setCart } = useCart();
+
+  const { Descripcion, Imagen, SKU, Precio, OldPrice } = product;
+  const addProductToCart = (): void => {
+    //TODO: when add check how many of the same has, maybe use a reducer
+    setCart((prevCart) => [...prevCart, product]);
+    toast({
+      title: "Agregado",
+      description: Descripcion,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
   return (
-    <Container>
+    <Container maxW={"container.md"}>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 18, md: 24 }}>
+        py={{ base: 18, md: 24 }}
+      >
         <Flex>
           <Image
-            rounded={'md'}
-            alt={'product image'}
-            src={
-              `${Imagen || '/images/vasija_card.webp'}`
-            }
-            fit={'cover'}
-            align={'center'}
-            w={'100%'}
-            h={{ base: '100%', sm: '400px', lg: '500px' }}
+            rounded={"md"}
+            alt={"product image"}
+            src={`${Imagen || "/images/vasija_card.webp"}`}
+            fit={"cover"}
+            align={"center"}
+            w={"100%"}
+            h={{ base: "100%", sm: "400px", lg: "550px" }}
           />
         </Flex>
         <Stack spacing={{ base: 6, md: 10 }}>
-          <Box as={'header'}>
+          <Box as={"header"}>
             <Heading
               lineHeight={1.1}
               fontWeight={600}
-              fontSize={{ base: 'xl', sm: '4xl', lg: '5xl' }}>
+              fontSize={{ base: "xl", sm: "4xl", lg: "5xl" }}
+            >
               {Descripcion}
             </Heading>
             <Text
-              color={useColorModeValue('gray.900', 'gray.400')}
+              color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
-              fontSize={'2xl'}>
+              fontSize={"2xl"}
+            >
               {Precio}
             </Text>
             <Text
-              color={useColorModeValue('gray.500', 'gray.400')}
-              fontSize={'md'}
-              fontWeight={'300'}>
+              color={useColorModeValue("gray.500", "gray.400")}
+              fontSize={"md"}
+              fontWeight={"300"}
+            >
               SKU: {SKU}
             </Text>
           </Box>
 
           <Stack
             spacing={{ base: 4, sm: 6 }}
-            direction={'column'}
+            direction={"column"}
             divider={
               <StackDivider
-                borderColor={useColorModeValue('gray.200', 'gray.600')}
+                borderColor={useColorModeValue("gray.200", "gray.600")}
               />
-            }>
+            }
+          >
             <Box>
               <Text
-                fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
-                fontWeight={'500'}
-                textTransform={'uppercase'}
-                mb={'4'}>
+                fontSize={{ base: "16px", lg: "18px" }}
+                color={useColorModeValue("yellow.500", "yellow.300")}
+                fontWeight={"500"}
+                textTransform={"uppercase"}
+                mb={"4"}
+              >
                 Product Details
               </Text>
 
               <List spacing={2}>
                 <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
+                  <Text as={"span"} fontWeight={"bold"}>
                     Medidas:
-                  </Text>{' '}
+                  </Text>{" "}
                   20 mm
                 </ListItem>
-
               </List>
             </Box>
             <Box>
               <Text
-                fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
-                fontWeight={'500'}
-                textTransform={'uppercase'}
-                mb={'4'}>
+                fontSize={{ base: "16px", lg: "18px" }}
+                color={useColorModeValue("yellow.500", "yellow.300")}
+                fontWeight={"500"}
+                textTransform={"uppercase"}
+                mb={"4"}
+              >
                 Cuidados a cosiderar
               </Text>
-              <Text fontSize={'lg'}>
-                {Descripcion}
-              </Text>
+              <Text fontSize={"lg"}>{Descripcion}</Text>
             </Box>
           </Stack>
 
           <Button
-            rounded={'none'}
-            w={'full'}
+            rounded={"none"}
+            w={"full"}
             mt={8}
-            size={'lg'}
-            py={'7'}
-            bg={useColorModeValue('gray.900', 'gray.50')}
-            color={useColorModeValue('white', 'gray.900')}
-            textTransform={'uppercase'}
+            size={"lg"}
+            py={"7"}
+            bg={useColorModeValue("gray.900", "gray.50")}
+            color={useColorModeValue("white", "gray.900")}
+            textTransform={"uppercase"}
             _hover={{
-              transform: 'translateY(2px)',
-              boxShadow: 'lg',
-            }}>
+              transform: "translateY(2px)",
+              boxShadow: "lg",
+            }}
+            onClick={addProductToCart}
+          >
             Add to cart
           </Button>
 
-          <Stack direction="row" alignItems="center" justifyContent={'center'}>
+          <Stack direction="row" alignItems="center" justifyContent={"center"}>
             <MdLocalShipping />
             <Text>7 business days delivery</Text>
           </Stack>
         </Stack>
       </SimpleGrid>
     </Container>
-  )
+  );
 }
 
 export const getStaticPaths: GetStaticPaths<Query> = async () => {
-  const products = await getAllProducts()
+  const products = await getAllProducts();
   if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-    await staticPathDataToProps.cache.set(products)
+    await staticPathDataToProps.cache.set(products);
   } else {
-    await staticPathDataToProps.cache.set(products)
+    await staticPathDataToProps.cache.set(products);
   }
 
   return {
@@ -159,25 +181,27 @@ export const getStaticPaths: GetStaticPaths<Query> = async () => {
       },
     })),
     fallback: false,
-  }
-}
+  };
+};
 
-export const getStaticProps: GetStaticProps<Props, Query> = async ({ params }) => {
-  let product = await staticPathDataToProps.cache.get(params?.sku as string)
+export const getStaticProps: GetStaticProps<Props, Query> = async ({
+  params,
+}) => {
+  let product = await staticPathDataToProps.cache.get(params?.sku as string);
 
   if (!product) {
-    product = await staticPathDataToProps.fetch(params?.id as string)
+    product = await staticPathDataToProps.fetch(params?.id as string);
   }
 
   if (!product) {
     return {
       notFound: true,
-    }
+    };
   }
 
   return {
     props: {
       product,
     },
-  }
-}
+  };
+};

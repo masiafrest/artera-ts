@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { ProductDetailInterface } from "./types";
+import { ProductDetailInterface } from "../types";
 
 const PRODUCTS: ProductDetailInterface[] = [
   {

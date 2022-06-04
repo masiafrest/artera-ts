@@ -1,7 +1,7 @@
 import axios from "axios";
 import Papa from "papaparse";
 
-import { ProductDetailInterface } from "./types";
+import { ProductDetailInterface } from "../types";
 
 const getAllProducts = async (): Promise<ProductDetailInterface[]> =>
   axios

@@ -12,17 +12,17 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
-import { ProductDetailInterface } from "lib/types";
+import { CartProductDetailInterface } from "lib/types";
 
-type Props = { value?: number } & Partial<ProductDetailInterface>;
+type Props = CartProductDetailInterface;
 
 export default function DrawerCard({
-  value = 1,
+  qty = 1,
   Descripcion = "description",
   Precio = 10,
 }: Props) {
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({ step: 1, min: 1, value });
+    useNumberInput({ step: 1, min: 1, value: qty });
   return (
     <HStack h="full" spacing="7">
       <Image

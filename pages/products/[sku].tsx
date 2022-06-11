@@ -41,7 +41,21 @@ export default function Product({ product }: Props) {
   const { Descripcion, Imagen, SKU, Precio, OldPrice } = product;
   const addProductToCart = (): void => {
     //TODO: when add check how many of the same has, maybe use a reducer
-    setCart((prevCart) => [...prevCart, product]);
+    setCart((prevCart) => {
+      const hasProduct = prevCart.some((e) => e.SKU === product.SKU);
+      if (hasProduct) {
+        console.log("has!! ");
+        return prevCart.map((e) => {
+          if (e.SKU === product.SKU) {
+            return { ...product, qty: e.qty + 1 };
+          }
+          return { ...product, qty: 1 };
+        });
+      } else {
+        console.log(" hasnt!! ");
+        return [...prevCart, { ...product, qty: 1 }];
+      }
+    });
     toast({
       title: "Agregado",
       description: Descripcion,

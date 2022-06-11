@@ -5,3 +5,7 @@ export interface ProductDetailInterface {
   OldPrice?: number;
   SKU: string;
 }
+
+export interface CartProductDetailInterface extends ProductDetailInterface {
+  qty: number;
+}

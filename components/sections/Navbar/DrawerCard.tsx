@@ -25,8 +25,28 @@ export default function DrawerCard({
 }: Props) {
   const { setCart } = useCart();
 
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({ step: 1, min: 1, value: qty });
+  const onClickMore = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setCart((prevCart) =>
+      prevCart.map((c) => {
+        if (c.SKU === SKU) {
+          return { ...c, qty: c.qty + 1 };
+        }
+        return c;
+      })
+    );
+  };
+
+  const onClickLess = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setCart((prevCart) =>
+      prevCart.map((c) => {
+        if (c.SKU === SKU) {
+          return { ...c, qty: c.qty - 1 };
+        }
+        return c;
+      })
+    );
+  };
+
   return (
     <HStack h="full" spacing="7">
       <Image
@@ -41,9 +61,9 @@ export default function DrawerCard({
         <Text>{Descripcion}</Text>
         <Text>{Precio}</Text>
         <HStack maxW="36">
-          <Button {...getIncrementButtonProps()}>+</Button>
-          <Input {...getInputProps()} />
-          <Button {...getDecrementButtonProps()}>-</Button>
+          <Button onClick={onClickMore}>+</Button>
+          <Input value={qty} min={1} readOnly />
+          <Button onClick={onClickLess}>-</Button>
         </HStack>
       </VStack>
       <Box h="20">

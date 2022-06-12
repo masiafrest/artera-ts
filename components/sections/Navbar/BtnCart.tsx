@@ -59,7 +59,6 @@ export default function BtnCart({}: Props) {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Cart</DrawerHeader>
-
           <DrawerBody>
             <VStack divider={<StackDivider />} spacing={4}>
               {cart.map((e) => (
@@ -67,6 +66,21 @@ export default function BtnCart({}: Props) {
               ))}
             </VStack>
           </DrawerBody>
+          {cart.length > 0 && (
+            <Text align="center">
+              Total:{" "}
+              {cart
+                .reduce((a, v) => {
+                  //TODO price viene con como string en excel y viene con $, ejm: '$1350'
+                  if (typeof v.Precio === "string") {
+                    const precio: number = parseFloat(v.Precio.split("$")[1]);
+                    return a + precio * v.qty;
+                  }
+                  return a + v.Precio * v.qty;
+                }, 0)
+                .toFixed(2)}
+            </Text>
+          )}
           <Divider />
           <DrawerFooter style={{ display: "flex", justifyContent: "center" }}>
             <Button

@@ -1,7 +1,7 @@
 export interface ProductDetailInterface {
   Imagen: string;
   Descripcion: string;
-  Precio: number;
+  Precio: number | string;
   OldPrice?: number;
   SKU: string;
 }

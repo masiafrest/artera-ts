@@ -13,6 +13,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 import { CartProductDetailInterface } from "lib/types";
+import { useCart } from "lib/context/cart";
 
 type Props = CartProductDetailInterface;
 
@@ -20,7 +21,10 @@ export default function DrawerCard({
   qty = 1,
   Descripcion = "description",
   Precio = 10,
+  SKU,
 }: Props) {
+  const { setCart } = useCart();
+
   const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
     useNumberInput({ step: 1, min: 1, value: qty });
   return (
@@ -43,7 +47,13 @@ export default function DrawerCard({
         </HStack>
       </VStack>
       <Box h="20">
-        <IconButton aria-label="delete item" icon={<CloseIcon />} />
+        <IconButton
+          aria-label="delete item"
+          icon={<CloseIcon />}
+          onClick={(e) => {
+            setCart((prevCart) => prevCart.filter((c) => c.SKU !== SKU));
+          }}
+        />
       </Box>
     </HStack>
   );

@@ -13,7 +13,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 import { CartProductDetailInterface } from "lib/types";
-import { useCart } from "lib/context/cart";
+import { useCart } from "lib/context/CartContext";
 
 type Props = CartProductDetailInterface;
 

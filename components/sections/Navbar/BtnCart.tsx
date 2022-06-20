@@ -36,7 +36,7 @@ import {
 } from "@chakra-ui/react";
 import { BsCart } from "react-icons/bs";
 import DrawerCard from "./DrawerCard";
-import { useCart } from "lib/context/cart";
+import { useCart } from "lib/context/CartContext";
 
 type Props = {};
 

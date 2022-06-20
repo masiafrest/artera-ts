@@ -26,7 +26,7 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import React from "react";
-import { useCart } from "lib/context/cart";
+import { useCart } from "lib/context/CartContext";
 
 interface Query extends ParsedUrlQuery {
   sku: string;
@@ -44,7 +44,6 @@ export default function Product({ product }: Props) {
     setCart((prevCart) => {
       const hasProduct = prevCart.some((e) => e.SKU === product.SKU);
       if (hasProduct) {
-        console.log("has!! ");
         return prevCart.map((e) => {
           if (e.SKU === product.SKU) {
             return { ...product, qty: e.qty + 1 };
@@ -52,7 +51,6 @@ export default function Product({ product }: Props) {
           return { ...product, qty: 1 };
         });
       } else {
-        console.log(" hasnt!! ");
         return [...prevCart, { ...product, qty: 1 }];
       }
     });

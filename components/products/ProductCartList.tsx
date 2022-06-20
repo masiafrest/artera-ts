@@ -1,4 +1,4 @@
-import { SimpleGrid, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { ProductDetailInterface } from "lib/types";
 import React from "react";
 import ProductCard from "./ProductCard";

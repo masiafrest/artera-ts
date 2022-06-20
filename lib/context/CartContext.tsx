@@ -3,15 +3,15 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 import type { CartProductDetailInterface } from "lib/types";
 
-type CartProviderProps = { children: ReactNode };
+interface CartProviderProps {
+  children: ReactNode;
+}
+interface CartContextProps {
+  cart: CartProductDetailInterface[];
+  setCart: Dispatch<SetStateAction<CartProductDetailInterface[]>>;
+}
 
-const CartContext = createContext<
-  | {
-      cart: CartProductDetailInterface[];
-      setCart: Dispatch<SetStateAction<CartProductDetailInterface[]>>;
-    }
-  | undefined
->(undefined);
+const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartProductDetailInterface[]>([]);

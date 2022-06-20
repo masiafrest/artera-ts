@@ -13,6 +13,7 @@ import ProductCardList from "components/products/ProductCartList";
 import ImageCarousel from "components/sections/ImageCarousel";
 import { getAllProducts } from "lib/services/products-api";
 import { ProductDetailInterface } from "lib/types";
+import { supabase } from "lib/utils/supabaseClient";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -35,23 +36,14 @@ const Home: NextPage<Props> = ({ products }) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // const products = await getAllProducts();
-  const products: ProductDetailInterface[] = [
-    {
-      Descripcion: "test",
-      Imagen: "",
-      Precio: "10.00",
-      SKU: "test",
-    },
-    {
-      Descripcion: "test2",
-      Imagen: "",
-      Precio: "12.00",
-      SKU: "test2",
-    },
-  ];
+
+  const { body } = await supabase
+    .from<ProductDetailInterface>("products")
+    .select("*");
+
   return {
     props: {
-      products,
+      products: body,
     },
   };
 };

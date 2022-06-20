@@ -38,14 +38,14 @@ export default function Product({ product }: Props) {
   const toast = useToast();
   const { setCart } = useCart();
 
-  const { Descripcion, Imagen, SKU, Precio, OldPrice } = product;
+  const { descripcion, imagen, sku, precio, oldprice } = product;
   const addProductToCart = (): void => {
     //TODO: when add check how many of the same has, maybe use a reducer
     setCart((prevCart) => {
-      const hasProduct = prevCart.some((e) => e.SKU === product.SKU);
+      const hasProduct = prevCart.some((e) => e.sku === product.sku);
       if (hasProduct) {
         return prevCart.map((e) => {
-          if (e.SKU === product.SKU) {
+          if (e.sku === product.sku) {
             return { ...product, qty: e.qty + 1 };
           }
           return { ...product, qty: 1 };
@@ -56,7 +56,7 @@ export default function Product({ product }: Props) {
     });
     toast({
       title: "Agregado",
-      description: Descripcion,
+      description: descripcion,
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -75,7 +75,7 @@ export default function Product({ product }: Props) {
           <Image
             rounded={"md"}
             alt={"product image"}
-            src={`${Imagen || "/images/vasija_card.webp"}`}
+            src={`${imagen || "/images/vasija_card.webp"}`}
             fit={"cover"}
             align={"center"}
             w={"100%"}
@@ -89,21 +89,21 @@ export default function Product({ product }: Props) {
               fontWeight={600}
               fontSize={{ base: "xl", sm: "4xl", lg: "5xl" }}
             >
-              {Descripcion}
+              {descripcion}
             </Heading>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               fontSize={"2xl"}
             >
-              {Precio}
+              {precio}
             </Text>
             <Text
               color={useColorModeValue("gray.500", "gray.400")}
               fontSize={"md"}
               fontWeight={"300"}
             >
-              SKU: {SKU}
+              sku: {sku}
             </Text>
           </Box>
 
@@ -146,7 +146,7 @@ export default function Product({ product }: Props) {
               >
                 Cuidados a cosiderar
               </Text>
-              <Text fontSize={"lg"}>{Descripcion}</Text>
+              <Text fontSize={"lg"}>{descripcion}</Text>
             </Box>
           </Stack>
 
@@ -189,7 +189,7 @@ export const getStaticPaths: GetStaticPaths<Query> = async () => {
   return {
     paths: products.map((product) => ({
       params: {
-        sku: product.SKU,
+        sku: product.sku,
       },
     })),
     fallback: false,

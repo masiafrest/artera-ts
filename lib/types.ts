@@ -1,11 +1,12 @@
 import { User } from "@supabase/supabase-js";
 
 export interface ProductDetailInterface {
-  Imagen: string;
-  Descripcion: string;
-  Precio: number | string;
-  OldPrice?: number;
-  SKU: string;
+  id?: number;
+  imagen: string | null;
+  descripcion: string;
+  precio: number | string;
+  oldprice?: number;
+  sku: string;
 }
 
 export interface CartProductDetailInterface extends ProductDetailInterface {

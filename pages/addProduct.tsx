@@ -17,9 +17,6 @@ import { SmallCloseIcon } from "@chakra-ui/icons";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { supabase } from "lib/utils/supabaseClient";
 import { NextAppPageServerSideProps } from "lib/types";
-import { useEffect } from "react";
-import { useAuth } from "lib/context/AuthContext";
-import Router from "next/router";
 
 export default function UserProfileEdit({}: InferGetServerSidePropsType<
   typeof getServerSideProps

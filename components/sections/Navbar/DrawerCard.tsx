@@ -19,16 +19,16 @@ type Props = CartProductDetailInterface;
 
 export default function DrawerCard({
   qty = 1,
-  Descripcion = "description",
-  Precio = 10,
-  SKU,
+  descripcion = "description",
+  precio = 10,
+  sku,
 }: Props) {
   const { setCart } = useCart();
 
   const onClickMore = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setCart((prevCart) =>
       prevCart.map((c) => {
-        if (c.SKU === SKU) {
+        if (c.sku === sku) {
           return { ...c, qty: c.qty + 1 };
         }
         return c;
@@ -39,7 +39,7 @@ export default function DrawerCard({
   const onClickLess = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setCart((prevCart) =>
       prevCart.map((c) => {
-        if (c.SKU === SKU) {
+        if (c.sku === sku) {
           return { ...c, qty: c.qty - 1 };
         }
         return c;
@@ -58,8 +58,8 @@ export default function DrawerCard({
         alt="img"
       />
       <VStack align="start">
-        <Text>{Descripcion}</Text>
-        <Text>{Precio}</Text>
+        <Text>{descripcion}</Text>
+        <Text>{precio}</Text>
         <HStack maxW="36">
           <Button onClick={onClickMore}>+</Button>
           <Input value={qty} min={1} readOnly />
@@ -71,7 +71,7 @@ export default function DrawerCard({
           aria-label="delete item"
           icon={<CloseIcon />}
           onClick={(e) => {
-            setCart((prevCart) => prevCart.filter((c) => c.SKU !== SKU));
+            setCart((prevCart) => prevCart.filter((c) => c.sku !== sku));
           }}
         />
       </Box>

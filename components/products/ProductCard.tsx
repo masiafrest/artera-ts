@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function ProductCard({
-  productDetails: { SKU, Imagen, Descripcion, Precio, OldPrice },
+  productDetails: { sku, imagen, descripcion, precio, oldprice },
 }: Props) {
   return (
     <LinkBox>
@@ -46,7 +46,7 @@ export default function ProductCard({
               pos: "absolute",
               top: 5,
               left: 0,
-              backgroundImage: `url(${Imagen || "/images/vasija_card.webp"})`,
+              backgroundImage: `url(${imagen || "/images/vasija_card.webp"})`,
               filter: "blur(15px)",
               zIndex: -1,
             }}
@@ -61,12 +61,12 @@ export default function ProductCard({
               height={230}
               width={282}
               objectFit={"cover"}
-              src={Imagen || "/images/vasija_card.webp"}
+              src={imagen || "/images/vasija_card.webp"}
               alt="img"
             />
           </Box>
           <Stack pt={10} align={"center"}>
-            <NextLink href={`/products/${SKU}`} passHref>
+            <NextLink href={`/products/${sku}`} passHref>
               <LinkOverlay />
             </NextLink>
             <Text
@@ -87,15 +87,15 @@ export default function ProductCard({
                 textAlign: "center",
               }}
             >
-              {Descripcion}
+              {descripcion}
             </Heading>
             <Stack direction={"row"} align={"center"}>
               <Text fontWeight={800} fontSize={"xl"}>
-                {Precio}
+                {precio}
               </Text>
-              {OldPrice && (
+              {oldprice && (
                 <Text textDecoration={"line-through"} color={"gray.600"}>
-                  {OldPrice}
+                  {oldprice}
                 </Text>
               )}
             </Stack>

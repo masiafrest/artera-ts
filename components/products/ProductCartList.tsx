@@ -9,16 +9,16 @@ export default function ProductCardList({ products }: Props) {
   return (
     <SimpleGrid minChildWidth={"400px"} spacing="1em" marginTop={10}>
       {products.map((product) => {
-        const { Imagen, Descripcion, Precio, OldPrice, SKU } = product;
+        const { imagen, descripcion, precio, oldprice, sku } = product;
         return (
           <ProductCard
-            key={`${SKU}-${Descripcion}`}
+            key={`${sku}-${descripcion}`}
             productDetails={{
-              SKU,
-              Imagen,
-              Descripcion,
-              Precio,
-              OldPrice,
+              sku,
+              imagen,
+              descripcion,
+              precio,
+              oldprice,
             }}
           />
         );

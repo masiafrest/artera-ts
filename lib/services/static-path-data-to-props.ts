@@ -4,16 +4,16 @@ import { ProductDetailInterface } from "../types";
 
 const PRODUCTS: ProductDetailInterface[] = [
   {
-    SKU: "mug",
-    Imagen: "Vercel Mug",
-    Descripcion: "Limited edition",
-    Precio: 15,
+    sku: "mug",
+    imagen: "Vercel Mug",
+    descripcion: "Limited edition",
+    precio: 15,
   },
   {
-    SKU: "hoodie",
-    Imagen: "Vercel Hoodie",
-    Descripcion: "Limited edition",
-    Precio: 35,
+    sku: "hoodie",
+    imagen: "Vercel Hoodie",
+    descripcion: "Limited edition",
+    precio: 35,
   },
 ];
 
@@ -21,19 +21,19 @@ const staticPathDataToProps = {
   list: async () => {
     return PRODUCTS;
   },
-  fetch: async (SKU: ProductDetailInterface["SKU"]) => {
-    return PRODUCTS.find((product) => product.SKU === SKU);
+  fetch: async (sku: ProductDetailInterface["sku"]) => {
+    return PRODUCTS.find((product) => product.sku === sku);
   },
   cache: {
     get: async (
-      SKU: string
+      sku: string
     ): Promise<ProductDetailInterface | null | undefined> => {
       const data = await fs.readFile(path.join(process.cwd(), "products.db"));
       const products: ProductDetailInterface[] = JSON.parse(
         data as unknown as string
       );
 
-      return products.find((product) => product.SKU === SKU);
+      return products.find((product) => product.sku === sku);
     },
     set: async (products: ProductDetailInterface[]) => {
       return await fs.writeFile(

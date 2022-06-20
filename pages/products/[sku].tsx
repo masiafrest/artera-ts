@@ -1,5 +1,5 @@
-import { getAllProducts } from "lib/services/products-api";
-import staticPathDataToProps from "lib/services/static-path-data-to-props";
+import { getAllProducts, getProductBySku } from "lib/services/products-api";
+// import staticPathDataToProps from "lib/services/static-path-data-to-props";
 import { ProductDetailInterface } from "lib/types";
 import type { GetStaticProps, GetStaticPaths } from "next";
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
@@ -27,6 +27,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import React from "react";
 import { useCart } from "lib/context/CartContext";
+import { supabase } from "lib/utils/supabaseClient";
 
 interface Query extends ParsedUrlQuery {
   sku: string;
@@ -180,11 +181,6 @@ export default function Product({ product }: Props) {
 
 export const getStaticPaths: GetStaticPaths<Query> = async () => {
   const products = await getAllProducts();
-  if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-    await staticPathDataToProps.cache.set(products);
-  } else {
-    await staticPathDataToProps.cache.set(products);
-  }
 
   return {
     paths: products.map((product) => ({
@@ -199,11 +195,9 @@ export const getStaticPaths: GetStaticPaths<Query> = async () => {
 export const getStaticProps: GetStaticProps<Props, Query> = async ({
   params,
 }) => {
-  let product = await staticPathDataToProps.cache.get(params?.sku as string);
+  const products = await getProductBySku(params?.sku);
 
-  if (!product) {
-    product = await staticPathDataToProps.fetch(params?.id as string);
-  }
+  const product = products![0];
 
   if (!product) {
     return {

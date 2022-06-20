@@ -35,17 +35,13 @@ const Home: NextPage<Props> = ({ products }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // const products = await getAllProducts();
-
-  const { body } = await supabase
-    .from<ProductDetailInterface>("products")
-    .select("*");
+  const products = await getAllProducts();
 
   return {
     props: {
-      products: body,
+      products,
     },
   };
-};
+};;
 
 export default Home;

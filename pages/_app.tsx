@@ -9,15 +9,15 @@ import { AuthProvider } from "lib/context/AuthContext";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <ChakraProvider theme={theme}>
-        <CartProvider>
+      <CartProvider>
+        <ChakraProvider theme={theme}>
           <NavBar />
           <Box paddingTop={"60px"}>
             <Component {...pageProps} />
           </Box>
           <Footer />
-        </CartProvider>
-      </ChakraProvider>
+        </ChakraProvider>
+      </CartProvider>
     </AuthProvider>
   );
 }

@@ -21,7 +21,7 @@ const FORM_VALUES: SupabaseAuthPayload = {
   password: "",
 };
 
-export default function SingIn() {
+export default function SignIn() {
   const { signIn, loading } = useAuth();
   const [values, handleChange] =
     useFormFields<SupabaseAuthPayload>(FORM_VALUES);
@@ -54,19 +54,21 @@ export default function SingIn() {
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="email">
+            <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input
+                name="email"
                 type="email"
                 value={values.email}
                 onChange={handleChange}
               />
             </FormControl>
-            <FormControl id="password">
+            <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <Input
+                name="password"
                 type="password"
-                value={values.email}
+                value={values.password}
                 onChange={handleChange}
               />
             </FormControl>
@@ -80,6 +82,7 @@ export default function SingIn() {
                 <Link color={"blue.400"}>Forgot password?</Link>
               </Stack>
               <Button
+                type="submit"
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{

@@ -28,13 +28,8 @@ const FORM_VALUES: SupabaseAuthPayload = {
   password: "",
 };
 
-export default function SignupCard() {
+export default function SignUp() {
   const { signUp, loading } = useAuth();
-  const toast = useToast({
-    duration: 5000,
-    isClosable: true,
-    position: "top",
-  });
   const [values, handleChange] =
     useFormFields<SupabaseAuthPayload>(FORM_VALUES);
 

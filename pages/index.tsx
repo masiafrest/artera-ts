@@ -34,7 +34,21 @@ const Home: NextPage<Props> = ({ products }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const products = await getAllProducts();
+  // const products = await getAllProducts();
+  const products: ProductDetailInterface[] = [
+    {
+      Descripcion: "test",
+      Imagen: "",
+      Precio: "10.00",
+      SKU: "test",
+    },
+    {
+      Descripcion: "test2",
+      Imagen: "",
+      Precio: "12.00",
+      SKU: "test2",
+    },
+  ];
   return {
     props: {
       products,

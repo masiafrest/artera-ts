@@ -1,3 +1,5 @@
+// https://aalam.in/blog/supabase-auth-intro-setup-next
+
 import { useToast } from "@chakra-ui/react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { SupabaseAuthPayload } from "lib/types";
@@ -87,7 +89,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = async () => await supabase.auth.signOut();
 
-  const setServerSession = async (event: AuthChangeEvent, session: Session | null) => {
+  const setServerSession = async (
+    event: AuthChangeEvent,
+    session: Session | null
+  ) => {
     await fetch("/api/auth", {
       method: "POST",
       headers: new Headers({ "Content-Type": "application/json" }),

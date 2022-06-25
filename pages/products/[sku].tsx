@@ -28,6 +28,8 @@ import { MdLocalShipping } from "react-icons/md";
 import React from "react";
 import { useCart } from "lib/context/CartContext";
 import { supabase } from "lib/utils/supabaseClient";
+import Carousel from "components/Carousels";
+import { getUrlSlides } from "lib/utils";
 
 interface Query extends ParsedUrlQuery {
   sku: string;
@@ -39,7 +41,7 @@ export default function Product({ product }: Props) {
   const toast = useToast();
   const { setCart } = useCart();
 
-  const { descripcion, imagen, sku, precio, oldprice } = product;
+  const { descripcion, imagen, sku, precio, oldprice, imagenes } = product;
   const addProductToCart = (): void => {
     //TODO: when add check how many of the same has, maybe use a reducer
     setCart((prevCart) => {
@@ -65,23 +67,24 @@ export default function Product({ product }: Props) {
     });
   };
 
+  let slides = getUrlSlides(imagenes);
+
   return (
-    <Container maxW={"container.md"}>
+    <Container
+      maxW={{
+        base: "container.lg",
+        lg: "container.lg",
+        md: "container.md",
+        sm: "container.sm",
+      }}
+    >
       <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
+        columns={{ base: 1, lg: 2, md: 2 }}
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}
       >
         <Flex>
-          <Image
-            rounded={"md"}
-            alt={"product image"}
-            src={`${imagen || "/images/vasija_card.webp"}`}
-            fit={"cover"}
-            align={"center"}
-            w={"100%"}
-            h={{ base: "100%", sm: "400px", lg: "550px" }}
-          />
+          <Carousel slides={slides} />
         </Flex>
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={"header"}>

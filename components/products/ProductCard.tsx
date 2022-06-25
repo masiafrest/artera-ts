@@ -11,14 +11,17 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ProductDetailInterface } from "lib/types";
+import Carousel from "components/Carousels";
+import { getUrlSlides } from "lib/utils";
 
 interface Props {
   productDetails: ProductDetailInterface;
 }
 
 export default function ProductCard({
-  productDetails: { sku, imagen, descripcion, precio, oldprice },
+  productDetails: { sku, imagen, descripcion, precio, oldprice, imagenes },
 }: Props) {
+  const slides = getUrlSlides(imagenes);
   return (
     <LinkBox>
       <Center py={12}>
@@ -56,12 +59,13 @@ export default function ProductCard({
               },
             }}
           >
+            {/* <Carousel slides={slides} /> */}
             <Image
               rounded={"lg"}
               height={230}
               width={282}
               objectFit={"cover"}
-              src={imagen || "/images/vasija_card.webp"}
+              src={slides ? slides[0] : "/images/vasija_card.webp"}
               alt="img"
             />
           </Box>

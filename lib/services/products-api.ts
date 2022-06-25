@@ -44,14 +44,14 @@ const getImgForCarousel = async (): Promise<ProductDetailInterface[]> =>
     );
 
 const uploadImgs = async ({
-  imagenes,
+  fileImgs = [],
   sku,
 }: {
-  imagenes: ProductDetailInterface["imagenes"];
+  fileImgs: ProductDetailInterface["fileImgs"];
   sku: string;
 }) => {
   const imgPaths: string[] = [];
-  for (let img of imagenes) {
+  for (let img of fileImgs) {
     const imgPath = await supabase.storage
       .from("products")
       .upload(`${sku}/${img.name}`, img, {

@@ -42,4 +42,46 @@ const getImgForCarousel = async (): Promise<ProductDetailInterface[]> =>
           });
         })
     );
-export { getAllProducts, getProductBySku };
+
+const uploadImgs = async ({
+  imagenes,
+  sku,
+}: {
+  imagenes: ProductDetailInterface["imagenes"];
+  sku: string;
+}) => {
+  const imgPaths: string[] = [];
+  for (let img of imagenes) {
+    const imgPath = await supabase.storage
+      .from("products")
+      .upload(`${sku}/${img.name}`, img, {
+        cacheControl: "3600",
+        upsert: true,
+      });
+    if (imgPath.data) {
+      const cleanPath = imgPath.data.Key.split("/").slice(1).join("/");
+      imgPaths.push(cleanPath);
+    }
+    if (imgPath.error) {
+      throw new Error(imgPath.error.message);
+    }
+  }
+  return imgPaths;
+};
+
+const uploadProduct = async ({
+  product,
+  imgPaths,
+}: {
+  product: ProductDetailInterface;
+  imgPaths: string[];
+}) => {
+  const { descripcion, precio, sku, imagen } = product;
+  const { error } = await supabase
+    .from("products")
+    .insert({ descripcion, precio, sku, imagen, imagenes: imgPaths });
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
+};
+export { getAllProducts, getProductBySku, uploadImgs, uploadProduct };

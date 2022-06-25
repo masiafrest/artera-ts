@@ -13,6 +13,7 @@ import {
   NumberInputStepper,
   Stack,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { supabase } from "lib/utils/supabaseClient";
@@ -20,6 +21,8 @@ import { NextAppPageServerSideProps, ProductDetailInterface } from "lib/types";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import DropZoneInput from "components/DropZoneInput";
+import { uploadImgs, uploadProduct } from "lib/services/products-api";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export default function UserProfileEdit({}: InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -34,10 +37,30 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
     },
   });
   const { handleSubmit, control, register, formState } = methods;
+  const toast = useToast({
+    duration: 5000,
+    isClosable: true,
+    position: "top",
+  });
 
-  const onSubmit = (submitData: ProductDetailInterface) => {
-    console.log({ submitData });
+  const onSubmit = async (product: ProductDetailInterface) => {
+    const { descripcion, precio, sku, imagen, imagenes } = product;
+    try {
+      const imgPaths = await uploadImgs({ sku, imagenes });
+      await uploadProduct({ product, imgPaths });
+      toast({
+        description: `${descripcion}, added`,
+        status: "success",
+      });
+    } catch (error: any) {
+      toast({
+        description: error.message,
+        status: "error",
+      });
+      console.log("error", error);
+    }
   };
+
   return (
     <Flex
       minH={"100vh"}

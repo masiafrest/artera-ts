@@ -3,7 +3,7 @@ import { User } from "@supabase/supabase-js";
 export interface ProductDetailInterface {
   id?: number;
   imagen: string | null;
-  imagenes?: FileWithPreview[],
+  imagenes: FileWithPreview[],
   descripcion: string;
   precio: number | string;
   oldprice?: number;

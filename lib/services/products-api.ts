@@ -1,8 +1,9 @@
 import axios from "axios";
 import { supabase } from "lib/utils/supabaseClient";
 import Papa from "papaparse";
+import Resizer from "react-image-file-resizer";
 
-import { ProductDetailInterface } from "../types";
+import { FileWithPreview, ProductDetailInterface } from "../types";
 
 const getAllProducts = async (): Promise<ProductDetailInterface[]> => {
   const { data } = await supabase
@@ -26,22 +27,23 @@ const getProductBySku = async (
   return undefined;
 };
 
-const getImgForCarousel = async (): Promise<ProductDetailInterface[]> =>
-  axios
-    .get(process.env.SPREADSHEET_LINK_CAROUSEL as string, {
-      responseType: "blob",
-    })
-    .then(
-      (response) =>
-        new Promise<ProductDetailInterface[]>((resolve, reject) => {
-          Papa.parse(response.data, {
-            header: true,
-            complete: (result) =>
-              resolve(result.data as ProductDetailInterface[]),
-            error: (error) => reject(error.message),
-          });
-        })
+const resizeImg = (img: FileWithPreview) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      img,
+      1000,
+      1000,
+      "",
+      100,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "file",
+      500,
+      500
     );
+  });
 
 const uploadImgs = async ({
   fileImgs = [],
@@ -52,9 +54,11 @@ const uploadImgs = async ({
 }) => {
   const imgPaths: string[] = [];
   for (let img of fileImgs) {
+    const resizedImg = await resizeImg(img);
+    console.log({ resizedImg });
     const imgPath = await supabase.storage
       .from("products")
-      .upload(`${sku}/${img.name}`, img, {
+      .upload(`${sku}/${img.name}`, resizedImg as File, {
         cacheControl: "3600",
         upsert: true,
       });

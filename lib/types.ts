@@ -11,7 +11,7 @@ export interface ProductDetailInterface {
   sku: string;
 }
 
-interface FileWithPreview extends File {
+export interface FileWithPreview extends File {
   preview: string;
 }
 

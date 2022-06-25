@@ -108,7 +108,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(user);
       setUserLoading(false);
       setLoggedIn(true);
-      router.push("/addProduct");
     } else {
       setUserLoading(false);
     }

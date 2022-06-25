@@ -16,11 +16,22 @@ import { ProductDetailInterface } from "lib/types";
 import { supabase } from "lib/utils/supabaseClient";
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = { products: ProductDetailInterface[] };
 
-const Home: NextPage<Props> = ({ products }) => {
+const Home: NextPage<Props> = () => {
+  const [products, setproducts] = useState<ProductDetailInterface[]>([]);
+
+  useEffect(() => {
+    const getProduts = async () => {
+      const data = await getAllProducts();
+      setproducts(data);
+    };
+
+    getProduts();
+  }, []);
+
   return (
     <>
       <Head>
@@ -34,14 +45,15 @@ const Home: NextPage<Props> = ({ products }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const products = await getAllProducts();
+//this page need to fetch the info its better that way
+// export const getStaticProps: GetStaticProps = async () => {
+//   const products = await getAllProducts();
 
-  return {
-    props: {
-      products,
-    },
-  };
-};;
+//   return {
+//     props: {
+//       products,
+//     },
+//   };
+// };
 
 export default Home;

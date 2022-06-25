@@ -30,7 +30,7 @@ export default function ProductCard({
           p={6}
           maxW={"330px"}
           w={"full"}
-          bg={useColorModeValue("white", "gray.800")}
+          bg={useColorModeValue("white", "gray.700")}
           boxShadow={"2xl"}
           rounded={"lg"}
           pos={"relative"}

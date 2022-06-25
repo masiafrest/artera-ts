@@ -3,7 +3,8 @@ import { User } from "@supabase/supabase-js";
 export interface ProductDetailInterface {
   id?: number;
   imagen: string | null;
-  imagenes: FileWithPreview[],
+  imagenes?: string[] | null;
+  fileImgs?: FileWithPreview[];
   descripcion: string;
   precio: number | string;
   oldprice?: number;
@@ -11,7 +12,7 @@ export interface ProductDetailInterface {
 }
 
 interface FileWithPreview extends File {
-  preview: string
+  preview: string;
 }
 
 export interface CartProductDetailInterface extends ProductDetailInterface {

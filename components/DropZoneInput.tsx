@@ -16,17 +16,17 @@ import { useFormContext } from "react-hook-form";
 export default function DropZoneInput() {
   const { register, unregister, setValue, watch, getValues } =
     useFormContext<ProductDetailInterface>();
-  const imagenes = watch("imagenes");
+  const fileImgs = watch("fileImgs");
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejection: FileRejection[]) => {
       if (acceptedFiles.length > 0) {
-        const imagenes = acceptedFiles.map((f) =>
+        const fileImgs = acceptedFiles.map((f) =>
           Object.assign(f, {
             preview: URL.createObjectURL(f),
           })
         );
-        setValue("imagenes", imagenes);
+        setValue("fileImgs", fileImgs);
       }
     },
     []
@@ -42,18 +42,18 @@ export default function DropZoneInput() {
     });
 
   const deleteImg = (name: string) => {
-    const filterImgs = getValues("imagenes")?.filter((f) => f.name !== name);
-    setValue("imagenes", filterImgs);
+    const fileImgs = getValues("fileImgs")?.filter((f) => f.name !== name);
+    setValue("fileImgs", fileImgs);
   };
 
   useEffect(() => {
-    register("imagenes");
+    register("fileImgs");
     return () => {
-      unregister("imagenes");
+      unregister("fileImgs");
     };
   }, [register, unregister]);
   return (
-    <FormControl id="imagenes">
+    <FormControl id="fileImgs">
       <Flex
         flexDirection="column"
         justifyContent="center"
@@ -72,7 +72,7 @@ export default function DropZoneInput() {
         </div>
       </Flex>
       <Grid justifyItems="center" templateColumns="repeat(3, 1fr)">
-        {imagenes?.map((f) => (
+        {fileImgs?.map((f) => (
           <GridItem key={f.name} position="relative">
             <Image boxSize={100} src={f.preview} />
             <IconButton

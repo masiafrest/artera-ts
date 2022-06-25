@@ -11,6 +11,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Spinner,
   Stack,
   useColorModeValue,
   useToast,
@@ -24,19 +25,21 @@ import DropZoneInput from "components/DropZoneInput";
 import { uploadImgs, uploadProduct } from "lib/services/products-api";
 import { PostgrestError } from "@supabase/supabase-js";
 
+const defaultValues: ProductDetailInterface = {
+  descripcion: "",
+  imagen: "",
+  precio: "1.00",
+  sku: "",
+  fileImgs: [],
+};
+
 export default function UserProfileEdit({}: InferGetServerSidePropsType<
   typeof getServerSideProps
 >): JSX.Element {
   const methods = useForm<ProductDetailInterface>({
-    defaultValues: {
-      descripcion: "",
-      imagen: "",
-      precio: "1.00",
-      sku: "",
-      imagenes: [],
-    },
+    defaultValues,
   });
-  const { handleSubmit, control, register, formState } = methods;
+  const { handleSubmit, control, register, formState, reset } = methods;
   const toast = useToast({
     duration: 5000,
     isClosable: true,
@@ -44,9 +47,10 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
   });
 
   const onSubmit = async (product: ProductDetailInterface) => {
-    const { descripcion, precio, sku, imagen, imagenes } = product;
+    console.log({ product });
+    const { descripcion, sku, fileImgs } = product;
     try {
-      const imgPaths = await uploadImgs({ sku, imagenes });
+      const imgPaths = await uploadImgs({ sku, fileImgs });
       await uploadProduct({ product, imgPaths });
       toast({
         description: `${descripcion}, added`,
@@ -60,6 +64,11 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
       console.log("error", error);
     }
   };
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [formState.isSubmitSuccessful]);
 
   return (
     <Flex
@@ -133,8 +142,10 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
               _hover={{
                 bg: "blue.500",
               }}
+              disabled={formState.isSubmitting}
             >
               Submit
+              {formState.isSubmitting && <Spinner />}
             </Button>
           </Stack>
         </FormProvider>

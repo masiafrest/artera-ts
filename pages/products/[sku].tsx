@@ -191,7 +191,7 @@ export const getStaticPaths: GetStaticPaths<Query> = async () => {
         sku: product.sku,
       },
     })),
-    fallback: true,
+    fallback: "blocking",
   };
 };
 

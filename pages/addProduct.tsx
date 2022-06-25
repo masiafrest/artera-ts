@@ -1,3 +1,4 @@
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import {
   Button,
   Flex,
@@ -5,30 +6,38 @@ import {
   FormLabel,
   Heading,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Stack,
   useColorModeValue,
-  HStack,
-  Avatar,
-  AvatarBadge,
-  IconButton,
-  Center,
 } from "@chakra-ui/react";
-import { SmallCloseIcon } from "@chakra-ui/icons";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { supabase } from "lib/utils/supabaseClient";
-import { NextAppPageServerSideProps } from "lib/types";
+import { NextAppPageServerSideProps, ProductDetailInterface } from "lib/types";
+import { useForm, FormProvider, Controller } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import DropZoneInput from "components/DropZoneInput";
 
 export default function UserProfileEdit({}: InferGetServerSidePropsType<
   typeof getServerSideProps
 >): JSX.Element {
-  // este codigo es para de lado del cliente
-  // const { user, userLoading, loggedIn } = useAuth();
-  // useEffect(() => {
-  //   if (!userLoading && !loggedIn) {
-  //     Router.push("/signIn");
-  //   }
-  // }, [loggedIn, userLoading]);
+  const methods = useForm<ProductDetailInterface>({
+    defaultValues: {
+      descripcion: "",
+      imagen: "",
+      precio: "1.00",
+      sku: "",
+      imagenes: [],
+    },
+  });
+  const { handleSubmit, control, register, formState } = methods;
 
+  const onSubmit = (submitData: ProductDetailInterface) => {
+    console.log({ submitData });
+  };
   return (
     <Flex
       minH={"100vh"}
@@ -37,6 +46,8 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
       bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack
+        as="form"
+        onSubmit={handleSubmit(onSubmit)}
         spacing={4}
         w={"full"}
         maxW={"md"}
@@ -47,75 +58,64 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-          User Profile Edit
+          Add a Product
         </Heading>
-        <FormControl id="userName">
-          <FormLabel>User Icon</FormLabel>
-          <Stack direction={["column", "row"]} spacing={6}>
-            <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-                <AvatarBadge
-                  as={IconButton}
-                  size="sm"
-                  rounded="full"
-                  top="-10px"
-                  colorScheme="red"
-                  aria-label="remove Image"
-                  icon={<SmallCloseIcon />}
-                />
-              </Avatar>
-            </Center>
-            <Center w="full">
-              <Button w="full">Change Icon</Button>
-            </Center>
+        <FormProvider {...methods}>
+          <DropZoneInput />
+          <FormControl id="descripcion" isRequired>
+            <FormLabel>Descripcion</FormLabel>
+            <Input
+              placeholder="descripcion"
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+              {...register("descripcion")}
+            />
+          </FormControl>
+          <FormControl id="sku" isRequired>
+            <FormLabel>Sku</FormLabel>
+            <Input
+              placeholder="sku"
+              _placeholder={{ color: "gray.500" }}
+              type="text"
+              {...register("sku")}
+            />
+          </FormControl>
+          <FormControl id="precio" isRequired>
+            <FormLabel>Precio</FormLabel>
+            <Controller
+              control={control}
+              name="precio"
+              render={({ field: { ref, ...restField } }) => (
+                <NumberInput {...restField} precision={2} step={0.01} min={1.0}>
+                  <NumberInputField
+                    ref={ref}
+                    name={restField.name}
+                    placeholder="precio"
+                    _placeholder={{ color: "gray.500" }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              )}
+            />
+          </FormControl>
+          <Stack spacing={6} direction={["column", "row"]}>
+            <Button
+              type="submit"
+              bg={"blue.400"}
+              color={"white"}
+              w="full"
+              _hover={{
+                bg: "blue.500",
+              }}
+            >
+              Submit
+            </Button>
           </Stack>
-        </FormControl>
-        <FormControl id="userName" isRequired>
-          <FormLabel>User name</FormLabel>
-          <Input
-            placeholder="UserName"
-            _placeholder={{ color: "gray.500" }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="email" isRequired>
-          <FormLabel>Email address</FormLabel>
-          <Input
-            placeholder="your-email@example.com"
-            _placeholder={{ color: "gray.500" }}
-            type="email"
-          />
-        </FormControl>
-        <FormControl id="password" isRequired>
-          <FormLabel>Password</FormLabel>
-          <Input
-            placeholder="password"
-            _placeholder={{ color: "gray.500" }}
-            type="password"
-          />
-        </FormControl>
-        <Stack spacing={6} direction={["column", "row"]}>
-          <Button
-            bg={"red.400"}
-            color={"white"}
-            w="full"
-            _hover={{
-              bg: "red.500",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            bg={"blue.400"}
-            color={"white"}
-            w="full"
-            _hover={{
-              bg: "blue.500",
-            }}
-          >
-            Submit
-          </Button>
-        </Stack>
+        </FormProvider>
+        <DevTool control={control} />
       </Stack>
     </Flex>
   );

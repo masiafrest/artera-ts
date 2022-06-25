@@ -55,7 +55,6 @@ const uploadImgs = async ({
   const imgPaths: string[] = [];
   for (let img of fileImgs) {
     const resizedImg = await resizeImg(img);
-    console.log({ resizedImg });
     const imgPath = await supabase.storage
       .from("products")
       .upload(`${sku}/${img.name}`, resizedImg as File, {

@@ -47,7 +47,6 @@ export default function UserProfileEdit({}: InferGetServerSidePropsType<
   });
 
   const onSubmit = async (product: ProductDetailInterface) => {
-    console.log({ product });
     const { descripcion, sku, fileImgs } = product;
     try {
       const imgPaths = await uploadImgs({ sku, fileImgs });

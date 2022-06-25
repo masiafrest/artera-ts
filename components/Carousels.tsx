@@ -22,8 +22,6 @@ const arrowStyles = {
 };
 
 export default function Carousel({ slides }: Props) {
-  console.log({ slides });
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesCount = slides.length;
 

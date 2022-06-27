@@ -33,7 +33,7 @@ const defaultValues: ProductDetailInterface = {
   fileImgs: [],
 };
 
-export default function AddProduct({}: InferGetServerSidePropsType<
+export default function EditProduct({}: InferGetServerSidePropsType<
   typeof getServerSideProps
 >): JSX.Element {
   const methods = useForm<ProductDetailInterface>({
@@ -89,7 +89,7 @@ export default function AddProduct({}: InferGetServerSidePropsType<
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-          Add a Product
+          Edit a Product
         </Heading>
         <FormProvider {...methods}>
           <DropZoneInput />
@@ -156,6 +156,7 @@ export default function AddProduct({}: InferGetServerSidePropsType<
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
+  query,
 }): Promise<NextAppPageServerSideProps> => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
@@ -168,6 +169,19 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
+  //get router parameter product id
+  const { id } = query;
+  //search on supabase the product id
+  const product = await supabase
+    .from<ProductDetailInterface>("products")
+    .select("*")
+    .eq("id", id)
+    .limit(1);
+  console.log(product.data);
+
+  //get image array and ??
+
+  //send the product detail to props for editing
   return {
     props: {
       user,

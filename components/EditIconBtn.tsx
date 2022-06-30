@@ -18,6 +18,7 @@ export default function EditIconBtn({
       colorScheme={colorScheme}
       icon={<EditIcon />}
       onClick={onClick}
+      sx={{ zIndex: 9999 }}
     />
   );
 }

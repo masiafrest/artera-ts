@@ -4,7 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { SupabaseAuthPayload } from "lib/types";
 import { supabase } from "lib/utils/supabaseClient";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import {
   type ReactNode,
   createContext,
@@ -75,6 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           description: "redireccionando a ⁺✧.(˃̶ ॣ⌣ ॣ˂̶∗̀)ɞ⁾",
           status: "success",
         });
+        Router.push("/");
       }
     } catch (error) {
       toast({

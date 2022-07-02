@@ -59,7 +59,7 @@ export default function ProductCard({ product, onDelete }: Props) {
 
   return (
     <LinkBox>
-      <Center py={12}>
+      <Center>
         <Flex p={50} w="full" alignItems="center" justifyContent="center">
           <Box
             bg={useColorModeValue("white", "gray.800")}

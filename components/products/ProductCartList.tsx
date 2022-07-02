@@ -19,7 +19,7 @@ export default function ProductCardList({ products, setProducts }: Props) {
     });
   };
   return (
-    <SimpleGrid minChildWidth={"400px"} spacing="1em" marginTop={10}>
+    <SimpleGrid minChildWidth={"400px"} spacing="1em">
       {products.map((product) => {
         const { descripcion, sku } = product;
         return (

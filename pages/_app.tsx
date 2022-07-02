@@ -11,11 +11,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <CartProvider>
         <ChakraProvider theme={theme}>
-          <NavBar />
-          <Box paddingTop={"60px"}>
-            <Component {...pageProps} />
+          <Box position="relative" minHeight="100vh">
+            <NavBar />
+            <Box paddingTop={"60px"} paddingBottom="24">
+              <Component {...pageProps} />
+            </Box>
+            <Footer />
           </Box>
-          <Footer />
         </ChakraProvider>
       </CartProvider>
     </AuthProvider>

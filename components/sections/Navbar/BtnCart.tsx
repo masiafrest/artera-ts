@@ -61,9 +61,11 @@ export default function BtnCart({}: Props) {
           <DrawerHeader>Cart</DrawerHeader>
           <DrawerBody>
             <VStack divider={<StackDivider />} spacing={4}>
-              {cart.map((e) => (
-                <DrawerCard key={e.sku} {...e} />
-              ))}
+              {cart.length > 0 ? (
+                cart.map((e) => <DrawerCard key={e.sku} {...e} />)
+              ) : (
+                <Text align="center">No product added to the cart</Text>
+              )}
             </VStack>
           </DrawerBody>
           {cart.length > 0 && (

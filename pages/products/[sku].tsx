@@ -39,34 +39,9 @@ type Props = { product: ProductDetailInterface };
 
 export default function Product({ product }: Props) {
   const toast = useToast();
-  const { setCart } = useCart();
+  const { setCart, addToCart } = useCart();
 
   const { descripcion, imagen, sku, precio, oldprice, imagenes } = product;
-  const addProductToCart = (): void => {
-    //TODO: when add check how many of the same has, maybe use a reducer
-    setCart((prevCart) => {
-      const hasProduct = prevCart.some((e) => e.sku === product.sku);
-      if (hasProduct) {
-        return prevCart.map((e) => {
-          if (e.sku === product.sku) {
-            return { ...product, qty: e.qty + 1 };
-          }
-          return { ...product, qty: 1 };
-        });
-      } else {
-        return [...prevCart, { ...product, qty: 1 }];
-      }
-    });
-    toast({
-      title: "Agregado",
-      description: descripcion,
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "top",
-    });
-  };
-
   let slides = getUrlSlides(imagenes);
 
   return (
@@ -167,7 +142,7 @@ export default function Product({ product }: Props) {
               transform: "translateY(2px)",
               boxShadow: "lg",
             }}
-            onClick={addProductToCart}
+            onClick={() => addToCart(product)}
           >
             Add to cart
           </Button>

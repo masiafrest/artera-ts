@@ -18,7 +18,7 @@ export default function DeleteIconBtn({
       colorScheme={colorScheme}
       icon={<SmallCloseIcon />}
       onClick={onClick}
-      sx={{ zIndex: 9999 }}
+      sx={{ zIndex: 1399 }}
     />
   );
 }

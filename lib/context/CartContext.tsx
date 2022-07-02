@@ -1,7 +1,11 @@
 import { createContext, useContext, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
-import type { CartProductDetailInterface } from "lib/types";
+import type {
+  CartProductDetailInterface,
+  ProductDetailInterface,
+} from "lib/types";
+import { useToast } from "@chakra-ui/react";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -9,15 +13,41 @@ interface CartProviderProps {
 interface CartContextProps {
   cart: CartProductDetailInterface[];
   setCart: Dispatch<SetStateAction<CartProductDetailInterface[]>>;
+  addToCart: (product: ProductDetailInterface) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartProductDetailInterface[]>([]);
+  const toast = useToast();
+
+  const addToCart = (product: ProductDetailInterface) => {
+    setCart((prevCart) => {
+      const hasProduct = prevCart.some((e) => e.sku === product.sku);
+      if (hasProduct) {
+        return prevCart.map((e) => {
+          if (e.sku === product.sku) {
+            return { ...product, qty: e.qty + 1 };
+          }
+          return { ...product, qty: 1 };
+        });
+      } else {
+        return [...prevCart, { ...product, qty: 1 }];
+      }
+    });
+    toast({
+      title: "Agregado",
+      description: product.descripcion,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top",
+    });
+  };
 
   return (
-    <CartContext.Provider value={{ cart, setCart }}>
+    <CartContext.Provider value={{ cart, setCart, addToCart }}>
       {children}
     </CartContext.Provider>
   );

@@ -49,7 +49,7 @@ export default function AddProduct({}: InferGetServerSidePropsType<
   const onSubmit = async (product: ProductDetailInterface) => {
     const { descripcion, sku, fileImgs } = product;
     try {
-      const imgPaths = await uploadImgs({ sku, fileImgs });
+      const imgPaths = await uploadImgs({ fileImgs });
       await uploadProduct({ product, imgPaths });
       toast({
         description: `${descripcion}, added`,
@@ -64,6 +64,7 @@ export default function AddProduct({}: InferGetServerSidePropsType<
     }
   };
   useEffect(() => {
+    console.log("isSuccess", formState.isSubmitSuccessful);
     if (formState.isSubmitSuccessful) {
       reset(defaultValues);
     }

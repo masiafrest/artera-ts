@@ -1,3 +1,4 @@
+import { delFile } from "lib/services/products-api";
 import { ProductDetailInterface } from "lib/types";
 
 export const getUrlSlides = (imagenes: ProductDetailInterface["imagenes"]) => {
@@ -8,4 +9,23 @@ export const getUrlSlides = (imagenes: ProductDetailInterface["imagenes"]) => {
     );
   }
   return slides;
+};
+
+export const delImgsFromStorage = async (
+  oldArr: string[] = [],
+  newArr: string[] = []
+): Promise<string[]> => {
+  const imgsToDel: string[] = [];
+
+  oldArr.forEach((img, idx) => {
+    const hasImg = newArr.includes(img);
+    if (!hasImg) {
+      imgsToDel.push(img);
+    }
+  });
+  console.log({ imgsToDel });
+  if (imgsToDel.length > 0) {
+    await delFile(imgsToDel);
+  }
+  return imgsToDel;
 };

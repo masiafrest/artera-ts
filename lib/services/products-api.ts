@@ -47,17 +47,16 @@ const resizeImg = (img: FileWithPreview) =>
 
 const uploadImgs = async ({
   fileImgs = [],
-  sku,
 }: {
   fileImgs: ProductDetailInterface["fileImgs"];
-  sku: string;
 }) => {
   const imgPaths: string[] = [];
   for (let img of fileImgs) {
     const resizedImg = await resizeImg(img);
+    const newName = new Date().valueOf() + "-" + img.name.replace(/\s+/g, "_");
     const imgPath = await supabase.storage
       .from("products")
-      .upload(`${sku}/${img.name}`, resizedImg as File, {
+      .upload(`images/${newName}`, resizedImg as File, {
         cacheControl: "3600",
         upsert: true,
       });
@@ -70,6 +69,13 @@ const uploadImgs = async ({
     }
   }
   return imgPaths;
+};
+
+const delFile = async (files: string[]) => {
+  const { error } = await supabase.storage.from("products").remove(files);
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
 };
 
 const uploadProduct = async ({
@@ -96,13 +102,13 @@ const editProdut = async ({
   imgPaths: string[];
 }) => {
   const { descripcion, precio, sku, imagen, id } = product;
-  const select = await supabase.from("products").select().eq("id", id);
-  console.log({ select });
   const { error } = await supabase
     .from("products")
     .update({ descripcion, precio, sku, imagen, imagenes: imgPaths })
     .eq("id", id);
-  console.log({ error });
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
 };
 export {
   getAllProducts,
@@ -110,4 +116,5 @@ export {
   uploadImgs,
   uploadProduct,
   editProdut,
+  delFile,
 };

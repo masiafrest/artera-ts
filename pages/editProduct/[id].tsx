@@ -16,7 +16,7 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import { supabase } from "lib/utils/supabaseClient";
 import {
   FileWithPreview,
@@ -32,6 +32,7 @@ import {
   uploadProduct,
 } from "lib/services/products-api";
 import axios from "axios";
+import { delImgsFromStorage } from "lib/utils";
 
 const defaultValues: ProductDetailInterface = {
   descripcion: "",
@@ -47,7 +48,7 @@ export default function EditProduct({
   product: ProductDetailInterface;
 }): JSX.Element {
   const [imgFiles, setImgFiles] = useState<string[]>([]);
-
+  const [oldFileImgs, setOldFileImgs] = useState<string[]>([]);
   const methods = useForm<ProductDetailInterface>({
     defaultValues,
   });
@@ -57,7 +58,6 @@ export default function EditProduct({
     isClosable: true,
     position: "top",
   });
-
   //work pero si no edita imagenes se manda mal el File
   useEffect(() => {
     if (product?.imagenes) {
@@ -68,24 +68,32 @@ export default function EditProduct({
             preview: `${process.env.NEXT_PUBLIC_SUPABASE_URL_IMG_PRODUCT}/${i}`,
           } as unknown as FileWithPreview)
       );
+      setOldFileImgs(product.imagenes);
       reset({ ...product, fileImgs });
     }
   }, []);
 
   const onSubmit = async (product: ProductDetailInterface) => {
-    console.log("submit data", product);
     const { descripcion, sku, fileImgs } = product;
     try {
+      // sacar las imagenes agregadas
       const trueImgFile = fileImgs?.filter((e) => !!e?.size);
+      // sacar las imagenes default del servidor, no es tipe Blob o File
       const previewImgsOnly = fileImgs?.filter((e) => !!!e?.size);
+
       let imgPaths: string[] = [];
       if (trueImgFile && trueImgFile?.length > 0) {
-        imgPaths = await uploadImgs({ sku, fileImgs: trueImgFile });
+        imgPaths = await uploadImgs({ fileImgs: trueImgFile });
       }
-      const newImgPaths = [...previewImgsOnly!, ...trueImgFile!].map(
-        (e) => e.name
+      await delImgsFromStorage(
+        oldFileImgs,
+        previewImgsOnly?.map((e) => e.name)
       );
-      console.log({ newImgPaths, previewImgsOnly, trueImgFile });
+      const newImgPaths = [
+        ...previewImgsOnly!.map((e) => e.name),
+        ...imgPaths!,
+      ];
+
       await editProdut({ product, imgPaths: newImgPaths });
 
       toast({
@@ -103,7 +111,7 @@ export default function EditProduct({
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
-      reset(defaultValues);
+      // reset(defaultValues);
     }
   }, [formState.isSubmitSuccessful]);
 
@@ -221,7 +229,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   //send the product detail to props for editing
   return {
     props: {
-      product: !!data ? data[0] : null,
+      product: !!data ? data[0] : undefined,
       user,
       loggedIn: !!user,
     },

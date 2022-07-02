@@ -29,7 +29,6 @@ export default function DropZoneInput() {
       if (acceptedFiles.length > 0) {
         const oldFileImgs = getValues("fileImgs");
         const newFileImgs = [];
-        console.log(oldFileImgs, maxFiles);
         if (oldFileImgs) {
           if (oldFileImgs?.length === maxFiles) {
             toast({
@@ -45,7 +44,6 @@ export default function DropZoneInput() {
               newFileImgs.push(acceptedFiles[i]);
             }
           }
-          console.log({ newFileImgs }, "has slot");
           const fileImgsWithPreview = newFileImgs.map((f) =>
             Object.assign(f, {
               preview: URL.createObjectURL(f),
@@ -65,7 +63,6 @@ export default function DropZoneInput() {
         setValue("fileImgs", fileImgs);
         return;
       }
-      console.log({ fileRejection });
       toast({
         title: "error file rejection",
         description: `drop too many file or is not a image file`,

@@ -26,7 +26,7 @@ export interface SupabaseAuthPayload {
 
 export interface NextAppPageUserProps {
   props: {
-    product: ProductDetailInterface | null;
+    product?: ProductDetailInterface;
     user: User;
     loggedIn: boolean;
   };

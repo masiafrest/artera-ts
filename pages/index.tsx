@@ -40,7 +40,7 @@ const Home: NextPage<Props> = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ImageCarousel />
-      <ProductCardList products={products} />
+      <ProductCardList products={products} setProducts={setproducts} />
     </>
   );
 };

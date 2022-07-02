@@ -15,6 +15,14 @@ import {
   chakra,
   Icon,
   IconButton,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Button,
 } from "@chakra-ui/react";
 import { FiShoppingCart } from "react-icons/fi";
 import NextLink from "next/link";
@@ -25,17 +33,30 @@ import DeleteIcon from "components/DeleteIconBtn";
 import EditIcon from "components/EditIconBtn";
 import { useRouter } from "next/router";
 import { useCart } from "lib/context/CartContext";
+import { useAuth } from "lib/context/AuthContext";
+import { useRef } from "react";
 
 interface Props {
   product: ProductDetailInterface;
+  onDelete: (product: ProductDetailInterface) => void;
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, onDelete }: Props) {
   console.log({ product });
   const { sku, imagen, descripcion, precio, oldprice, imagenes, id } = product;
   const { addToCart } = useCart();
+  const { user } = useAuth();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
+
   const router = useRouter();
   const slides = getUrlSlides(imagenes);
+
+  const onDeleteHandler = () => {
+    onDelete(product);
+  };
+
   return (
     <LinkBox>
       <Center py={12}>
@@ -48,20 +69,54 @@ export default function ProductCard({ product }: Props) {
             shadow="lg"
             position="relative"
           >
-            <DeleteIcon
-              aria-label="remove-product"
-              size="md"
-              top="-1"
-              right="-5"
-              onClick={(e) => console.log(e)}
-            />
-            <EditIcon
-              aria-label="edit-product"
-              size="md"
-              top="12"
-              right="-5"
-              onClick={(e) => router.push(`/editProduct/${id}`)}
-            />
+            {user && (
+              <>
+                <DeleteIcon
+                  aria-label="remove-product"
+                  size="md"
+                  top="-1"
+                  right="-5"
+                  onClick={onOpen}
+                />
+                <EditIcon
+                  aria-label="edit-product"
+                  size="md"
+                  top="12"
+                  right="-5"
+                  onClick={(e) => router.push(`/editProduct/${id}`)}
+                />
+                <AlertDialog
+                  isOpen={isOpen}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                >
+                  <AlertDialogOverlay>
+                    <AlertDialogContent>
+                      <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                        Delete Product
+                      </AlertDialogHeader>
+
+                      <AlertDialogBody>
+                        Are you sure? You can't undo this action afterwards.
+                      </AlertDialogBody>
+
+                      <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose}>
+                          Cancel
+                        </Button>
+                        <Button
+                          colorScheme="red"
+                          onClick={onDeleteHandler}
+                          ml={3}
+                        >
+                          Delete
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogOverlay>
+                </AlertDialog>
+              </>
+            )}
             {/* {data.isNew && (
               <Circle
                 size="10px"

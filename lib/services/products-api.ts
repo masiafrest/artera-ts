@@ -27,6 +27,17 @@ const getProductBySku = async (
   return undefined;
 };
 
+const delProduct = async (product: ProductDetailInterface) => {
+  await delFile(product.imagenes);
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .match({ id: product.id });
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
+};
+
 const resizeImg = (img: FileWithPreview) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(
@@ -71,10 +82,12 @@ const uploadImgs = async ({
   return imgPaths;
 };
 
-const delFile = async (files: string[]) => {
-  const { error } = await supabase.storage.from("products").remove(files);
-  if (error) {
-    throw new Error(JSON.stringify(error));
+const delFile = async (files: string[] = []) => {
+  if (files.length > 0) {
+    const { error } = await supabase.storage.from("products").remove(files);
+    if (error) {
+      throw new Error(JSON.stringify(error));
+    }
   }
 };
 
@@ -117,4 +130,5 @@ export {
   uploadProduct,
   editProdut,
   delFile,
+  delProduct,
 };

@@ -1,16 +1,34 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, useToast } from "@chakra-ui/react";
 import { ProductDetailInterface } from "lib/types";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import ProductCard from "./ProductCard";
+import { delProduct } from "lib/services/products-api";
 
-type Props = { products: ProductDetailInterface[] };
+type Props = {
+  products: ProductDetailInterface[];
+  setProducts: Dispatch<SetStateAction<ProductDetailInterface[]>>;
+};
 
-export default function ProductCardList({ products }: Props) {
+export default function ProductCardList({ products, setProducts }: Props) {
+  const toast = useToast();
+  const onDelete = async (product: ProductDetailInterface) => {
+    await delProduct(product);
+    toast({ title: `${product.sku}, has been deleted`, status: "success" });
+    setProducts((prevProduct) => {
+      return prevProduct.filter((p) => p.id !== product.id);
+    });
+  };
   return (
     <SimpleGrid minChildWidth={"400px"} spacing="1em" marginTop={10}>
       {products.map((product) => {
         const { descripcion, sku } = product;
-        return <ProductCard key={`${sku}-${descripcion}`} product={product} />;
+        return (
+          <ProductCard
+            key={`${sku}-${descripcion}`}
+            product={product}
+            onDelete={onDelete}
+          />
+        );
       })}
     </SimpleGrid>
   );

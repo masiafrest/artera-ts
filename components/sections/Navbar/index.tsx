@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -8,25 +8,15 @@ import {
   Stack,
   useColorMode,
   Heading,
-} from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import NextLink from 'next/link'
-import BtnCart from './BtnCart';
+} from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import NextLink from "next/link";
+import BtnCart from "./BtnCart";
 import { useAuth } from "lib/context/AuthContext";
 
 const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
   <NextLink href={href} passHref>
-    <Link
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-    >
-      {children}
-    </Link>
+    <Link>{children}</Link>
   </NextLink>
 );
 
@@ -60,10 +50,15 @@ export default function NavBar() {
         <Flex alignItems={"center"}>
           <Stack direction={"row"} spacing={3}>
             {user && (
-              <>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                gap="1rem"
+              >
                 <NavLink href="/addProduct">Add Product</NavLink>
                 <Button onClick={() => signOut()}>SignOut</Button>
-              </>
+              </Box>
             )}
 
             <BtnCart />

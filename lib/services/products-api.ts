@@ -87,4 +87,27 @@ const uploadProduct = async ({
     throw new Error(JSON.stringify(error));
   }
 };
-export { getAllProducts, getProductBySku, uploadImgs, uploadProduct };
+
+const editProdut = async ({
+  product,
+  imgPaths,
+}: {
+  product: ProductDetailInterface;
+  imgPaths: string[];
+}) => {
+  const { descripcion, precio, sku, imagen, id } = product;
+  const select = await supabase.from("products").select().eq("id", id);
+  console.log({ select });
+  const { error } = await supabase
+    .from("products")
+    .update({ descripcion, precio, sku, imagen, imagenes: imgPaths })
+    .eq("id", id);
+  console.log({ error });
+};
+export {
+  getAllProducts,
+  getProductBySku,
+  uploadImgs,
+  uploadProduct,
+  editProdut,
+};

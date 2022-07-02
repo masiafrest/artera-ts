@@ -18,12 +18,20 @@ import {
 } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { supabase } from "lib/utils/supabaseClient";
-import { NextAppPageServerSideProps, ProductDetailInterface } from "lib/types";
+import {
+  FileWithPreview,
+  NextAppPageServerSideProps,
+  ProductDetailInterface,
+} from "lib/types";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import DropZoneInput from "components/DropZoneInput";
-import { uploadImgs, uploadProduct } from "lib/services/products-api";
-import { PostgrestError } from "@supabase/supabase-js";
+import {
+  editProdut,
+  uploadImgs,
+  uploadProduct,
+} from "lib/services/products-api";
+import axios from "axios";
 
 const defaultValues: ProductDetailInterface = {
   descripcion: "",
@@ -33,9 +41,13 @@ const defaultValues: ProductDetailInterface = {
   fileImgs: [],
 };
 
-export default function EditProduct({}: InferGetServerSidePropsType<
-  typeof getServerSideProps
->): JSX.Element {
+export default function EditProduct({
+  product,
+}: {
+  product: ProductDetailInterface;
+}): JSX.Element {
+  const [imgFiles, setImgFiles] = useState<string[]>([]);
+
   const methods = useForm<ProductDetailInterface>({
     defaultValues,
   });
@@ -46,11 +58,36 @@ export default function EditProduct({}: InferGetServerSidePropsType<
     position: "top",
   });
 
+  //work pero si no edita imagenes se manda mal el File
+  useEffect(() => {
+    if (product?.imagenes) {
+      const fileImgs = product?.imagenes.map(
+        (i) =>
+          ({
+            name: i,
+            preview: `${process.env.NEXT_PUBLIC_SUPABASE_URL_IMG_PRODUCT}/${i}`,
+          } as unknown as FileWithPreview)
+      );
+      reset({ ...product, fileImgs });
+    }
+  }, []);
+
   const onSubmit = async (product: ProductDetailInterface) => {
+    console.log("submit data", product);
     const { descripcion, sku, fileImgs } = product;
     try {
-      const imgPaths = await uploadImgs({ sku, fileImgs });
-      await uploadProduct({ product, imgPaths });
+      const trueImgFile = fileImgs?.filter((e) => !!e?.size);
+      const previewImgsOnly = fileImgs?.filter((e) => !!!e?.size);
+      let imgPaths: string[] = [];
+      if (trueImgFile && trueImgFile?.length > 0) {
+        imgPaths = await uploadImgs({ sku, fileImgs: trueImgFile });
+      }
+      const newImgPaths = [...previewImgsOnly!, ...trueImgFile!].map(
+        (e) => e.name
+      );
+      console.log({ newImgPaths, previewImgsOnly, trueImgFile });
+      await editProdut({ product, imgPaths: newImgPaths });
+
       toast({
         description: `${descripcion}, added`,
         status: "success",
@@ -63,6 +100,7 @@ export default function EditProduct({}: InferGetServerSidePropsType<
       console.log("error", error);
     }
   };
+
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset(defaultValues);
@@ -172,18 +210,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   //get router parameter product id
   const { id } = query;
   //search on supabase the product id
-  const product = await supabase
+  const { data } = await supabase
     .from<ProductDetailInterface>("products")
     .select("*")
     .eq("id", id)
     .limit(1);
-  console.log(product.data);
 
   //get image array and ??
 
   //send the product detail to props for editing
   return {
     props: {
+      product: !!data ? data[0] : null,
       user,
       loggedIn: !!user,
     },

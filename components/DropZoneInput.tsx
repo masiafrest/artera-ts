@@ -7,6 +7,7 @@ import {
   Image,
   Grid,
   GridItem,
+  useToast,
 } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { ProductDetailInterface } from "lib/types";
@@ -14,41 +15,88 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
 
 export default function DropZoneInput() {
+  const toast = useToast({
+    duration: 5000,
+    isClosable: true,
+    position: "top",
+  });
   const { register, unregister, setValue, watch, getValues } =
     useFormContext<ProductDetailInterface>();
   const fileImgs = watch("fileImgs");
-
+  const maxFiles = 3;
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejection: FileRejection[]) => {
       if (acceptedFiles.length > 0) {
+        const oldFileImgs = getValues("fileImgs");
+        const newFileImgs = [];
+        console.log(oldFileImgs, maxFiles);
+        if (oldFileImgs) {
+          if (oldFileImgs?.length === maxFiles) {
+            toast({
+              title: "All Images slot are full",
+              description: `delete some images`,
+              status: "warning",
+            });
+            return;
+          }
+          const slotLeft = maxFiles - oldFileImgs?.length;
+          for (let i = 0; i < slotLeft; i++) {
+            if (acceptedFiles[i]) {
+              newFileImgs.push(acceptedFiles[i]);
+            }
+          }
+          console.log({ newFileImgs }, "has slot");
+          const fileImgsWithPreview = newFileImgs.map((f) =>
+            Object.assign(f, {
+              preview: URL.createObjectURL(f),
+            })
+          );
+
+          setValue("fileImgs", [...oldFileImgs, ...fileImgsWithPreview]);
+          return;
+        }
+        newFileImgs.push(...acceptedFiles);
+
         const fileImgs = acceptedFiles.map((f) =>
           Object.assign(f, {
             preview: URL.createObjectURL(f),
           })
         );
         setValue("fileImgs", fileImgs);
+        return;
       }
+      console.log({ fileRejection });
+      toast({
+        title: "error file rejection",
+        description: `drop too many file or is not a image file`,
+        status: "warning",
+      });
     },
     []
   );
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({
+      onError: (err) => console.log(err),
       onDrop,
-      maxFiles: 3,
+      maxFiles,
       accept: {
         "image/*": [],
       },
     });
 
-  const deleteImg = (name: string) => {
-    const fileImgs = getValues("fileImgs")?.filter((f) => f.name !== name);
+  const deleteImg = (preview: string) => {
+    const fileImgs = getValues("fileImgs")?.filter(
+      (f) => f.preview !== preview
+    );
+    URL.revokeObjectURL(preview);
     setValue("fileImgs", fileImgs);
   };
 
   useEffect(() => {
     register("fileImgs");
     return () => {
+      // talvez revoke url de fileImgs??
       unregister("fileImgs");
     };
   }, [register, unregister]);
@@ -73,7 +121,7 @@ export default function DropZoneInput() {
       </Flex>
       <Grid justifyItems="center" templateColumns="repeat(3, 1fr)">
         {fileImgs?.map((f) => (
-          <GridItem key={f.name} position="relative">
+          <GridItem key={f.preview} position="relative">
             <Image boxSize={100} src={f.preview} />
             <IconButton
               position="absolute"
@@ -84,7 +132,7 @@ export default function DropZoneInput() {
               colorScheme="red"
               aria-label="remove Image"
               icon={<SmallCloseIcon />}
-              onClick={() => deleteImg(f.name)}
+              onClick={() => deleteImg(f.preview)}
             />
           </GridItem>
         ))}

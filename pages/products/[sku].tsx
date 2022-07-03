@@ -41,7 +41,20 @@ export default function Product({ product }: Props) {
   const toast = useToast();
   const { setCart, addToCart } = useCart();
 
-  const { descripcion, imagen, sku, precio, oldprice, imagenes } = product;
+  const {
+    descripcion,
+    imagen,
+    sku,
+    precio,
+    oldprice,
+    imagenes,
+    caracteristica,
+  } = product;
+  let parseCaracteristica = caracteristica
+    ?.split(";")
+    .map((c) => c.trim().split(":"));
+  console.log({ parseCaracteristica });
+
   let slides = getUrlSlides(imagenes);
 
   return (
@@ -105,15 +118,17 @@ export default function Product({ product }: Props) {
               >
                 Product Details
               </Text>
-
-              <List spacing={2}>
-                <ListItem>
-                  <Text as={"span"} fontWeight={"bold"}>
-                    Medidas:
-                  </Text>{" "}
-                  20 mm
-                </ListItem>
-              </List>
+              {caracteristica &&
+                parseCaracteristica?.map((c) => (
+                  <List key={c[0] + c[1]} spacing={2}>
+                    <ListItem>
+                      <Text as={"span"} fontWeight={"bold"}>
+                        {c[0]}:
+                      </Text>
+                      {c[1]}
+                    </ListItem>
+                  </List>
+                ))}
             </Box>
             <Box>
               <Text

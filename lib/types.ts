@@ -9,6 +9,12 @@ export interface ProductDetailInterface {
   precio: number | string;
   oldprice?: number;
   sku: string;
+  caracteristica?: string;
+}
+
+interface Caracteristica {
+  name: string;
+  value: string;
 }
 
 export interface FileWithPreview extends File {

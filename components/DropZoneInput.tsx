@@ -20,9 +20,10 @@ export default function DropZoneInput() {
     isClosable: true,
     position: "top",
   });
-  const { register, unregister, setValue, watch, getValues } =
+  const { setValue, watch, getValues } =
     useFormContext<ProductDetailInterface>();
   const fileImgs = watch("fileImgs");
+  console.log({ fileImgs });
   const maxFiles = 3;
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejection: FileRejection[]) => {
@@ -83,20 +84,11 @@ export default function DropZoneInput() {
     });
 
   const deleteImg = (preview: string) => {
-    const fileImgs = getValues("fileImgs")?.filter(
-      (f) => f.preview !== preview
-    );
+    const delFileImgs = fileImgs?.filter((f) => f.preview !== preview);
     URL.revokeObjectURL(preview);
-    setValue("fileImgs", fileImgs);
+    setValue("fileImgs", delFileImgs);
   };
 
-  useEffect(() => {
-    register("fileImgs");
-    return () => {
-      // talvez revoke url de fileImgs??
-      unregister("fileImgs");
-    };
-  }, [register, unregister]);
   return (
     <FormControl id="fileImgs">
       <Flex

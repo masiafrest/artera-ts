@@ -13,6 +13,8 @@ import {
   NumberInputStepper,
   Spinner,
   Stack,
+  Textarea,
+  Tooltip,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -23,7 +25,8 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import DropZoneInput from "components/DropZoneInput";
 import { uploadImgs, uploadProduct } from "lib/services/products-api";
-import { PostgrestError } from "@supabase/supabase-js";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
+import ProductForm from "components/ProductForm";
 
 const defaultValues: ProductDetailInterface = {
   descripcion: "",
@@ -31,15 +34,12 @@ const defaultValues: ProductDetailInterface = {
   precio: "1.00",
   sku: "",
   fileImgs: [],
+  caracteristica: "",
 };
 
 export default function AddProduct({}: InferGetServerSidePropsType<
   typeof getServerSideProps
 >): JSX.Element {
-  const methods = useForm<ProductDetailInterface>({
-    defaultValues,
-  });
-  const { handleSubmit, control, register, formState, reset } = methods;
   const toast = useToast({
     duration: 5000,
     isClosable: true,
@@ -63,96 +63,8 @@ export default function AddProduct({}: InferGetServerSidePropsType<
       console.log("error", error);
     }
   };
-  useEffect(() => {
-    console.log("isSuccess", formState.isSubmitSuccessful);
-    if (formState.isSubmitSuccessful) {
-      reset(defaultValues);
-    }
-  }, [formState.isSubmitSuccessful]);
 
-  return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Stack
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-        spacing={4}
-        w={"full"}
-        maxW={"md"}
-        bg={useColorModeValue("white", "gray.700")}
-        rounded={"xl"}
-        boxShadow={"lg"}
-        p={6}
-        my={12}
-      >
-        <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-          Add a Product
-        </Heading>
-        <FormProvider {...methods}>
-          <DropZoneInput />
-          <FormControl id="descripcion" isRequired>
-            <FormLabel>Descripcion</FormLabel>
-            <Input
-              placeholder="descripcion"
-              _placeholder={{ color: "gray.500" }}
-              type="text"
-              {...register("descripcion")}
-            />
-          </FormControl>
-          <FormControl id="sku" isRequired>
-            <FormLabel>Sku</FormLabel>
-            <Input
-              placeholder="sku"
-              _placeholder={{ color: "gray.500" }}
-              type="text"
-              {...register("sku")}
-            />
-          </FormControl>
-          <FormControl id="precio" isRequired>
-            <FormLabel>Precio</FormLabel>
-            <Controller
-              control={control}
-              name="precio"
-              render={({ field: { ref, ...restField } }) => (
-                <NumberInput {...restField} precision={2} step={0.01} min={1.0}>
-                  <NumberInputField
-                    ref={ref}
-                    name={restField.name}
-                    placeholder="precio"
-                    _placeholder={{ color: "gray.500" }}
-                  />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              )}
-            />
-          </FormControl>
-          <Stack spacing={6} direction={["column", "row"]}>
-            <Button
-              type="submit"
-              bg={"blue.400"}
-              color={"white"}
-              w="full"
-              _hover={{
-                bg: "blue.500",
-              }}
-              disabled={formState.isSubmitting}
-            >
-              Submit
-              {formState.isSubmitting && <Spinner />}
-            </Button>
-          </Stack>
-        </FormProvider>
-        <DevTool control={control} />
-      </Stack>
-    </Flex>
-  );
+  return <ProductForm defaultValues={defaultValues} onSubmit={onSubmit} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({

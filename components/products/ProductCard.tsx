@@ -60,7 +60,7 @@ export default function ProductCard({ product, onDelete }: Props) {
   return (
     <LinkBox>
       <Center>
-        <Flex p={50} w="full" alignItems="center" justifyContent="center">
+        <Flex w="full" alignItems="center" justifyContent="center">
           <Box
             bg={useColorModeValue("white", "gray.800")}
             maxW="sm"
@@ -131,8 +131,9 @@ export default function ProductCard({ product, onDelete }: Props) {
               <LinkOverlay>
                 <Image
                   rounded={"lg"}
-                  height={230}
-                  width={282}
+                  // height={230}
+                  // width={282}
+                  width="full"
                   objectFit={"cover"}
                   src={slides ? slides[0] : "/images/vasija_card.webp"}
                   alt="img"
@@ -159,7 +160,8 @@ export default function ProductCard({ product, onDelete }: Props) {
                   fontWeight="semibold"
                   as="h4"
                   lineHeight="tight"
-                  // isTruncated
+                  noOfLines={1}
+                  width="11em"
                 >
                   {descripcion}
                 </Box>
@@ -195,7 +197,9 @@ export default function ProductCard({ product, onDelete }: Props) {
                       {oldprice}
                     </Text>
                   )} */}
-                <Text>{sku}</Text>
+                <Text width="11em" noOfLines={1}>
+                  {sku}
+                </Text>
                 <Box
                   fontSize="2xl"
                   color={useColorModeValue("gray.800", "white")}

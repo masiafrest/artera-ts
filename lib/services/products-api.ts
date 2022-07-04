@@ -98,10 +98,17 @@ const uploadProduct = async ({
   product: ProductDetailInterface;
   imgPaths: string[];
 }) => {
-  const { descripcion, precio, sku, imagen } = product;
+  const { descripcion, precio, sku, imagen, caracteristica } = product;
   const { error } = await supabase
     .from("products")
-    .insert({ descripcion, precio, sku, imagen, imagenes: imgPaths });
+    .insert({
+      descripcion,
+      precio,
+      sku,
+      imagen,
+      imagenes: imgPaths,
+      caracteristica,
+    });
   if (error) {
     throw new Error(JSON.stringify(error));
   }
@@ -114,10 +121,17 @@ const editProdut = async ({
   product: ProductDetailInterface;
   imgPaths: string[];
 }) => {
-  const { descripcion, precio, sku, imagen, id } = product;
+  const { descripcion, precio, sku, imagen, id, caracteristica } = product;
   const { error } = await supabase
     .from("products")
-    .update({ descripcion, precio, sku, imagen, imagenes: imgPaths })
+    .update({
+      descripcion,
+      precio,
+      sku,
+      imagen,
+      caracteristica,
+      imagenes: imgPaths,
+    })
     .eq("id", id);
   if (error) {
     throw new Error(JSON.stringify(error));

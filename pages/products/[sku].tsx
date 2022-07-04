@@ -53,7 +53,6 @@ export default function Product({ product }: Props) {
   let parseCaracteristica = caracteristica
     ?.split(";")
     .map((c) => c.trim().split(":"));
-  console.log({ parseCaracteristica });
 
   let slides = getUrlSlides(imagenes);
 

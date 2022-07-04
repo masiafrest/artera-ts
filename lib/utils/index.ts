@@ -23,7 +23,6 @@ export const delImgsFromStorage = async (
       imgsToDel.push(img);
     }
   });
-  console.log({ imgsToDel });
   if (imgsToDel.length > 0) {
     await delFile(imgsToDel);
   }

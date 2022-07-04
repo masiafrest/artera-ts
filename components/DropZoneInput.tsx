@@ -23,7 +23,6 @@ export default function DropZoneInput() {
   const { setValue, watch, getValues } =
     useFormContext<ProductDetailInterface>();
   const fileImgs = watch("fileImgs");
-  console.log({ fileImgs });
   const maxFiles = 3;
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejection: FileRejection[]) => {

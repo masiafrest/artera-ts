@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ChakraProvider theme={theme}>
           <Box position="relative" minHeight="100vh">
             <NavBar />
-            <Box paddingTop={"60px"} paddingBottom="24">
+            <Box paddingTop={"60px"} paddingBottom="28">
               <Component {...pageProps} />
             </Box>
             <Footer />

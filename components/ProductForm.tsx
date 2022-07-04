@@ -78,12 +78,10 @@ export default function ProductForm({
   }, []);
 
   useEffect(() => {
-    console.log("isSuccess", formState.isSubmitSuccessful);
-    if (formState.isSubmitSuccessful) {
+    if (formState.isSubmitSuccessful && !defaultValues.descripcion) {
       reset(defaultValues);
     }
   }, [formState.isSubmitSuccessful]);
-  console.log({ defaultValues });
 
   return (
     <Flex

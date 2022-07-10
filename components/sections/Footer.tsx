@@ -45,7 +45,7 @@ const SocialButton = ({
 export default function SmallWithSocial() {
   return (
     <Box
-      h="28"
+      h={{ base: "28", md: "14" }}
       bg={useColorModeValue("gray.50", "gray.900")}
       color={useColorModeValue("gray.700", "gray.200")}
       position="fixed"
@@ -61,7 +61,7 @@ export default function SmallWithSocial() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
+        <Text>© 2022 Arterra. All rights reserved</Text>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Instagram"} href={"#"}>
             <FaInstagram />

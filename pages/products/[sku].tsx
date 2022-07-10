@@ -10,9 +10,7 @@ import {
   Container,
   Stack,
   Text,
-  Image,
   Flex,
-  VStack,
   Button,
   Heading,
   SimpleGrid,
@@ -23,11 +21,9 @@ import {
   ListItem,
   useToast,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
 import React from "react";
 import { useCart } from "lib/context/CartContext";
-import { supabase } from "lib/utils/supabaseClient";
 import Carousel from "components/Carousels";
 import { getUrlSlides } from "lib/utils";
 
@@ -70,9 +66,7 @@ export default function Product({ product }: Props) {
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}
       >
-        <Flex>
-          <Carousel slides={slides} />
-        </Flex>
+        <Carousel slides={slides} />
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={"header"}>
             <Heading

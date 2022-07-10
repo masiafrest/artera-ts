@@ -14,6 +14,7 @@ interface CartContextProps {
   cart: CartProductDetailInterface[];
   setCart: Dispatch<SetStateAction<CartProductDetailInterface[]>>;
   addToCart: (product: ProductDetailInterface) => void;
+  resetCart: () => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -46,8 +47,12 @@ function CartProvider({ children }: CartProviderProps) {
     });
   };
 
+  const resetCart = (): void => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, setCart, addToCart }}>
+    <CartContext.Provider value={{ cart, setCart, addToCart, resetCart }}>
       {children}
     </CartContext.Provider>
   );

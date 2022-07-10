@@ -28,7 +28,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import NextLink from "next/link";
 import { ProductDetailInterface } from "lib/types";
 import Carousel from "components/Carousels";
-import { getUrlSlides } from "lib/utils";
+import { getUrlSlides, toCurrency } from "lib/utils";
 import DeleteIcon from "components/DeleteIconBtn";
 import EditIcon from "components/EditIconBtn";
 import { useRouter } from "next/router";
@@ -62,7 +62,7 @@ export default function ProductCard({ product, onDelete }: Props) {
         <Flex w="full" alignItems="center" justifyContent="center">
           <Box
             bg={useColorModeValue("white", "gray.800")}
-            maxW="sm"
+            maxW="xs"
             borderWidth="1px"
             rounded="lg"
             shadow="lg"
@@ -203,10 +203,8 @@ export default function ProductCard({ product, onDelete }: Props) {
                   fontSize="2xl"
                   color={useColorModeValue("gray.800", "white")}
                 >
-                  <Box as="span" color={"gray.600"} fontSize="lg">
-                    $
-                  </Box>
-                  {precio}
+                  <Box as="span" color={"gray.600"} fontSize="lg"></Box>
+                  {toCurrency(precio)}
                 </Box>
               </Flex>
             </Box>

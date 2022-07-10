@@ -34,7 +34,7 @@ interface ProductFormData {
   imagenes?: string[];
   fileImgs?: FileWithPreview[];
   descripcion: string;
-  precio: number | string;
+  precio: string;
   oldprice?: number;
   sku: string;
   caracteristica?: string;

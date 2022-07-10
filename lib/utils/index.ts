@@ -28,3 +28,13 @@ export const delImgsFromStorage = async (
   }
   return imgsToDel;
 };
+
+export const toCurrency = (
+  precio: string | number,
+  currency: string = "USD"
+): string => {
+  return Number(precio).toLocaleString("us-US", {
+    style: "currency",
+    currency,
+  });
+};

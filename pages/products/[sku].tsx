@@ -25,7 +25,7 @@ import { MdLocalShipping } from "react-icons/md";
 import React from "react";
 import { useCart } from "lib/context/CartContext";
 import Carousel from "components/Carousels";
-import { getUrlSlides } from "lib/utils";
+import { getUrlSlides, toCurrency } from "lib/utils";
 
 interface Query extends ParsedUrlQuery {
   sku: string;
@@ -81,7 +81,7 @@ export default function Product({ product }: Props) {
               fontWeight={300}
               fontSize={"2xl"}
             >
-              {precio}
+              {toCurrency(precio)}
             </Text>
             <Text
               color={useColorModeValue("gray.500", "gray.400")}

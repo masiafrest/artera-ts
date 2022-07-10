@@ -1,9 +1,7 @@
-import { forwardRef, RefObject } from "react";
+import { forwardRef } from "react";
 import {
   Text,
   Button,
-  useDisclosure,
-  Icon,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -19,11 +17,9 @@ import {
 import DrawerCard from "./DrawerCard";
 
 import { toCurrency } from "lib/utils";
-import axios from "axios";
 
 import { useCart } from "lib/context/CartContext";
-
-import { CartProductDetailInterface } from "lib/types";
+import { useRouter } from "next/router";
 
 type Props = {
   disclosureProps: {
@@ -33,30 +29,12 @@ type Props = {
 };
 
 const CartDrawer = forwardRef((props: Props, ref: any) => {
+  const router = useRouter();
   const { isOpen, onClose } = props.disclosureProps;
-  const { cart, resetCart } = useCart();
-  const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
+  const { cart } = useCart();
   const onCheckOut = () => {
-    axios
-      .post<CartProductDetailInterface[]>("/api/sendEmail", cart)
-      .then((data) => {
-        console.log({ data });
-        resetCart();
-        onClose();
-        toast({
-          title: "Mensaje enviado con exito",
-          description: "Te vamos a contactar pronto",
-          status: "success",
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "Hubo un problema en la conexion",
-          description: "Intentelo mas tarde",
-          status: "error",
-        });
-        console.log({ err });
-      });
+    onClose();
+    router.push("/checkout");
   };
   return (
     <Drawer

@@ -4,6 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { SupabaseAuthPayload } from "lib/types";
 import { supabase } from "lib/utils/supabaseClient";
+
 import Router, { useRouter } from "next/router";
 import {
   type ReactNode,
@@ -104,14 +105,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const user = supabase.auth.user();
-
     if (user) {
       setUser(user);
-      setUserLoading(false);
       setLoggedIn(true);
-    } else {
-      setUserLoading(false);
     }
+    setUserLoading(false);
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {

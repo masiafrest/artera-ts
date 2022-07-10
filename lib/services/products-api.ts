@@ -1,4 +1,3 @@
-import axios from "axios";
 import { supabase } from "lib/utils/supabaseClient";
 import Papa from "papaparse";
 import Resizer from "react-image-file-resizer";
@@ -99,16 +98,14 @@ const uploadProduct = async ({
   imgPaths: string[];
 }) => {
   const { descripcion, precio, sku, imagen, caracteristica } = product;
-  const { error } = await supabase
-    .from("products")
-    .insert({
-      descripcion,
-      precio,
-      sku,
-      imagen,
-      imagenes: imgPaths,
-      caracteristica,
-    });
+  const { error } = await supabase.from("products").insert({
+    descripcion,
+    precio,
+    sku,
+    imagen,
+    imagenes: imgPaths,
+    caracteristica,
+  });
   if (error) {
     throw new Error(JSON.stringify(error));
   }

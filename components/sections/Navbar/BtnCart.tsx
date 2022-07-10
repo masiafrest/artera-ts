@@ -26,7 +26,10 @@ export default function BtnCart({}: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const btnRef = useRef<any>();
   const { cart } = useCart();
-  console.log({ cart });
+
+  const onCheckOut = () => {
+    fetch("/api/sendEmail");
+  };
   return (
     <Button ref={btnRef} onClick={onOpen}>
       <Icon as={BsCart} />
@@ -68,6 +71,7 @@ export default function BtnCart({}: Props) {
               fontWeight="bold"
               fontSize="large"
               disabled={cart.length === 0}
+              onClick={onCheckOut}
             >
               Checkout
             </Button>

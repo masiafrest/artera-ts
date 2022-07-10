@@ -67,7 +67,7 @@ export default function ImageCarousel({ images }: Props) {
       </Box> */}
       <Box
         position={"relative"}
-        height={"600px"}
+        height={{ base: "max-content" }}
         width={"100%"}
         overflow={"hidden"}
       >
@@ -111,33 +111,31 @@ export default function ImageCarousel({ images }: Props) {
         </IconButton>
         {/* Slider */}
         <Slider {...settings} ref={(slider) => setSlider(slider)}>
-          {cards.map((card, index) => (
+          {cards.map((card) => (
             <Box
-              key={index}
-              height={"6xl"}
+              key={card.image}
+              height={{ base: "56", sm: "80" }}
               position="relative"
               backgroundPosition="center"
               backgroundSize="cover"
               backgroundImage={`url(${card.image})`}
             >
               {/* This is the block you need to change, to customize the caption */}
-              <Container size="container.lg" height="600px" position="relative">
+              {/* <Container size="container.lg" position="relative" w="full">
                 <Stack
                   spacing={6}
                   w={"full"}
-                  maxW={"lg"}
                   position="absolute"
-                  top="80%"
-                  transform="translate(0%, -80%)"
+                  top={{ base: "24", sm: "36", md: "48" }}
                 >
-                  <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
+                  <Heading fontSize={{ base: "medium", sm: "large" }}>
                     {card.title}
                   </Heading>
-                  <Text fontSize={{ base: "md", lg: "lg" }} color="GrayText">
+                  <Text fontSize={{ base: "sm", sm: "md" }} color="GrayText">
                     {card.text}
                   </Text>
                 </Stack>
-              </Container>
+              </Container> */}
             </Box>
           ))}
         </Slider>

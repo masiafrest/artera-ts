@@ -100,7 +100,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }): Promise<NextAppPageServerSideProps> => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  if (!user) {
+  if (!user?.user_metadata.isadmin) {
     return {
       redirect: {
         destination: "/signIn",

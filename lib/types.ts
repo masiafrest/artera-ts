@@ -28,6 +28,10 @@ export interface CartProductDetailInterface extends ProductDetailInterface {
 export interface SupabaseAuthPayload {
   email: string;
   password: string;
+  phone?: string;
+  username?: string;
+  lastname?: string;
+  isadmin?: boolean;
 }
 
 export interface NextAppPageUserProps {

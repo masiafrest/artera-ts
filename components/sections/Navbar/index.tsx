@@ -22,7 +22,7 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { user, loading, signOut } = useAuth();
+  const { isAdmin, signOut } = useAuth();
 
   return (
     <Box
@@ -49,7 +49,7 @@ export default function NavBar() {
         </Box>
         <Flex alignItems={"center"}>
           <Stack direction={"row"} spacing={3}>
-            {user && (
+            {isAdmin && (
               <Box
                 display="flex"
                 justifyContent="center"

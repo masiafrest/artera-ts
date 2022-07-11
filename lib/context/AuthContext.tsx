@@ -15,6 +15,7 @@ import {
 } from "react";
 
 interface AuthContextProps {
+  isAdmin: boolean;
   user: User | null;
   signUp: (payload: SupabaseAuthPayload) => void;
   signIn: (payload: SupabaseAuthPayload) => void;
@@ -33,6 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState<AuthContextProps["user"]>(null);
   const [userLoading, setUserLoading] = useState(true);
   // Although user object should be enough here, we're creating a boolean loggedIn state for checking logged-in condition a bit more simply.
@@ -41,14 +43,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signUp = async (payload: SupabaseAuthPayload) => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp(payload);
+      const { error, user } = await supabase.auth.signUp(payload, {
+        data: {
+          ...payload,
+        },
+      });
 
       if (error) {
         throw new Error(error.message);
       } else {
         toast({
           title: "signup exitoso",
-          description: "redireccionando a ⁺✧.(˃̶ ॣ⌣ ॣ˂̶∗̀)ɞ⁾",
+          description: "Check your email for the confirmation link.",
           status: "success",
         });
       }
@@ -105,8 +111,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const user = supabase.auth.user();
+
     if (user) {
       setUser(user);
+      setIsAdmin(user.user_metadata.isadmin);
       setLoggedIn(true);
     }
     setUserLoading(false);
@@ -114,10 +122,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         const user = session?.user! ?? null;
+
         setUserLoading(false);
         await setServerSession(event, session);
         if (user) {
           setUser(user);
+          setIsAdmin(user.user_metadata.isadmin);
           setLoggedIn(true);
         } else {
           setUser(null);
@@ -134,7 +144,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user, signIn, signUp, signOut, loading, loggedIn, userLoading }}
+      value={{
+        isAdmin,
+        user,
+        signIn,
+        signUp,
+        signOut,
+        loading,
+        loggedIn,
+        userLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

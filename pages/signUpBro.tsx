@@ -37,7 +37,7 @@ export default function SignUp() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    signUp(values);
+    signUp({ ...values, isadmin: true, username: values.email });
   };
 
   return (

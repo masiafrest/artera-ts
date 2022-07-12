@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <CartProvider>
         <ChakraProvider theme={theme}>
           <NavBar />
-          <Box paddingTop="16" paddingBottom="32">
+          <Box paddingTop="16" paddingBottom={{ base: "28", md: "14" }}>
             <Component {...pageProps} />
           </Box>
           <Footer />

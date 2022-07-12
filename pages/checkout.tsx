@@ -1,5 +1,5 @@
 import React from "react";
-import { useToast } from "@chakra-ui/react";
+import { Text, Stack, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { CartProductDetailInterface } from "lib/types";
 import { useCart } from "lib/context/CartContext";
@@ -30,5 +30,9 @@ export default function checkout({}: Props) {
         console.log({ err });
       });
   };
-  return <div>checkout</div>;
+  return (
+    <Stack borderWidth="1px" borderRadius="lg">
+      <Text>card</Text>
+    </Stack>
+  );
 }

@@ -5,17 +5,23 @@ import NavBar from "components/sections/Navbar";
 import Footer from "components/sections/Footer";
 import { CartProvider } from "lib/context/CartContext";
 import { AuthProvider } from "lib/context/AuthContext";
+import { supabase } from "lib/utils/supabaseClient";
+import { useEffect } from "react";
+import { Layout } from "components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <CartProvider>
         <ChakraProvider theme={theme}>
-          <NavBar />
-          <Box paddingTop="16" paddingBottom={{ base: "28", md: "14" }}>
+          {/* <Box h="100vh">
+            <NavBar />
             <Component {...pageProps} />
-          </Box>
-          <Footer />
+            <Footer />
+          </Box> */}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ChakraProvider>
       </CartProvider>
     </AuthProvider>

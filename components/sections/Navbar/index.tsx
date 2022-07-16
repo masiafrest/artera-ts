@@ -26,7 +26,7 @@ export default function NavBar() {
 
   return (
     <Box
-      bg={useColorModeValue("gray.100", "gray.700")}
+      bg={useColorModeValue("gray.200", "gray.700")}
       px={4}
       width="100%"
       zIndex="10"

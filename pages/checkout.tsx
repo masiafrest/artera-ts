@@ -51,7 +51,7 @@ export default function checkout({}: Props) {
   return (
     <Stack borderWidth="1px" borderRadius="lg">
       {/* shooping card card */}
-      <Box bg={useColorModeValue("gray.100", "gray.700")}>content</Box>
+      <Box bg={useColorModeValue("gray.200", "gray.700")}>content</Box>
       <TableProductDetails />
       {/* register card card */}
       <Text>card</Text>

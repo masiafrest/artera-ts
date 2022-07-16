@@ -27,8 +27,8 @@ import InputPassword from "./InputPassword";
 const FORM_VALUES: ClientAddressAuthPayload = {
   email: "",
   password: "",
-  confirmPassword: "",
-  phone: "",
+  // confirmPassword: "",
+  tel: "",
   username: "",
   lastname: "",
   isadmin: false,
@@ -82,9 +82,9 @@ export default function SignUpForm({ isAdmin = false }: Props) {
             name="password"
             label="Contraseña"
           />
-          <FormControl id="phone" isRequired>
+          <FormControl id="tel">
             <FormLabel>Telefono</FormLabel>
-            <Input {...register("phone")} type="tel" inputMode="decimal" />
+            <Input {...register("tel")} type="tel" inputMode="decimal" />
           </FormControl>
           <FormControl id="username" isRequired>
             <FormLabel>Nombre y apellido</FormLabel>

@@ -43,6 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const signUp = async (
     payload: SupabaseAuthPayload | ClientAddressAuthPayload
   ) => {
+    const { email, password } = payload;
     setLoading(true);
     try {
       const { error, user } = await supabase.auth.signUp(payload, {
@@ -50,6 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           ...payload,
         },
       });
+      console.log({ user });
 
       if (error) {
         throw new Error(error.message);

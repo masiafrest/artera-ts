@@ -25,7 +25,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { FileWithPreview } from "lib/types";
-import DropZoneInput from "./DropZoneInput";
+import DropZoneInput from "../DropZoneInput";
 import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import { DevTool } from "@hookform/devtools";
 
@@ -86,7 +86,6 @@ export default function ProductForm({
   return (
     <Flex
       // minH={"calc(100vh - 4rem)"}
-      minH="100vh"
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}

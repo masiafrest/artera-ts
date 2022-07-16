@@ -2,7 +2,7 @@
 
 import { useToast } from "@chakra-ui/react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
-import { SupabaseAuthPayload } from "lib/types";
+import { ClientAddressAuthPayload, SupabaseAuthPayload } from "lib/types";
 import { supabase } from "lib/utils/supabaseClient";
 
 import Router, { useRouter } from "next/router";
@@ -40,7 +40,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Although user object should be enough here, we're creating a boolean loggedIn state for checking logged-in condition a bit more simply.
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const signUp = async (payload: SupabaseAuthPayload) => {
+  const signUp = async (
+    payload: SupabaseAuthPayload | ClientAddressAuthPayload
+  ) => {
     setLoading(true);
     try {
       const { error, user } = await supabase.auth.signUp(payload, {

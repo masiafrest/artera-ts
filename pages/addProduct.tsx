@@ -26,7 +26,7 @@ import { DevTool } from "@hookform/devtools";
 import DropZoneInput from "components/DropZoneInput";
 import { uploadImgs, uploadProduct } from "lib/services/products-api";
 import { QuestionOutlineIcon } from "@chakra-ui/icons";
-import ProductForm from "components/ProductForm";
+import ProductForm from "components/Forms/ProductForm";
 
 const defaultValues: ProductDetailInterface = {
   descripcion: "",
@@ -61,6 +61,8 @@ export default function AddProduct({}: InferGetServerSidePropsType<
         status: "error",
       });
       console.log("error", error);
+      throw error;
+      // throw new Error(error.message);
     }
   };
 

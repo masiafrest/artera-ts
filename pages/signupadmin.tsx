@@ -37,7 +37,7 @@ export default function SignUp() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    signUp({ ...values, isadmin: true, username: values.email });
+    signUp({ ...values, username: values.email, isadmin: true });
   };
 
   return (
@@ -113,7 +113,7 @@ export default function SignUp() {
             <Stack pt={6}>
               <Text align={"center"}>
                 Already a user?{" "}
-                <NextLink href={"/signIn"} passHref>
+                <NextLink href={"/signin"} passHref>
                   <Link color={"blue.400"}>Login</Link>
                 </NextLink>
               </Text>

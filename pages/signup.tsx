@@ -42,7 +42,6 @@ export default function SignUp() {
 
   return (
     <Flex
-      minH={"100vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}

@@ -15,6 +15,7 @@ import {
 import { useAuth } from "lib/context/AuthContext";
 import { SupabaseAuthPayload } from "lib/types";
 import { useFormFields } from "lib/utils/useFormFields";
+import NextLink from "next/link";
 
 const FORM_VALUES: SupabaseAuthPayload = {
   email: "",
@@ -33,7 +34,6 @@ export default function SignIn() {
 
   return (
     <Flex
-      minH={"100vh"}
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
@@ -91,6 +91,14 @@ export default function SignIn() {
               >
                 Sign in
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                ¿No tienes cuenta todavia?{" "}
+                <NextLink href={"/signup"} passHref>
+                  <Link color={"blue.400"}>Registrate aqui</Link>
+                </NextLink>
+              </Text>
             </Stack>
           </Stack>
         </Box>

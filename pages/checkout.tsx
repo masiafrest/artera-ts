@@ -1,14 +1,32 @@
 import React from "react";
-import { Text, Stack, useToast } from "@chakra-ui/react";
+import {
+  Image,
+  Text,
+  Stack,
+  useToast,
+  Box,
+  useColorModeValue,
+  Table,
+  TableContainer,
+  TableCaption,
+  Thead,
+  Th,
+  Tr,
+  Tbody,
+  Td,
+  Tfoot,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { CartProductDetailInterface } from "lib/types";
 import { useCart } from "lib/context/CartContext";
+import { toCurrency } from "lib/utils";
+import TableProductDetails from "components/TableProductDetails";
 
 type Props = {};
 
 export default function checkout({}: Props) {
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
-  const { cart, resetCart } = useCart();
+  const { cart, resetCart, getCartTotal } = useCart();
   const onCheckOut = () => {
     axios
       .post<CartProductDetailInterface[]>("/api/sendEmail", cart)
@@ -32,6 +50,10 @@ export default function checkout({}: Props) {
   };
   return (
     <Stack borderWidth="1px" borderRadius="lg">
+      {/* shooping card card */}
+      <Box bg={useColorModeValue("gray.100", "gray.700")}>content</Box>
+      <TableProductDetails />
+      {/* register card card */}
       <Text>card</Text>
     </Stack>
   );

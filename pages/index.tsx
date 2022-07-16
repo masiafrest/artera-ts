@@ -33,7 +33,7 @@ const Home: NextPage<Props> = () => {
   }, []);
 
   return (
-    <>
+    <Box height="50%">
       <Head>
         <title>Arterra</title>
         <meta name="description" content="Arterra" />
@@ -41,7 +41,7 @@ const Home: NextPage<Props> = () => {
       </Head>
       <ImageCarousel />
       <ProductCardList products={products} setProducts={setproducts} />
-    </>
+    </Box>
   );
 };
 

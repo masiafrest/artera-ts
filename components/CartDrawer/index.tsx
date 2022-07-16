@@ -31,7 +31,7 @@ type Props = {
 const CartDrawer = forwardRef((props: Props, ref: any) => {
   const router = useRouter();
   const { isOpen, onClose } = props.disclosureProps;
-  const { cart } = useCart();
+  const { cart, getCartTotal } = useCart();
   const onCheckOut = () => {
     onClose();
     router.push("/checkout");
@@ -57,16 +57,7 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
             )}
           </VStack>
         </DrawerBody>
-        {cart.length > 0 && (
-          <Text align="center">
-            Total:{" "}
-            {toCurrency(
-              cart.reduce((a, v) => {
-                return a + Number(v.precio) * v.qty;
-              }, 0)
-            )}
-          </Text>
-        )}
+        {cart.length > 0 && <Text align="center">Total: {getCartTotal()}</Text>}
         <Divider />
         <DrawerFooter style={{ display: "flex", justifyContent: "center" }}>
           <Button

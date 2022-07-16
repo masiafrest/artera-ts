@@ -31,7 +31,7 @@ import {
   uploadProduct,
 } from "lib/services/products-api";
 import { delImgsFromStorage } from "lib/utils";
-import ProductForm from "components/ProductForm";
+import ProductForm from "components/Forms/ProductForm";
 
 export default function EditProduct({
   product,

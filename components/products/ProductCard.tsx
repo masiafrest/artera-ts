@@ -44,7 +44,7 @@ interface Props {
 export default function ProductCard({ product, onDelete }: Props) {
   const { sku, imagen, descripcion, precio, oldprice, imagenes, id } = product;
   const { addToCart } = useCart();
-  const { user } = useAuth();
+  const { isAdmin } = useAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
@@ -68,7 +68,7 @@ export default function ProductCard({ product, onDelete }: Props) {
             shadow="lg"
             position="relative"
           >
-            {user && (
+            {isAdmin && (
               <>
                 <DeleteIcon
                   aria-label="remove-product"

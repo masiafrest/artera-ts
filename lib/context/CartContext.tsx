@@ -6,6 +6,7 @@ import type {
   ProductDetailInterface,
 } from "lib/types";
 import { useToast } from "@chakra-ui/react";
+import { toCurrency } from "lib/utils";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ interface CartContextProps {
   setCart: Dispatch<SetStateAction<CartProductDetailInterface[]>>;
   addToCart: (product: ProductDetailInterface) => void;
   resetCart: () => void;
+  getCartTotal: () => string;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -37,6 +39,7 @@ function CartProvider({ children }: CartProviderProps) {
         return [...prevCart, { ...product, qty: 1 }];
       }
     });
+
     toast({
       title: "Agregado",
       description: product.descripcion,
@@ -51,8 +54,18 @@ function CartProvider({ children }: CartProviderProps) {
     setCart([]);
   };
 
+  const getCartTotal = (): string => {
+    return toCurrency(
+      cart.reduce((a, v) => {
+        return a + Number(v.precio) * v.qty;
+      }, 0)
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ cart, setCart, addToCart, resetCart }}>
+    <CartContext.Provider
+      value={{ cart, setCart, addToCart, resetCart, getCartTotal }}
+    >
       {children}
     </CartContext.Provider>
   );

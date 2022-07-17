@@ -20,6 +20,8 @@ interface AuthContextProps {
   signUp: (payload: SupabaseAuthPayload) => void;
   signIn: (payload: SupabaseAuthPayload) => void;
   signOut: () => void;
+  toResetPassword: (email: string) => void;
+  resetPassword: (newPassword: string, hash: string) => void;
   loggedIn: boolean;
   loading: boolean;
   userLoading: boolean;
@@ -40,6 +42,65 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // Although user object should be enough here, we're creating a boolean loggedIn state for checking logged-in condition a bit more simply.
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const resetPassword = async (newPassword: string, hash: string) => {
+    try {
+      if (!hash) {
+        throw new Error(
+          "Hubo un problema con la recuperacion intentelo mas tarde, no hash"
+        );
+      }
+      const query = new URLSearchParams(hash.substring(1));
+      const isRecovery = query.get("type") === "recovery";
+      const accessToken = query.get("access_token");
+      if (!isRecovery || !accessToken) {
+        throw new Error(
+          "Hubo un problema con la recuperacion intentelo mas tarde, " +
+            `recovery: ${isRecovery}, token: ${accessToken}`
+        );
+      }
+
+      const { error } = await supabase.auth.api.updateUser(accessToken, {
+        password: newPassword,
+      });
+      if (error) {
+        throw new Error("error al actualizar, " + error.message);
+      }
+      toast({
+        title: "Contraseña cambiada",
+        status: "success",
+      });
+      router.push("/signin");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        status: "error",
+      });
+    }
+  };
+
+  const toResetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.api.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:3000/password-reset",
+      });
+      if (error) {
+        throw new Error(error.message);
+      }
+      toast({
+        title: "Enviado",
+        description: "",
+        status: "success",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error en la red, intentelo mas tarde",
+        description: error.message,
+        status: "error",
+      });
+    }
+  };
+
   const signUp = async (
     payload: SupabaseAuthPayload | ClientAddressAuthPayload
   ) => {
@@ -55,13 +116,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (error) {
         throw new Error(error.message);
-      } else {
-        toast({
-          title: "signup exitoso",
-          description: "Check your email for the confirmation link.",
-          status: "success",
-        });
       }
+      toast({
+        title: "signup exitoso",
+        description: "Check your email for the confirmation link.",
+        status: "success",
+      });
     } catch (error) {
       toast({
         title: "signup con error (╯°□°）╯︵ ┻━┻ ",
@@ -154,6 +214,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signUp,
         signOut,
+        toResetPassword,
+        resetPassword,
         loading,
         loggedIn,
         userLoading,

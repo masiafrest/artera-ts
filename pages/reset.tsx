@@ -24,7 +24,7 @@ const FORM_VALUES: Pick<SupabaseAuthPayload, "email"> = {
   email: "",
 };
 
-export default function reset({}: Props) {
+export default function Reset({}: Props) {
   const { toResetPassword } = useAuth();
   const [values, handleChange] =
     useFormFields<Pick<SupabaseAuthPayload, "email">>(FORM_VALUES);

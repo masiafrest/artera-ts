@@ -76,4 +76,5 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
   );
 });
 
+CartDrawer.displayName = "CartDrawer";
 export default CartDrawer;

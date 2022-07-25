@@ -24,7 +24,7 @@ import TableProductDetails from "components/TableProductDetails";
 
 type Props = {};
 
-export default function checkout({}: Props) {
+export default function Checkout({}: Props) {
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const { cart, resetCart, getCartTotal } = useCart();
   const onCheckOut = () => {

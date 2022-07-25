@@ -38,7 +38,7 @@ export default function TableProductDetails({}: Props) {
         <Tbody>
           {cart.map((item) => {
             return (
-              <Tr>
+              <Tr key={item.id}>
                 <Td>
                   <Image
                     src={

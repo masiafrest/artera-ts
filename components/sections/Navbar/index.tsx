@@ -24,7 +24,7 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 export default function NavBar() {
   const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isAdmin, signOut } = useAuth();
+  const { isAdmin, signOut, loggedIn } = useAuth();
 
   return (
     <Box
@@ -59,10 +59,13 @@ export default function NavBar() {
                 gap="1rem"
               >
                 <NavLink href="/addProduct">Add Product</NavLink>
-                <Button onClick={() => signOut()}>SignOut</Button>
               </Box>
             )}
-            <Button onClick={() => router.push("signin")}>Sign In</Button>
+            {loggedIn ? (
+              <Button onClick={() => signOut()}>SignOut</Button>
+            ) : (
+              <Button onClick={() => router.push("signin")}>Sign In</Button>
+            )}
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

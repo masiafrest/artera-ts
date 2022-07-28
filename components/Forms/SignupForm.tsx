@@ -53,7 +53,7 @@ export default function SignUpForm({ isAdmin = false }: Props) {
 
   const onSubmit = (values: ClientAddressAuthPayload) => {
     // e.preventDefault();
-    signUp(values);
+    signUp({ ...values, isadmin: isAdmin });
   };
 
   return (

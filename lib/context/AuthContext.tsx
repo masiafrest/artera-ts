@@ -159,7 +159,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const signOut = async () => await supabase.auth.signOut();
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    console.log("signout");
+  };
 
   const setServerSession = async (
     event: AuthChangeEvent,
@@ -174,27 +177,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    const user = supabase.auth.user();
-
-    if (user) {
-      setUser(user);
-      setIsAdmin(user.user_metadata.isadmin);
-      setLoggedIn(true);
-    }
-    setUserLoading(false);
-
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        const user = session?.user! ?? null;
+        setServerSession(event, session);
+        if (event === "SIGNED_IN") {
+          const user = session?.user! ?? null;
 
-        setUserLoading(false);
-        await setServerSession(event, session);
-        if (user) {
-          setUser(user);
-          setIsAdmin(user.user_metadata.isadmin);
-          setLoggedIn(true);
-        } else {
-          setUser(null);
+          setUserLoading(false);
+          if (user) {
+            setUser(user);
+            setIsAdmin(user.user_metadata.isadmin);
+            setLoggedIn(true);
+          } else {
+            setUser(null);
+            setIsAdmin(false);
+            setLoggedIn(false);
+            router.push("/");
+          }
+        }
+        if (event === "SIGNED_OUT") {
+          setIsAdmin(false);
+          setLoggedIn(false);
           router.push("/");
         }
       }
@@ -204,7 +207,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       authListener?.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router]);
 
   return (
     <AuthContext.Provider

@@ -13,6 +13,7 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import BtnCart from "./BtnCart";
 import { useAuth } from "lib/context/AuthContext";
+import { useRouter } from "next/router";
 
 const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
   <NextLink href={href} passHref>
@@ -21,6 +22,7 @@ const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
 );
 
 export default function NavBar() {
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isAdmin, signOut } = useAuth();
 
@@ -30,6 +32,8 @@ export default function NavBar() {
       px={4}
       width="100%"
       zIndex="10"
+      position="sticky"
+      top={0}
     >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Box>
@@ -58,7 +62,7 @@ export default function NavBar() {
                 <Button onClick={() => signOut()}>SignOut</Button>
               </Box>
             )}
-
+            <Button onClick={() => router.push("signin")}>Sign In</Button>
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

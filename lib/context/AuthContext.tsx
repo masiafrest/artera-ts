@@ -2,7 +2,11 @@
 
 import { useToast } from "@chakra-ui/react";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
-import { ClientAddressAuthPayload, SupabaseAuthPayload } from "lib/types";
+import {
+  ClientAddressAuthPayload,
+  SignInOutOptions,
+  SupabaseAuthPayload,
+} from "lib/types";
 import { supabase } from "lib/utils/supabaseClient";
 
 import Router, { useRouter } from "next/router";
@@ -17,8 +21,8 @@ import {
 interface AuthContextProps {
   isAdmin: boolean;
   user: User | null;
-  signUp: (payload: SupabaseAuthPayload) => void;
-  signIn: (payload: SupabaseAuthPayload) => void;
+  signUp: (payload: SupabaseAuthPayload, options?: SignInOutOptions) => void;
+  signIn: (payload: SupabaseAuthPayload, options?: SignInOutOptions) => void;
   signOut: () => void;
   toResetPassword: (email: string) => void;
   resetPassword: (newPassword: string, hash: string) => void;
@@ -102,7 +106,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const signUp = async (
-    payload: SupabaseAuthPayload | ClientAddressAuthPayload
+    payload: SupabaseAuthPayload | ClientAddressAuthPayload,
+    options: SignInOutOptions = {
+      redirect: "/signin",
+      shouldredirect: true,
+    }
   ) => {
     const { email, password } = payload;
     setLoading(true);
@@ -122,6 +130,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         description: "Check your email for the confirmation link.",
         status: "success",
       });
+      options.shouldredirect &&
+        options.redirect &&
+        Router.push(options.redirect);
     } catch (error) {
       toast({
         title: "signup con error (╯°□°）╯︵ ┻━┻ ",
@@ -133,7 +144,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const signIn = async (payload: SupabaseAuthPayload) => {
+  const signIn = async (
+    payload: SupabaseAuthPayload,
+    options: SignInOutOptions = {
+      redirect: "/",
+      shouldredirect: true,
+    }
+  ) => {
     setLoading(true);
     try {
       const { error } = await supabase.auth.signIn(payload);
@@ -146,7 +163,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
           description: "redireccionando a ⁺✧.(˃̶ ॣ⌣ ॣ˂̶∗̀)ɞ⁾",
           status: "success",
         });
-        Router.push("/");
+        console.log({ options });
+        options.shouldredirect &&
+          options.redirect &&
+          Router.push(options.redirect);
       }
     } catch (error) {
       toast({

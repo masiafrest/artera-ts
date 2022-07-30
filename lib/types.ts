@@ -57,3 +57,8 @@ export interface NextAppPageRedirProps {
 export type NextAppPageServerSideProps =
   | NextAppPageUserProps
   | NextAppPageRedirProps;
+
+export interface SignInOutOptions {
+  redirect?: string;
+  shouldredirect?: boolean;
+}

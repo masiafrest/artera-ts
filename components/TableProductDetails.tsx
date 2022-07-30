@@ -15,6 +15,9 @@ import {
   Tbody,
   Td,
   Tfoot,
+  Center,
+  useBreakpoint,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useCart } from "lib/context/CartContext";
 import { toCurrency } from "lib/utils";
@@ -22,16 +25,23 @@ import { toCurrency } from "lib/utils";
 type Props = {};
 
 export default function TableProductDetails({}: Props) {
+  const isSmallScreen = useBreakpointValue({
+    base: true,
+    sx: true,
+    sm: false,
+    md: false,
+  });
+
   const { cart, getCartTotal } = useCart();
   return (
     <TableContainer>
-      <Table variant="simple">
+      <Table variant="striped">
         <Thead>
           <Tr>
             <Th>Imagenes</Th>
-            <Th>Descripcion</Th>
+            {!isSmallScreen && <Th>Descripcion</Th>}
             <Th>Qty</Th>
-            <Th>Precio Unitario</Th>
+            <Th>Precio</Th>
             <Th>Total</Th>
           </Tr>
         </Thead>
@@ -50,8 +60,15 @@ export default function TableProductDetails({}: Props) {
                     alt={item.descripcion}
                   />
                 </Td>
-                <Td>{item.descripcion}</Td>
-                <Td>{item.qty}</Td>
+
+                {!isSmallScreen && (
+                  <Td>
+                    <Center>{item.descripcion}</Center>
+                  </Td>
+                )}
+                <Td>
+                  <Center>{item.qty}</Center>
+                </Td>
                 <Td isNumeric>{toCurrency(item.precio)}</Td>
                 <Td isNumeric>{toCurrency(Number(item.precio) * item.qty)}</Td>
               </Tr>
@@ -60,7 +77,7 @@ export default function TableProductDetails({}: Props) {
         </Tbody>
         <Tfoot>
           <Tr>
-            <Th></Th>
+            {!isSmallScreen && <Th></Th>}
             <Th></Th>
             <Th></Th>
             <Th isNumeric>Total:</Th>

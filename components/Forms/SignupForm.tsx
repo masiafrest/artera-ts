@@ -17,7 +17,11 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { useAuth } from "lib/context/AuthContext";
-import { ClientAddressAuthPayload, SupabaseAuthPayload } from "lib/types";
+import {
+  ClientAddressAuthPayload,
+  SignInOutOptions,
+  SupabaseAuthPayload,
+} from "lib/types";
 import NextLink from "next/link";
 
 import { useFormFields } from "lib/utils/useFormFields";
@@ -38,9 +42,10 @@ const FORM_VALUES: ClientAddressAuthPayload = {
 
 type Props = {
   isAdmin?: boolean;
+  options?: SignInOutOptions;
 };
 
-export default function SignUpForm({ isAdmin = false }: Props) {
+export default function SignUpForm({ isAdmin = false, options }: Props) {
   const { signUp, loading } = useAuth();
 
   const {
@@ -53,7 +58,7 @@ export default function SignUpForm({ isAdmin = false }: Props) {
 
   const onSubmit = (values: ClientAddressAuthPayload) => {
     // e.preventDefault();
-    signUp({ ...values, isadmin: isAdmin });
+    signUp({ ...values, isadmin: isAdmin }, options);
   };
 
   return (

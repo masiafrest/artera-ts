@@ -26,11 +26,14 @@ export default function Checkout({}: Props) {
   const router = useRouter();
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const { cart, resetCart, getCartTotal } = useCart();
-  const { loggedIn } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   const onCheckOut = () => {
     axios
-      .post<CartProductDetailInterface[]>("/api/sendEmail", cart)
+      .post<CartProductDetailInterface[]>("/api/sendEmail", {
+        cart,
+        user: user?.user_metadata,
+      })
       .then((data) => {
         console.log({ data });
         resetCart();

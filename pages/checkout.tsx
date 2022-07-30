@@ -98,7 +98,6 @@ export default function Checkout({}: Props) {
           },
         })
         .then((res: any) => {
-          console.log("res", res);
           //     // resetCart();
           toast({
             title: "Mensaje enviado con exito",

@@ -127,7 +127,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           },
         }
       );
-      console.log({ user });
 
       if (error) {
         throw new Error(error.message);
@@ -170,7 +169,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           description: "redireccionando a ⁺✧.(˃̶ ॣ⌣ ॣ˂̶∗̀)ɞ⁾",
           status: "success",
         });
-        console.log({ options });
         options.shouldredirect &&
           options.redirect &&
           Router.push(options.redirect);
@@ -188,7 +186,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    console.log("signout");
   };
 
   const setServerSession = async (

@@ -7,8 +7,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const user_id = process.env.NEXT_PUBLIC_EMAILJS_PK;
 
   if (service_id && template_id && user_id) {
-    console.log("sendingemail");
-
     const template_params = {
       from_name: "hello",
       message: "hello",

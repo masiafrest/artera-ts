@@ -50,7 +50,7 @@ export default function Product({ product }: Props) {
     ?.split(";")
     .map((c) => c.trim().split(":"));
 
-  console.log({ parseCaracteristica, caracteristica });
+  const yellowColor = useColorModeValue("yellow.500", "yellow.300");
 
   let slides = getUrlSlides(imagenes);
 
@@ -107,7 +107,7 @@ export default function Product({ product }: Props) {
               <Box>
                 <Text
                   fontSize={{ base: "16px", lg: "18px" }}
-                  color={useColorModeValue("yellow.500", "yellow.300")}
+                  color={yellowColor}
                   fontWeight={"500"}
                   textTransform={"uppercase"}
                   mb={"4"}

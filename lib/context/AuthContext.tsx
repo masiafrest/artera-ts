@@ -113,13 +113,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   ) => {
     const { email, password } = payload;
+    const payloadWithOutPassword: Partial<ClientAddressAuthPayload> = {
+      ...payload,
+    };
+    delete payloadWithOutPassword.password;
     setLoading(true);
     try {
-      const { error, user } = await supabase.auth.signUp(payload, {
-        data: {
-          ...payload,
-        },
-      });
+      const { error, user } = await supabase.auth.signUp(
+        { email, password },
+        {
+          data: {
+            ...payloadWithOutPassword,
+          },
+        }
+      );
       console.log({ user });
 
       if (error) {

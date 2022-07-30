@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { AnchorHTMLAttributes, type ReactNode } from "react";
 import {
   Box,
   Flex,
@@ -8,23 +8,59 @@ import {
   Stack,
   useColorMode,
   Heading,
+  useBreakpointValue,
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+  IconButton,
+  MenuDivider,
+  HStack,
+  Divider,
+  Text,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import BtnCart from "./BtnCart";
 import { useAuth } from "lib/context/AuthContext";
 import { useRouter } from "next/router";
+import HamburgerBtn from "./HamburgerBtn";
+import { useCart } from "lib/context/CartContext";
 
-const NavLink = ({ children, href }: { children: ReactNode; href: string }) => (
-  <NextLink href={href} passHref>
-    <Link>{children}</Link>
-  </NextLink>
+const NavLink = ({
+  children,
+  href,
+  ...rest
+}: {
+  children: ReactNode;
+  href: string;
+  onClose?: () => void;
+} & AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <Box
+    onClick={() => {
+      rest.onClose?.();
+    }}
+  >
+    <NextLink {...rest} href={href} passHref>
+      <Link>
+        <Text>{children}</Text>
+      </Link>
+    </NextLink>
+  </Box>
 );
 
 export default function NavBar() {
+  const { cart } = useCart();
   const router = useRouter();
+  const isSmallScreen = useBreakpointValue({
+    base: true,
+    sx: true,
+    sm: false,
+    md: false,
+  });
   const { colorMode, toggleColorMode } = useColorMode();
   const { isAdmin, signOut, loggedIn } = useAuth();
+  const isCartHaveItem = cart.length > 0;
 
   return (
     <Box
@@ -49,8 +85,38 @@ export default function NavBar() {
             </NextLink>
           </Heading>
         </Box>
-        <Flex alignItems={"center"}>
-          <Stack direction={"row"} spacing={3}>
+        {isSmallScreen ? (
+          <HamburgerBtn>
+            {(onClose) => (
+              <Stack spacing={3} justifyContent="center" alignItems="center">
+                {isAdmin && <NavLink href="/addProduct">Add Product</NavLink>}
+                {isCartHaveItem && (
+                  <NavLink onClose={onClose} href="/checkout">
+                    Checkout
+                  </NavLink>
+                )}
+                <Divider />
+                <BtnCart closeFirstModal={onClose} />
+                <Button onClick={toggleColorMode}>
+                  {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (loggedIn) {
+                      signOut();
+                      onClose();
+                    } else {
+                      router.push("/signin");
+                    }
+                  }}
+                >
+                  {loggedIn ? "SignOut" : "Sign In"}
+                </Button>
+              </Stack>
+            )}
+          </HamburgerBtn>
+        ) : (
+          <HStack spacing={3}>
             {isAdmin && (
               <Box
                 display="flex"
@@ -61,17 +127,18 @@ export default function NavBar() {
                 <NavLink href="/addProduct">Add Product</NavLink>
               </Box>
             )}
-            {loggedIn ? (
-              <Button onClick={() => signOut()}>SignOut</Button>
-            ) : (
-              <Button onClick={() => router.push("signin")}>Sign In</Button>
-            )}
+            {isCartHaveItem && <NavLink href="/checkout">Checkout</NavLink>}
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
-          </Stack>
-        </Flex>
+            <Button
+              onClick={() => (loggedIn ? signOut() : router.push("signin"))}
+            >
+              {loggedIn ? "SignOut" : "Sign In"}
+            </Button>
+          </HStack>
+        )}
       </Flex>
     </Box>
   );

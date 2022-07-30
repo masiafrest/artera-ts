@@ -1,18 +1,12 @@
-import { type ReactNode, useRef } from "react";
-import {
-  Button,
-  useDisclosure,
-  Icon,
-  Box,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { useRef } from "react";
+import { Button, useDisclosure, Icon, Box } from "@chakra-ui/react";
 import { BsCart } from "react-icons/bs";
 import CartDrawer from "components/CartDrawer";
 import { useCart } from "lib/context/CartContext";
 
-type Props = {};
+type Props = { closeFirstModal?: () => void };
 
-export default function BtnCart({}: Props) {
+export default function BtnCart({ closeFirstModal }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { cart } = useCart();
 
@@ -21,6 +15,11 @@ export default function BtnCart({}: Props) {
   }, 0);
 
   const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleClose = () => {
+    onClose();
+    closeFirstModal?.();
+  };
 
   return (
     <Button ref={btnRef} onClick={onOpen} pos="relative">
@@ -44,7 +43,7 @@ export default function BtnCart({}: Props) {
       <CartDrawer
         disclosureProps={{
           isOpen,
-          onClose,
+          handleClose,
         }}
         ref={btnRef}
       />

@@ -24,13 +24,13 @@ import { useRouter } from "next/router";
 type Props = {
   disclosureProps: {
     isOpen: boolean;
-    onClose: () => void;
+    handleClose: () => void;
   };
 };
 
 const CartDrawer = forwardRef((props: Props, ref: any) => {
   const router = useRouter();
-  const { isOpen, onClose } = props.disclosureProps;
+  const { isOpen, handleClose: onClose } = props.disclosureProps;
   const { cart, getCartTotal } = useCart();
   const onCheckOut = () => {
     onClose();

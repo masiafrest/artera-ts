@@ -83,16 +83,17 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
             name="password"
             label="Contraseña"
           />
-          <FormControl id="tel" isRequired>
-            <FormLabel>Celular</FormLabel>
-            <Input {...register("tel")} type="tel" inputMode="decimal" />
-          </FormControl>
+
           <FormControl id="username" isRequired>
             <FormLabel>Nombre y apellido</FormLabel>
             <Input {...register("username")} />
           </FormControl>
           {!isAdmin && (
             <>
+              <FormControl id="tel" isRequired>
+                <FormLabel>Celular</FormLabel>
+                <Input {...register("tel")} type="tel" inputMode="decimal" />
+              </FormControl>
               <FormControl id="country" isRequired>
                 <FormLabel>Pais</FormLabel>
                 <Input {...register("country")} />

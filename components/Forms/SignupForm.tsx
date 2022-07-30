@@ -31,13 +31,12 @@ import InputPassword from "./InputPassword";
 const FORM_VALUES: ClientAddressAuthPayload = {
   email: "",
   password: "",
-  // confirmPassword: "",
   tel: "",
   username: "",
   lastname: "",
   isadmin: false,
   country: "Panamá",
-  address: "",
+  address: "Panamá",
 };
 
 type Props = {
@@ -64,10 +63,7 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
   return (
     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
       <Stack align={"center"}>
-        <Heading fontSize={"4xl"}>Sign in to your account</Heading>
-        <Text fontSize={"lg"} color={"gray.600"}>
-          to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
-        </Text>
+        <Heading fontSize={"4xl"}>Crear cuenta</Heading>
       </Stack>
       <Box
         as="form"
@@ -87,8 +83,8 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
             name="password"
             label="Contraseña"
           />
-          <FormControl id="tel">
-            <FormLabel>Telefono</FormLabel>
+          <FormControl id="tel" isRequired>
+            <FormLabel>Celular</FormLabel>
             <Input {...register("tel")} type="tel" inputMode="decimal" />
           </FormControl>
           <FormControl id="username" isRequired>
@@ -109,14 +105,14 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
           )}
 
           <Stack spacing={10}>
-            <Stack
+            {/* <Stack
               direction={{ base: "column", sm: "row" }}
               align={"start"}
               justify={"space-between"}
             >
               <Checkbox>Remember me</Checkbox>
               <Link color={"blue.400"}>Forgot password?</Link>
-            </Stack>
+            </Stack> */}
             <Button
               type="submit"
               bg={"blue.400"}
@@ -125,14 +121,14 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
                 bg: "blue.500",
               }}
             >
-              Sign in
+              Continuar
             </Button>
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              ¿No tienes cuenta todavia?{" "}
+              ¿Ya tienes cuenta?{" "}
               <NextLink href={"/signup"} passHref>
-                <Link color={"blue.400"}>Registrate aqui</Link>
+                <Link color={"blue.400"}>Inicia sesión aqui</Link>
               </NextLink>
             </Text>
           </Stack>

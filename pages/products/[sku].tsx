@@ -46,9 +46,11 @@ export default function Product({ product }: Props) {
     imagenes,
     caracteristica,
   } = product;
-  let parseCaracteristica = caracteristica
+  const parseCaracteristica = caracteristica
     ?.split(";")
     .map((c) => c.trim().split(":"));
+
+  console.log({ parseCaracteristica, caracteristica });
 
   let slides = getUrlSlides(imagenes);
 
@@ -101,18 +103,18 @@ export default function Product({ product }: Props) {
               />
             }
           >
-            <Box>
-              <Text
-                fontSize={{ base: "16px", lg: "18px" }}
-                color={useColorModeValue("yellow.500", "yellow.300")}
-                fontWeight={"500"}
-                textTransform={"uppercase"}
-                mb={"4"}
-              >
-                Product Details
-              </Text>
-              {caracteristica &&
-                parseCaracteristica?.map((c) => (
+            {caracteristica && (
+              <Box>
+                <Text
+                  fontSize={{ base: "16px", lg: "18px" }}
+                  color={useColorModeValue("yellow.500", "yellow.300")}
+                  fontWeight={"500"}
+                  textTransform={"uppercase"}
+                  mb={"4"}
+                >
+                  Detalles del producto
+                </Text>
+                {parseCaracteristica?.map((c) => (
                   <List key={c[0] + c[1]} spacing={2}>
                     <ListItem>
                       <Text as={"span"} fontWeight={"bold"}>
@@ -122,19 +124,8 @@ export default function Product({ product }: Props) {
                     </ListItem>
                   </List>
                 ))}
-            </Box>
-            <Box>
-              <Text
-                fontSize={{ base: "16px", lg: "18px" }}
-                color={useColorModeValue("yellow.500", "yellow.300")}
-                fontWeight={"500"}
-                textTransform={"uppercase"}
-                mb={"4"}
-              >
-                Cuidados a cosiderar
-              </Text>
-              <Text fontSize={"lg"}>{descripcion}</Text>
-            </Box>
+              </Box>
+            )}
           </Stack>
 
           <Button
@@ -152,12 +143,12 @@ export default function Product({ product }: Props) {
             }}
             onClick={() => addToCart(product)}
           >
-            Add to cart
+            Agregar al carrito
           </Button>
 
           <Stack direction="row" alignItems="center" justifyContent={"center"}>
             <MdLocalShipping />
-            <Text>7 business days delivery</Text>
+            <Text>Entrega aproximada en 7 días</Text>
           </Stack>
         </Stack>
       </SimpleGrid>

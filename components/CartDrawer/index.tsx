@@ -13,10 +13,10 @@ import {
   VStack,
   StackDivider,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
 import DrawerCard from "./DrawerCard";
-
-import { toCurrency } from "lib/utils";
+import { BsCart } from "react-icons/bs";
 
 import { useCart } from "lib/context/CartContext";
 import { useRouter } from "next/router";
@@ -47,13 +47,21 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Cart</DrawerHeader>
+        <DrawerHeader>
+          <HStack gap="2">
+            <BsCart />
+            <Text>Tu Carrito de compra</Text>
+          </HStack>
+        </DrawerHeader>
+        <Divider />
         <DrawerBody>
           <VStack divider={<StackDivider />} spacing={4}>
             {cart.length > 0 ? (
               cart.map((e) => <DrawerCard key={e.sku} {...e} />)
             ) : (
-              <Text align="center">No product added to the cart</Text>
+              <Text align="center">
+                No tienes ningún artículo en tu carrito de compras.
+              </Text>
             )}
           </VStack>
         </DrawerBody>
@@ -68,7 +76,7 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
             disabled={cart.length === 0}
             onClick={onCheckOut}
           >
-            Checkout
+            Continuar
           </Button>
         </DrawerFooter>
       </DrawerContent>

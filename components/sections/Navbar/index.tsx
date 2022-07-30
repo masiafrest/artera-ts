@@ -60,7 +60,7 @@ export default function NavBar() {
   });
   const { colorMode, toggleColorMode } = useColorMode();
   const { isAdmin, signOut, loggedIn } = useAuth();
-  const isCartHaveItem = cart.length > 0;
+  // const isCartHaveItem = cart.length > 0;
 
   return (
     <Box
@@ -90,11 +90,11 @@ export default function NavBar() {
             {(onClose) => (
               <Stack spacing={3} justifyContent="center" alignItems="center">
                 {isAdmin && <NavLink href="/addProduct">Add Product</NavLink>}
-                {isCartHaveItem && (
+                {/* {isCartHaveItem && (
                   <NavLink onClose={onClose} href="/checkout">
-                    Checkout
+                    Pedido
                   </NavLink>
-                )}
+                )} */}
                 <Divider />
                 <BtnCart closeFirstModal={onClose} />
                 <Button onClick={toggleColorMode}>
@@ -110,7 +110,7 @@ export default function NavBar() {
                     }
                   }}
                 >
-                  {loggedIn ? "SignOut" : "Sign In"}
+                  {loggedIn ? "Cerrar sesión" : "Ingresar"}
                 </Button>
               </Stack>
             )}
@@ -127,7 +127,9 @@ export default function NavBar() {
                 <NavLink href="/addProduct">Add Product</NavLink>
               </Box>
             )}
-            {isCartHaveItem && <NavLink href="/checkout">Checkout</NavLink>}
+            {/* {isCartHaveItem && (
+              <NavLink href="/checkout">Confirmar pedidos</NavLink>
+            )} */}
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
@@ -135,7 +137,7 @@ export default function NavBar() {
             <Button
               onClick={() => (loggedIn ? signOut() : router.push("signin"))}
             >
-              {loggedIn ? "SignOut" : "Sign In"}
+              {loggedIn ? "Cerrar sesión" : "Ingresar"}
             </Button>
           </HStack>
         )}

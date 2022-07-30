@@ -50,7 +50,7 @@ export default function SignInForm({ options }: Props) {
       {" "}
       <Stack spacing={4}>
         <FormControl id="email" isRequired>
-          <FormLabel>Email address</FormLabel>
+          <FormLabel>Correo electronico</FormLabel>
           <Input
             name="email"
             type="email"
@@ -59,7 +59,7 @@ export default function SignInForm({ options }: Props) {
           />
         </FormControl>
         <FormControl id="password" isRequired>
-          <FormLabel>Password</FormLabel>
+          <FormLabel>Contraseña</FormLabel>
           <Input
             name="password"
             type="password"
@@ -68,14 +68,14 @@ export default function SignInForm({ options }: Props) {
           />
         </FormControl>
         <Stack spacing={10}>
-          <Stack
+          {/* <Stack
             direction={{ base: "column", sm: "row" }}
             align={"start"}
             justify={"space-between"}
           >
             <Checkbox>Remember me</Checkbox>
             <Link color={"blue.400"}>Forgot password?</Link>
-          </Stack>
+          </Stack> */}
           <Button
             type="submit"
             bg={"blue.400"}
@@ -84,7 +84,7 @@ export default function SignInForm({ options }: Props) {
               bg: "blue.500",
             }}
           >
-            Sign in
+            Continuar
           </Button>
         </Stack>
         <Stack pt={6}>

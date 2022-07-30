@@ -10,6 +10,7 @@ import {
   HStack,
   Flex,
   Button,
+  Center,
 } from "@chakra-ui/react";
 import { FiShoppingCart } from "react-icons/fi";
 
@@ -119,11 +120,7 @@ export default function Checkout({}: Props) {
   return (
     <Container maxWidth="7xl" mt="3">
       <Flex gap="3" wrap="wrap" alignContent="center" justifyContent="center">
-        <Stack
-          borderWidth="1px"
-          borderRadius="lg"
-          minW="-webkit-fill-available"
-        >
+        <Stack borderWidth="1px" borderRadius="lg" maxW="600px" flex="1">
           <Box bg={useColorModeValue("gray.200", "gray.700")}>
             <HStack margin="3">
               <Icon as={FiShoppingCart} alignSelf="center" />
@@ -132,44 +129,27 @@ export default function Checkout({}: Props) {
           </Box>
           <TableProductDetails />
         </Stack>
-        <Stack
-          borderWidth="1px"
-          borderRadius="lg"
-          minW="-webkit-fill-available"
-        >
+        <Stack borderWidth="1px" borderRadius="lg" maxW="600px">
           <Box bg={useColorModeValue("gray.200", "gray.700")}>
             <HStack margin="3">
-              <Icon as={FiShoppingCart} alignSelf="center" />
               <Text>Ultimo paso</Text>
             </HStack>
           </Box>
-          {loggedIn ? (
-            <>
-              <Container centerContent>
-                <Text>
-                  al dar aceptar y revisar el carrito de compras nos pondremos
-                  en contacto con usted.
-                </Text>
-              </Container>
-              <HStack>
-                <Button onClick={onCheckOut}>Aceptar</Button>
-                <Button>Cancelar</Button>
-              </HStack>
-            </>
-          ) : (
-            <Container centerContent p="3">
-              <Text>
-                Para poder contactarlo necesitamo su informacion, puedes
-                ingresar o registrarte si no tienes cuenta todavia!.
-              </Text>
-              <HStack>
-                <Button
-                  onClick={() => {
-                    router.push("/signin");
-                  }}
-                >
-                  Ingresar
-                </Button>
+          <Stack alignItems="center" p="3" justifyContent="center">
+            <Text>
+              {loggedIn
+                ? "Al dar aceptar y revisar el carrito de compras nos pondremos en contacto con usted."
+                : "Para poder contactarlo necesitamo su informacion, puedes ingresar o registrarte si no tienes cuenta todavia!."}
+            </Text>
+            <HStack>
+              <Button
+                onClick={() => {
+                  loggedIn ? onCheckOut() : router.push("/signin");
+                }}
+              >
+                {loggedIn ? "Aceptar" : "Ingresar"}
+              </Button>
+              {!loggedIn && (
                 <Button
                   onClick={() => {
                     router.push("/signup");
@@ -177,9 +157,9 @@ export default function Checkout({}: Props) {
                 >
                   Registrar
                 </Button>
-              </HStack>
-            </Container>
-          )}
+              )}
+            </HStack>
+          </Stack>
         </Stack>
       </Flex>
     </Container>

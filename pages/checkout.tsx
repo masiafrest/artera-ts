@@ -19,6 +19,7 @@ import { useCart } from "lib/context/CartContext";
 import TableProductDetails from "components/TableProductDetails";
 import { useAuth } from "lib/context/AuthContext";
 import { useRouter } from "next/router";
+import { toCurrency } from "lib/utils";
 
 type Props = {};
 
@@ -29,28 +30,91 @@ export default function Checkout({}: Props) {
   const { loggedIn, user } = useAuth();
 
   const onCheckOut = () => {
-    axios
-      .post<CartProductDetailInterface[]>("/api/sendEmail", {
-        cart,
-        user: user?.user_metadata,
-      })
-      .then((data) => {
-        console.log({ data });
-        resetCart();
-        toast({
-          title: "Mensaje enviado con exito",
-          description: "Te vamos a contactar pronto",
-          status: "success",
+    const service_id = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const template_id = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const user_id = process.env.NEXT_PUBLIC_EMAILJS_PK;
+
+    if (service_id && template_id && user_id) {
+      const table = `
+      <table>
+        <thead>
+          <tr>
+            <th>Descripcion</th>
+            <th>qty</th>
+            <th>precio</th>
+            <th>total</th>
+          </tr>
+        </thead>
+        <tbody>
+            ${cart.map(
+              (e) => `
+                <tr>
+                  <td>
+                    ${e.descripcion}
+                  </td>
+                  <td>
+                    ${e.qty}
+                  </td>
+                  <td>
+                    ${toCurrency(e.precio)}
+                  </td>
+                  <td>
+                    ${toCurrency(Number(e.precio) * e.qty)}
+                  </td>
+                </tr>
+              `
+            )}
+        </tbody>
+        <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td> Total: </td>
+              <td> ${getCartTotal()}</td>
+            </tr>
+        </tfoot>
+      </table>
+  `;
+      const template_params = {
+        from_name: user?.user_metadata.username,
+        client_phone: user?.user_metadata.tel,
+        client_email: user?.email,
+        message: "user data: " + JSON.stringify(user?.user_metadata),
+        table,
+      };
+
+      var data = {
+        service_id,
+        template_id,
+        user_id,
+        template_params,
+      };
+
+      axios
+        .post("https://api.emailjs.com/api/v1.0/email/send", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res: any) => {
+          console.log("res", res);
+          //     // resetCart();
+          toast({
+            title: "Mensaje enviado con exito",
+            description: "Te vamos a contactar pronto",
+            status: "success",
+          });
+        })
+        .catch((err) => {
+          console.log("err", err);
+
+          toast({
+            title: "Hubo un problema en la conexion",
+            description: "Intentelo mas tarde",
+            status: "error",
+          });
         });
-      })
-      .catch((err) => {
-        toast({
-          title: "Hubo un problema en la conexion",
-          description: "Intentelo mas tarde",
-          status: "error",
-        });
-        console.log({ err });
-      });
+    }
   };
   return (
     <Container maxWidth="7xl" mt="3">

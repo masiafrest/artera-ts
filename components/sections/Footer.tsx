@@ -62,7 +62,10 @@ export default function SmallWithSocial() {
       >
         <Text>© 2022 Arterra. All rights reserved</Text>
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Instagram"} href={"#"}>
+          <SocialButton
+            label={"Instagram"}
+            href={"https://www.instagram.com/arterra_pty"}
+          >
             <FaInstagram />
           </SocialButton>
         </Stack>

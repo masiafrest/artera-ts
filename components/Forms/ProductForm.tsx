@@ -30,7 +30,6 @@ import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import { DevTool } from "@hookform/devtools";
 
 interface ProductFormData {
-  imagen: string | null;
   imagenes?: string[];
   fileImgs?: FileWithPreview[];
   descripcion: string;

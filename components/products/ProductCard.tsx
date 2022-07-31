@@ -42,7 +42,7 @@ interface Props {
 }
 
 export default function ProductCard({ product, onDelete }: Props) {
-  const { sku, imagen, descripcion, precio, oldprice, imagenes, id } = product;
+  const { sku, descripcion, precio, oldprice, imagenes, id } = product;
   const { addToCart } = useCart();
   const { isAdmin } = useAuth();
 

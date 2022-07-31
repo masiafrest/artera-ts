@@ -37,15 +37,8 @@ export default function Product({ product }: Props) {
   const toast = useToast();
   const { setCart, addToCart } = useCart();
 
-  const {
-    descripcion,
-    imagen,
-    sku,
-    precio,
-    oldprice,
-    imagenes,
-    caracteristica,
-  } = product;
+  const { descripcion, sku, precio, oldprice, imagenes, caracteristica } =
+    product;
   const parseCaracteristica = caracteristica
     ?.split(";")
     .map((c) => c.trim().split(":"));

@@ -30,7 +30,6 @@ import ProductForm from "components/Forms/ProductForm";
 
 const defaultValues: ProductDetailInterface = {
   descripcion: "",
-  imagen: "",
   precio: "1.00",
   sku: "",
   fileImgs: [],

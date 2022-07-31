@@ -97,12 +97,11 @@ const uploadProduct = async ({
   product: ProductDetailInterface;
   imgPaths: string[];
 }) => {
-  const { descripcion, precio, sku, imagen, caracteristica } = product;
+  const { descripcion, precio, sku, caracteristica } = product;
   const { error } = await supabase.from("products").insert({
     descripcion,
     precio,
     sku,
-    imagen,
     imagenes: imgPaths,
     caracteristica,
   });
@@ -118,14 +117,13 @@ const editProdut = async ({
   product: ProductDetailInterface;
   imgPaths: string[];
 }) => {
-  const { descripcion, precio, sku, imagen, id, caracteristica } = product;
+  const { descripcion, precio, sku, id, caracteristica } = product;
   const { error } = await supabase
     .from("products")
     .update({
       descripcion,
       precio,
       sku,
-      imagen,
       caracteristica,
       imagenes: imgPaths,
     })

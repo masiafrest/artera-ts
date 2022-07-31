@@ -89,12 +89,19 @@ export default function NavBar() {
           <HamburgerBtn>
             {(onClose) => (
               <Stack spacing={3} justifyContent="center" alignItems="center">
-                {isAdmin && <NavLink href="/addProduct">Add Product</NavLink>}
+                {isAdmin && (
+                  <NavLink onClose={onClose} href="/addProduct">
+                    Add Product
+                  </NavLink>
+                )}
                 {/* {isCartHaveItem && (
                   <NavLink onClose={onClose} href="/checkout">
                     Pedido
                   </NavLink>
                 )} */}
+                <NavLink onClose={onClose} href="/faq">
+                  F.A.Q
+                </NavLink>
                 <Divider />
                 <BtnCart closeFirstModal={onClose} />
                 <Button onClick={toggleColorMode}>
@@ -106,6 +113,7 @@ export default function NavBar() {
                       signOut();
                       onClose();
                     } else {
+                      onClose();
                       router.push("/signin");
                     }
                   }}
@@ -130,6 +138,7 @@ export default function NavBar() {
             {/* {isCartHaveItem && (
               <NavLink href="/checkout">Confirmar pedidos</NavLink>
             )} */}
+            <NavLink href="/faq">F.A.Q</NavLink>
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

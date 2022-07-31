@@ -7,35 +7,54 @@ import {
   Box,
   Container,
   Heading,
+  Icon,
+  ListItem,
   Text,
+  UnorderedList,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { ReactNode } from "react";
+import { FcFaq } from "react-icons/fc";
 
 type Props = {};
 
 export default function Faq({}: Props) {
   return (
     <Container maxW="container.lg" mt="3">
-      <Heading>FAQ</Heading>
+      <Heading>
+        {/* <Icon>
+          <FcFaq />
+        </Icon>{" "} */}
+        FAQ
+      </Heading>
       <Text>Preguntas Frequentes</Text>
 
       <Accordion mt="3">
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left">
-                Section 1 title
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </AccordionPanel>
-        </AccordionItem>
+        <AccordionItems title="Cuidado a considerar">
+          <UnorderedList>
+            <ListItem>
+              Cada artículo está sellado con cera, la cual lo protege del agua y
+              calor.
+            </ListItem>
+            <ListItem>
+              Limpie con un paño húmedo. Evite los limpiadores abrasivos.
+              Recomendamos limpiar cualquier derrame lo antes posible.
+            </ListItem>
+            <ListItem>Solamente para uso en interiores.</ListItem>
+            <ListItem>No apto para lavavajillas (dishwashers).</ListItem>
+            <ListItem>Manipular con cuidado para evitar daños.</ListItem>
+            <ListItem>
+              Cada pieza está hecha a mano por nosotras, por lo tanto, cada
+              artículo es completamente único y los colores pueden variar
+              ligeramente de las fotos.
+            </ListItem>
+            <ListItem>
+              Es posible que se produzcan pequeñas burbujas de aire debido a la
+              naturaleza del material y modo de fabricación. Hacemos todo lo
+              posible para minimizarlas en la medida de lo posible.
+            </ListItem>
+          </UnorderedList>
+        </AccordionItems>
       </Accordion>
     </Container>
   );
@@ -43,22 +62,24 @@ export default function Faq({}: Props) {
 
 const AccordionItems = ({
   title,
-  description,
+  children,
 }: {
   title: string;
-  description: string;
+  children: ReactNode;
 }) => {
   return (
     <AccordionItem>
       <h2>
-        <AccordionButton>
+        <AccordionButton
+          _expanded={{ bg: useColorModeValue("gray.200", "gray.700") }}
+        >
           <Box flex="1" textAlign="left">
             {title}
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel pb={4}>{description}</AccordionPanel>
+      <AccordionPanel pb={4}>{children}</AccordionPanel>
     </AccordionItem>
   );
 };

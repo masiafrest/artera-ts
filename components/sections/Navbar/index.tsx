@@ -64,7 +64,7 @@ export default function NavBar() {
 
   return (
     <Box
-      bg={useColorModeValue("gray.200", "gray.700")}
+      bg={useColorModeValue("arterra.100", "arterra.300")}
       px={4}
       width="100%"
       zIndex="10"

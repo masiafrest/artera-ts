@@ -87,7 +87,7 @@ export default function ProductForm({
       // minH={"calc(100vh - 4rem)"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      // bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack
         as="form"
@@ -95,7 +95,7 @@ export default function ProductForm({
         spacing={4}
         w={"full"}
         maxW={"md"}
-        bg={useColorModeValue("white", "gray.700")}
+        // bg={useColorModeValue("white", "gray.700")}
         rounded={"xl"}
         boxShadow={"lg"}
         p={6}

@@ -34,7 +34,7 @@ export default function SignUp() {
     <Flex
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      // bg={useColorModeValue("gray.50", "gray.800")}
       height="full"
     >
       <SignUpForm isAdmin />

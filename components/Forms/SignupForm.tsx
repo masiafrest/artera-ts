@@ -69,7 +69,7 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
         as="form"
         onSubmit={handleSubmit(onSubmit)}
         rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
+        // bg={useColorModeValue("white", "gray.700")}
         boxShadow={"lg"}
         p={8}
       >

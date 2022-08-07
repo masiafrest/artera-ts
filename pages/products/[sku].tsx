@@ -127,8 +127,8 @@ export default function Product({ product }: Props) {
             mt={8}
             size={"lg"}
             py={"7"}
-            bg={useColorModeValue("gray.900", "gray.50")}
-            color={useColorModeValue("white", "gray.900")}
+            // bg={useColorModeValue("gray.900", "gray.50")}
+            // color={useColorModeValue("white", "gray.900")}
             textTransform={"uppercase"}
             _hover={{
               transform: "translateY(2px)",

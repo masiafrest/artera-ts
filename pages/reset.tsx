@@ -38,7 +38,7 @@ export default function Reset({}: Props) {
     <Flex
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      // bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -51,7 +51,7 @@ export default function Reset({}: Props) {
           as="form"
           onSubmit={handleSubmit}
           rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
+          // bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
           p={8}
         >

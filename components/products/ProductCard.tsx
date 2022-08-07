@@ -61,7 +61,7 @@ export default function ProductCard({ product, onDelete }: Props) {
       <Center>
         <Flex w="full" alignItems="center" justifyContent="center">
           <Box
-            bg={useColorModeValue("white", "gray.800")}
+            // bg={useColorModeValue("white", "gray.800")}
             maxW="xs"
             borderWidth="1px"
             rounded="lg"

@@ -43,7 +43,7 @@ export default function SignInForm({ options }: Props) {
       as="form"
       onSubmit={handleSubmit}
       rounded={"lg"}
-      bg={useColorModeValue("white", "gray.700")}
+      // bg={useColorModeValue("white", "gray.700")}
       boxShadow={"lg"}
       p={8}
     >

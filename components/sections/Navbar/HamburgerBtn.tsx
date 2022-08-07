@@ -33,7 +33,7 @@ export default function HamburgerBtn({ children }: Props) {
       </Button>
       <Drawer onClose={onClose} isOpen={isOpen} size={"xs"}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg={useColorModeValue("arterra.100", "arterra.300")}>
           <DrawerCloseButton />
           <DrawerHeader>
             <Heading>Arterra</Heading>

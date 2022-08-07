@@ -120,7 +120,9 @@ export default function Checkout({}: Props) {
     <Container maxWidth="7xl" mt="3">
       <Flex gap="3" wrap="wrap" alignContent="center" justifyContent="center">
         <Stack borderWidth="1px" borderRadius="lg" maxW="600px" flex="1">
-          <Box bg={useColorModeValue("gray.200", "gray.700")}>
+          <Box
+          //  bg={useColorModeValue("gray.200", "gray.700")}
+          >
             <HStack margin="3">
               <Icon as={FiShoppingCart} alignSelf="center" />
               <Text>Carrito de compras</Text>
@@ -129,7 +131,9 @@ export default function Checkout({}: Props) {
           <TableProductDetails />
         </Stack>
         <Stack borderWidth="1px" borderRadius="lg" maxW="600px">
-          <Box bg={useColorModeValue("gray.200", "gray.700")}>
+          <Box
+          //  bg={useColorModeValue("gray.200", "gray.700")}
+          >
             <HStack margin="3">
               <Text>Ultimo paso</Text>
             </HStack>

@@ -7,7 +7,8 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from "react-slick";
 
@@ -29,17 +30,27 @@ const cards = [
   {
     title: "Design Projects 1",
     text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-    image: "https://drive.google.com/uc?id=14yz6VWJc73kmD4tnh-cT671Ks8UPdXFD",
+    image: "https://drive.google.com/uc?id=1Sn8wxQ2ZFGy6Pb7PFnQuLinmedk9f1DF",
   },
   {
     title: "Design Projects 2",
     text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-    image: "https://drive.google.com/uc?id=14yz6VWJc73kmD4tnh-cT671Ks8UPdXFD",
+    image: "https://drive.google.com/uc?id=1LdFrBZrhrBXF8iRNTzrGktvphs2kEgcr",
   },
   {
     title: "Design Projects 3",
     text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-    image: "https://drive.google.com/uc?id=11-Fo3fBPpeukFVplr1369Udiy8fjuEh9",
+    image: "https://drive.google.com/uc?id=1XTnsW9scs7Ogu2FT59zzsJ_jNhwAQUN1",
+  },
+  {
+    title: "Design Projects 3",
+    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    image: "https://drive.google.com/uc?id=1Y8UVfLt3lZrkKQszHcOIRMmVOaGdZU32",
+  },
+  {
+    title: "Design Projects 3",
+    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    image: "https://drive.google.com/uc?id=1MAvX4S59cNZ4HBA2bj6NiNOXzXm8JR8A",
   },
 ];
 

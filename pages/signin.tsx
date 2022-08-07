@@ -14,7 +14,7 @@ export default function SignIn() {
     <Flex
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      // bg={useColorModeValue("gray.50", "gray.800")}
       height="full"
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>

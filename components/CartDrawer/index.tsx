@@ -14,6 +14,7 @@ import {
   StackDivider,
   useToast,
   HStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import DrawerCard from "./DrawerCard";
 import { BsCart } from "react-icons/bs";
@@ -45,7 +46,7 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
       size="sm"
     >
       <DrawerOverlay />
-      <DrawerContent>
+      <DrawerContent bg={useColorModeValue("arterra.100", "arterra.300")}>
         <DrawerCloseButton />
         <DrawerHeader>
           <HStack gap="2">

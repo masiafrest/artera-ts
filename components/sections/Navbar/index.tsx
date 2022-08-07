@@ -18,6 +18,7 @@ import {
   HStack,
   Divider,
   Text,
+  Spacer,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
@@ -67,89 +68,99 @@ export default function NavBar() {
       bg={useColorModeValue("arterra.100", "arterra.300")}
       px={4}
       width="100%"
-      zIndex="10"
+      // los btn editar es 1399 de chakra
+      zIndex="1400"
       position="sticky"
       top={0}
     >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <Box>
-          <Heading>
+        <Box flex="1 1 33%"></Box>
+        <Box flex="1 1 33%">
+          <Heading fontWeight="extrabold" textAlign="center">
             <NextLink href="/" passHref>
               <Link
                 _hover={{
                   textDecoration: "none",
                 }}
               >
-                Arterra
+                ARTERRA
               </Link>
             </NextLink>
           </Heading>
         </Box>
-        {isSmallScreen ? (
-          <HamburgerBtn>
-            {(onClose) => (
-              <Stack spacing={3} justifyContent="center" alignItems="center">
-                {isAdmin && (
-                  <NavLink onClose={onClose} href="/addProduct">
-                    Add Product
-                  </NavLink>
-                )}
-                {/* {isCartHaveItem && (
+        <Box flex="1 1 33%">
+          {isSmallScreen ? (
+            <Flex justifyContent="flex-end">
+              <HamburgerBtn>
+                {(onClose) => (
+                  <Stack
+                    spacing={3}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    {isAdmin && (
+                      <NavLink onClose={onClose} href="/addProduct">
+                        Add Product
+                      </NavLink>
+                    )}
+                    {/* {isCartHaveItem && (
                   <NavLink onClose={onClose} href="/checkout">
                     Pedido
                   </NavLink>
                 )} */}
-                <NavLink onClose={onClose} href="/faqs">
-                  F.A.Q
-                </NavLink>
-                <Divider />
-                <BtnCart closeFirstModal={onClose} />
-                <Button onClick={toggleColorMode}>
+                    <NavLink onClose={onClose} href="/faqs">
+                      F.A.Q
+                    </NavLink>
+                    <Divider />
+                    <BtnCart closeFirstModal={onClose} />
+                    {/* <Button onClick={toggleColorMode}>
                   {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-                </Button>
-                <Button
-                  onClick={() => {
-                    if (loggedIn) {
-                      signOut();
-                      onClose();
-                    } else {
-                      onClose();
-                      router.push("/signin");
-                    }
-                  }}
+                </Button> */}
+                    <Button
+                      onClick={() => {
+                        if (loggedIn) {
+                          signOut();
+                          onClose();
+                        } else {
+                          onClose();
+                          router.push("/signin");
+                        }
+                      }}
+                    >
+                      {loggedIn ? "Cerrar sesión" : "Ingresar"}
+                    </Button>
+                  </Stack>
+                )}
+              </HamburgerBtn>
+            </Flex>
+          ) : (
+            <HStack spacing={3} justifyContent="flex-end">
+              {isAdmin && (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  gap="1rem"
                 >
-                  {loggedIn ? "Cerrar sesión" : "Ingresar"}
-                </Button>
-              </Stack>
-            )}
-          </HamburgerBtn>
-        ) : (
-          <HStack spacing={3}>
-            {isAdmin && (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                gap="1rem"
-              >
-                <NavLink href="/addProduct">Add Product</NavLink>
-              </Box>
-            )}
-            {/* {isCartHaveItem && (
+                  <NavLink href="/addProduct">Add Product</NavLink>
+                </Box>
+              )}
+              {/* {isCartHaveItem && (
               <NavLink href="/checkout">Confirmar pedidos</NavLink>
             )} */}
-            <NavLink href="/faqs">F.A.Q</NavLink>
-            <BtnCart />
-            <Button onClick={toggleColorMode}>
-              {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-            </Button>
-            <Button
-              onClick={() => (loggedIn ? signOut() : router.push("signin"))}
-            >
-              {loggedIn ? "Cerrar sesión" : "Ingresar"}
-            </Button>
-          </HStack>
-        )}
+              <NavLink href="/faqs">F.A.Q</NavLink>
+              <BtnCart />
+              {/* <Button onClick={toggleColorMode}>
+                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              </Button> */}
+              <Button
+                onClick={() => (loggedIn ? signOut() : router.push("signin"))}
+              >
+                {loggedIn ? "Cerrar sesión" : "Ingresar"}
+              </Button>
+            </HStack>
+          )}
+        </Box>
       </Flex>
     </Box>
   );

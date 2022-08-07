@@ -4,6 +4,7 @@ import {
   type ThemeConfig,
 } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
+import "@fontsource/noto-serif";
 
 const config: ThemeConfig = {
   initialColorMode: "light",
@@ -12,6 +13,10 @@ const config: ThemeConfig = {
 
 const theme = extendTheme({
   config,
+  fonts: {
+    heading: "Noto Serif",
+    body: "Noto Serif",
+  },
   colors: {
     arterra: {
       100: "#e8e4d9",
@@ -26,6 +31,15 @@ const theme = extendTheme({
       body: {
         bg: mode("arterra.100", "arterra.400")(props),
         // color: mode("arterra.400", "arterra.100")(props),
+        borderColor: mode("arterra.400", "arterra.100")(props),
+        // accentColor: mode("arterra.400", "arterra.100")(props),
+      },
+      "*::placeholder": {
+        color: mode("arterra.400", "arterra.100")(props),
+      },
+      "*, *::before, &::after,": {
+        borderColor: mode("arterra.200", "arterra.100")(props),
+        // wordWrap: "break-word",
       },
     }),
   },

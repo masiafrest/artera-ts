@@ -11,6 +11,12 @@ type LayoutProps = {
 export function Layout({ children }: LayoutProps) {
   return (
     <Flex height="100vh" flexDirection="column">
+      {/* <Box
+        flex="
+      1 1 auto"
+      >
+        <NavBar />
+      </Box> */}
       <NavBar />
       <Box
         flex="

@@ -67,7 +67,10 @@ export default function Faqs({}: Props) {
 
   const handleClose = () => {
     onClose();
-    isEdit && setIsEdit(false);
+    if (isEdit) {
+      setIsEdit(false);
+      setFaqToEdit(undefined);
+    }
   };
 
   const handleSubmit = async (data: Faq | FaqWithId) => {
@@ -78,7 +81,6 @@ export default function Faqs({}: Props) {
           description: `Faq modificado`,
           status: "success",
         });
-        setFaqToEdit(undefined);
         handleClose();
         const faqIdx = faqs.findIndex((e) => e.id === data.id);
         setFaqs((oldFaq) => {
@@ -183,7 +185,9 @@ const ModalFaqsForm = ({
     if (isEdit && faq) {
       const { title, description } = faq;
       setFaqForm({ title, description });
+      return;
     }
+    setFaqForm({ title: "", description: "" });
   }, [isEdit]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -260,7 +264,7 @@ const AccordionItems = ({
   const { isAdmin } = useAuth();
   const { title, description } = faq;
 
-  const onClickEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickEdit = () => {
     onEditHandle(faq);
   };
   const onClickDel = () => {
@@ -278,12 +282,8 @@ const AccordionItems = ({
               <Text>{title}</Text>
               {isAdmin && (
                 <>
-                  <IconButton aria-label="edit faq" onClick={onClickEdit}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton aria-label="edit faq" onClick={onClickDel}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <EditIcon onClick={onClickEdit} />
+                  <DeleteIcon onClick={onClickDel} />
                 </>
               )}
             </HStack>

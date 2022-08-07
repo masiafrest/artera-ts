@@ -47,7 +47,7 @@ export default function DrawerCard({
   };
 
   return (
-    <HStack h="full" spacing="7">
+    <HStack h="full" w="full" justifyContent="space-between">
       <Image
         rounded={"lg"}
         height={135}
@@ -56,25 +56,34 @@ export default function DrawerCard({
         src={"/images/vasija_card.webp"}
         alt="img"
       />
-      <VStack align="start">
-        <Text>{descripcion}</Text>
-        <Text>Precio: {toCurrency(precio)}</Text>
-        <Text>Total: {toCurrency(Number(precio) * qty)}</Text>
+      <VStack
+        align="start"
+        flexGrow="1"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <HStack justifyContent="space-between">
+          <VStack>
+            <Text>{descripcion}</Text>
+            <Text>Precio: {toCurrency(precio)}</Text>
+            <Text>Total: {toCurrency(Number(precio) * qty)}</Text>
+          </VStack>
+          <Box h="20">
+            <IconButton
+              aria-label="delete item"
+              icon={<CloseIcon />}
+              onClick={(e) => {
+                setCart((prevCart) => prevCart.filter((c) => c.sku !== sku));
+              }}
+            />
+          </Box>
+        </HStack>
         <HStack maxW="36">
           <Button onClick={onClickMore}>+</Button>
           <Input value={qty} min={1} readOnly />
           <Button onClick={onClickLess}>-</Button>
         </HStack>
       </VStack>
-      <Box h="20">
-        <IconButton
-          aria-label="delete item"
-          icon={<CloseIcon />}
-          onClick={(e) => {
-            setCart((prevCart) => prevCart.filter((c) => c.sku !== sku));
-          }}
-        />
-      </Box>
     </HStack>
   );
 }

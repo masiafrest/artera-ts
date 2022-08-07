@@ -241,7 +241,7 @@ const ModalFaqsForm = ({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" colorScheme="blue" mr={3}>
+            <Button type="submit" mr={3}>
               {isEdit ? "Modificar" : "Guardar"}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
@@ -275,7 +275,7 @@ const AccordionItems = ({
     <AccordionItem>
       <h2>
         <AccordionButton
-          _expanded={{ bg: useColorModeValue("gray.200", "gray.700") }}
+          _expanded={{ bg: useColorModeValue("arterra.200", "arterra.400") }}
         >
           <Box flex="1" textAlign="left">
             <HStack>

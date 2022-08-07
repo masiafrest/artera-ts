@@ -56,7 +56,7 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
         </DrawerHeader>
         <Divider />
         <DrawerBody>
-          <VStack divider={<StackDivider />} spacing={4}>
+          <VStack divider={<StackDivider />} spacing={2}>
             {cart.length > 0 ? (
               cart.map((e) => <DrawerCard key={e.sku} {...e} />)
             ) : (
@@ -70,7 +70,6 @@ const CartDrawer = forwardRef((props: Props, ref: any) => {
         <Divider />
         <DrawerFooter style={{ display: "flex", justifyContent: "center" }}>
           <Button
-            colorScheme="blue"
             w={"full"}
             fontWeight="bold"
             fontSize="large"

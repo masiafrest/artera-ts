@@ -15,15 +15,17 @@ const theme = extendTheme({
   colors: {
     arterra: {
       100: "#e8e4d9",
-      200: "#ada9a2",
-      300: "#9a9790",
-      400: "#787570",
+      200: "#d1c9b3",
+      300: "#ada9a2",
+      400: "#9a9790",
+      500: "#787570",
     },
   },
   styles: {
     global: (props: any) => ({
       body: {
-        bg: mode("arterra.100", "arterra.300")(props),
+        bg: mode("arterra.100", "arterra.400")(props),
+        // color: mode("arterra.400", "arterra.100")(props),
       },
     }),
   },

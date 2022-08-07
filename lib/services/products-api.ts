@@ -1,27 +1,24 @@
 import { supabase } from "lib/utils/supabaseClient";
-import Papa from "papaparse";
 import Resizer from "react-image-file-resizer";
 
 import { FileWithPreview, ProductDetailInterface } from "../types";
 
-const getAllProducts = async (): Promise<ProductDetailInterface[]> => {
+const getAllProducts = async () => {
   const { data } = await supabase
     .from<ProductDetailInterface>("products")
     .select("*");
 
-  return data as unknown as ProductDetailInterface[];
+  return data || [];
 };
 
-const getProductBySku = async (
-  sku: string | undefined
-): Promise<ProductDetailInterface[] | undefined> => {
+const getProductBySku = async (sku: string | undefined) => {
   if (sku) {
     const { data } = await supabase
       .from<ProductDetailInterface>("products")
       .select()
       .eq("sku", sku)
       .limit(1);
-    return data as unknown as ProductDetailInterface[];
+    return data;
   }
   return undefined;
 };

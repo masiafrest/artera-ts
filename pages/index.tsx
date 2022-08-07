@@ -24,12 +24,10 @@ const Home: NextPage<Props> = () => {
   const [products, setproducts] = useState<ProductDetailInterface[]>([]);
 
   useEffect(() => {
-    const getProduts = async () => {
+    (async () => {
       const data = await getAllProducts();
       setproducts(data);
-    };
-
-    getProduts();
+    })();
   }, []);
 
   return (

@@ -99,7 +99,7 @@ export default function NavBar() {
                     Pedido
                   </NavLink>
                 )} */}
-                <NavLink onClose={onClose} href="/faq">
+                <NavLink onClose={onClose} href="/faqs">
                   F.A.Q
                 </NavLink>
                 <Divider />
@@ -138,7 +138,7 @@ export default function NavBar() {
             {/* {isCartHaveItem && (
               <NavLink href="/checkout">Confirmar pedidos</NavLink>
             )} */}
-            <NavLink href="/faq">F.A.Q</NavLink>
+            <NavLink href="/faqs">F.A.Q</NavLink>
             <BtnCart />
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

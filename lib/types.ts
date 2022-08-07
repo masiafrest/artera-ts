@@ -61,3 +61,12 @@ export interface SignInOutOptions {
   redirect?: string;
   shouldredirect?: boolean;
 }
+
+export interface Faq {
+  title: string;
+  description: string;
+}
+
+export interface FaqWithId extends Faq {
+  id: number;
+}

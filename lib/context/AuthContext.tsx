@@ -19,14 +19,15 @@ import {
 } from "react";
 
 interface AuthContextProps {
-  isAdmin: boolean;
-  user: User | null;
   signUp: (payload: SupabaseAuthPayload, options?: SignInOutOptions) => void;
   signIn: (payload: SupabaseAuthPayload, options?: SignInOutOptions) => void;
   signOut: () => void;
   toResetPassword: (email: string) => void;
   resetPassword: (newPassword: string, hash: string) => void;
-  loggedIn: boolean;
+  getSession: () => {
+    user: User | null | undefined;
+    isAdmin: boolean;
+  };
   loading: boolean;
   userLoading: boolean;
 }
@@ -40,11 +41,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const [loading, setLoading] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [user, setUser] = useState<AuthContextProps["user"]>(null);
   const [userLoading, setUserLoading] = useState(true);
-  // Although user object should be enough here, we're creating a boolean loggedIn state for checking logged-in condition a bit more simply.
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const resetPassword = async (newPassword: string, hash: string) => {
     try {
@@ -192,6 +189,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     event: AuthChangeEvent,
     session: Session | null
   ) => {
+    console.log("setSession to db");
     await fetch("/api/auth", {
       method: "POST",
       headers: new Headers({ "Content-Type": "application/json" }),
@@ -200,21 +198,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   };
 
-  useEffect(() => {
-    try {
-      const session = supabase.auth.session();
-      if (session) {
-        user || setUser(session.user);
-        setIsAdmin(session.user!.user_metadata.isadmin);
-        setLoggedIn(true);
-      }
-    } catch (err) {
-      console.log(err);
-      setUser(null);
-      setIsAdmin(false);
-      setLoggedIn(false);
+  const getSession = (): { user: User | null; isAdmin: boolean } => {
+    const session = supabase.auth.session();
+    if (!session) {
+      router.push("/signin");
+      return { user: null, isAdmin: false };
     }
-  }, [router]);
+    return {
+      user: session?.user,
+      isAdmin: session?.user!.user_metadata.isadmin,
+    };
+  };
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -224,20 +218,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
           const user = session?.user! ?? null;
 
           setUserLoading(false);
-          if (user) {
-            setUser(user);
-            setIsAdmin(user.user_metadata.isadmin);
-            setLoggedIn(true);
-          } else {
-            setUser(null);
-            setIsAdmin(false);
-            setLoggedIn(false);
+          if (!user) {
             router.push("/");
           }
         }
         if (event === "SIGNED_OUT") {
-          setIsAdmin(false);
-          setLoggedIn(false);
           router.push("/");
         }
       }
@@ -252,15 +237,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
-        isAdmin,
-        user,
+        getSession,
         signIn,
         signUp,
         signOut,
         toResetPassword,
         resetPassword,
         loading,
-        loggedIn,
         userLoading,
       }}
     >

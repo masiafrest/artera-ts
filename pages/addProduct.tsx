@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (!user?.user_metadata.isadmin) {
     return {
       redirect: {
-        destination: "/signIn",
+        destination: "/signin",
         permanent: false,
       },
     };
@@ -63,7 +63,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       user,
-      loggedIn: !!user,
     },
   };
 };

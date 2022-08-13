@@ -25,10 +25,12 @@ import { toCurrency } from "lib/utils";
 type Props = {};
 
 export default function Checkout({}: Props) {
+  const { getSession } = useAuth();
+  const { user } = getSession();
+
   const router = useRouter();
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const { cart, resetCart, getCartTotal } = useCart();
-  const { loggedIn, user } = useAuth();
 
   const onCheckOut = () => {
     const service_id = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
@@ -140,19 +142,19 @@ export default function Checkout({}: Props) {
           </Box>
           <Stack alignItems="center" p="3" justifyContent="center">
             <Text>
-              {loggedIn
+              {user
                 ? "Al dar aceptar y revisar el carrito de compras nos pondremos en contacto con usted."
                 : "Para poder contactarlo necesitamo su informacion, puedes ingresar o registrarte si no tienes cuenta todavia!."}
             </Text>
             <HStack>
               <Button
                 onClick={() => {
-                  loggedIn ? onCheckOut() : router.push("/signin");
+                  user ? onCheckOut() : router.push("/signin");
                 }}
               >
-                {loggedIn ? "Aceptar" : "Ingresar"}
+                {user ? "Aceptar" : "Ingresar"}
               </Button>
-              {!loggedIn && (
+              {!user && (
                 <Button
                   onClick={() => {
                     router.push("/signup");

@@ -41,7 +41,8 @@ export default function NavBar() {
     md: false,
   });
   // const { colorMode, toggleColorMode } = useColorMode();
-  const { isAdmin, signOut, loggedIn } = useAuth();
+  const { signOut, getSession } = useAuth();
+  const { isAdmin, user } = getSession();
 
   return (
     <Box
@@ -94,7 +95,7 @@ export default function NavBar() {
                 </Button> */}
                     <Button
                       onClick={() => {
-                        if (loggedIn) {
+                        if (user) {
                           signOut();
                           onClose();
                         } else {
@@ -103,7 +104,7 @@ export default function NavBar() {
                         }
                       }}
                     >
-                      {loggedIn ? "Cerrar sesión" : "Ingresar"}
+                      {user ? "Cerrar sesión" : "Ingresar"}
                     </Button>
                   </Stack>
                 )}
@@ -121,9 +122,9 @@ export default function NavBar() {
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button> */}
               <Button
-                onClick={() => (loggedIn ? signOut() : router.push("signin"))}
+                onClick={() => (user ? signOut() : router.push("signin"))}
               >
-                {loggedIn ? "Cerrar sesión" : "Ingresar"}
+                {user ? "Cerrar sesión" : "Ingresar"}
               </Button>
             </HStack>
           )}

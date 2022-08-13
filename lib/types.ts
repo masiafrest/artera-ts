@@ -42,7 +42,7 @@ export interface NextAppPageUserProps {
   props: {
     product?: ProductDetailInterface;
     user: User;
-    loggedIn: boolean;
+    isAdmin?: boolean;
   };
 }
 

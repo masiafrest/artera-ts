@@ -20,38 +20,19 @@ import {
   Text,
   Spacer,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { MoonIcon, SunIcon, HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import BtnCart from "./BtnCart";
 import { useAuth } from "lib/context/AuthContext";
 import { useRouter } from "next/router";
 import HamburgerBtn from "./HamburgerBtn";
 import { useCart } from "lib/context/CartContext";
-
-const NavLink = ({
-  children,
-  href,
-  ...rest
-}: {
-  children: ReactNode;
-  href: string;
-  onClose?: () => void;
-} & AnchorHTMLAttributes<HTMLAnchorElement>) => (
-  <Box
-    onClick={() => {
-      rest.onClose?.();
-    }}
-  >
-    <NextLink {...rest} href={href} passHref>
-      <Link>
-        <Text>{children}</Text>
-      </Link>
-    </NextLink>
-  </Box>
-);
+import { GrConfigure } from "react-icons/gr";
+import NavLink from "./NavLink";
+import ConfigBtn from "./ConfigBtn";
 
 export default function NavBar() {
-  const { cart } = useCart();
+  // const { cart } = useCart();
   const router = useRouter();
   const isSmallScreen = useBreakpointValue({
     base: true,
@@ -59,9 +40,8 @@ export default function NavBar() {
     sm: false,
     md: false,
   });
-  const { colorMode, toggleColorMode } = useColorMode();
+  // const { colorMode, toggleColorMode } = useColorMode();
   const { isAdmin, signOut, loggedIn } = useAuth();
-  // const isCartHaveItem = cart.length > 0;
 
   return (
     <Box
@@ -98,11 +78,7 @@ export default function NavBar() {
                     justifyContent="center"
                     alignItems="center"
                   >
-                    {isAdmin && (
-                      <NavLink onClose={onClose} href="/addProduct">
-                        Add Product
-                      </NavLink>
-                    )}
+                    {isAdmin && <ConfigBtn />}
                     {/* {isCartHaveItem && (
                   <NavLink onClose={onClose} href="/checkout">
                     Pedido
@@ -135,16 +111,7 @@ export default function NavBar() {
             </Flex>
           ) : (
             <HStack spacing={3} justifyContent="flex-end">
-              {isAdmin && (
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  gap="1rem"
-                >
-                  <NavLink href="/addProduct">Add Product</NavLink>
-                </Box>
-              )}
+              {isAdmin && <ConfigBtn />}
               {/* {isCartHaveItem && (
               <NavLink href="/checkout">Confirmar pedidos</NavLink>
             )} */}

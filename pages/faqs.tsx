@@ -151,7 +151,7 @@ export default function Faqs({}: Props) {
           handleSubmit={handleSubmit}
         />
       )}
-      <Accordion mt="3">
+      <Accordion mt="3" allowToggle>
         {faqs.map((e) => {
           return (
             <AccordionItems

@@ -45,11 +45,12 @@ import React, {
 type Props = {};
 
 export default function Faqs({}: Props) {
+  const { isAdmin } = useAuth();
+
   const [faqs, setFaqs] = useState<FaqWithId[]>([]);
   const [faqToEdit, setFaqToEdit] = useState<FaqWithId>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const { isAdmin } = useAuth();
   const { isOpen, onOpen, onClose, getButtonProps } = useDisclosure();
   const toast = useToast({
     duration: 5000,
@@ -262,6 +263,7 @@ const AccordionItems = ({
   onDelHandle: (id: number) => void;
 }) => {
   const { isAdmin } = useAuth();
+
   const { title, description } = faq;
 
   const onClickEdit = () => {

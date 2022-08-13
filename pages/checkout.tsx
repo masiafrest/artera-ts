@@ -25,8 +25,7 @@ import { toCurrency } from "lib/utils";
 type Props = {};
 
 export default function Checkout({}: Props) {
-  const { getSession } = useAuth();
-  const { user } = getSession();
+  const { user } = useAuth();
 
   const router = useRouter();
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });

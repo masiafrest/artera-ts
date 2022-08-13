@@ -41,8 +41,7 @@ export default function NavBar() {
     md: false,
   });
   // const { colorMode, toggleColorMode } = useColorMode();
-  const { signOut, getSession } = useAuth();
-  const { isAdmin, user } = getSession();
+  const { signOut, isAdmin, user } = useAuth();
 
   return (
     <Box

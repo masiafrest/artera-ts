@@ -24,10 +24,8 @@ interface AuthContextProps {
   signOut: () => void;
   toResetPassword: (email: string) => void;
   resetPassword: (newPassword: string, hash: string) => void;
-  getSession: () => {
-    user: User | null | undefined;
-    isAdmin: boolean;
-  };
+  user: User | null;
+  isAdmin: boolean;
   loading: boolean;
   userLoading: boolean;
 }
@@ -42,6 +40,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const toast = useToast({ duration: 5000, isClosable: true, position: "top" });
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const resetPassword = async (newPassword: string, hash: string) => {
     try {
@@ -198,17 +198,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   };
 
-  const getSession = (): { user: User | null; isAdmin: boolean } => {
-    const session = supabase.auth.session();
-    if (!session) {
-      router.push("/signin");
-      return { user: null, isAdmin: false };
+  useEffect(() => {
+    try {
+      const session = supabase.auth.session();
+      if (!session) {
+        setUser(null);
+        setIsAdmin(false);
+        router.push("/signin");
+        return;
+      }
+      setUser(session?.user);
+      setIsAdmin(session?.user!.user_metadata.isadmin);
+    } catch (error) {
+      console.log("error al buscar la session", { error });
     }
-    return {
-      user: session?.user,
-      isAdmin: session?.user!.user_metadata.isadmin,
-    };
-  };
+  }, [router]);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -237,12 +241,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
-        getSession,
         signIn,
         signUp,
         signOut,
         toResetPassword,
         resetPassword,
+        user,
+        isAdmin,
         loading,
         userLoading,
       }}

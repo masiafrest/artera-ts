@@ -25,7 +25,7 @@ export default function Config({}: Props) {
       </HStack>
       <Text></Text>
 
-      <Accordion mt="3">
+      <Accordion mt="3" allowToggle>
         <AccordionItem>
           <h2>
             <AccordionButton>

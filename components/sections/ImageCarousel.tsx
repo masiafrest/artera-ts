@@ -29,23 +29,27 @@ const settings = {
 const cards = [
   {
     title: "Design Projects 1",
-    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    description:
+      "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
     image: "https://drive.google.com/uc?id=1Sn8wxQ2ZFGy6Pb7PFnQuLinmedk9f1DF",
   },
 
   {
     title: "Design Projects 3",
-    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    description:
+      "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
     image: "https://drive.google.com/uc?id=1XTnsW9scs7Ogu2FT59zzsJ_jNhwAQUN1",
   },
   {
     title: "Design Projects 3",
-    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    description:
+      "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
     image: "https://drive.google.com/uc?id=1Y8UVfLt3lZrkKQszHcOIRMmVOaGdZU32",
   },
   {
     title: "Design Projects 3",
-    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
+    description:
+      "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
     image: "https://drive.google.com/uc?id=1MAvX4S59cNZ4HBA2bj6NiNOXzXm8JR8A",
   },
 ];
@@ -139,7 +143,7 @@ export default function ImageCarousel({ images }: Props) {
                     {card.title}
                   </Heading>
                   <Text fontSize={{ base: "sm", sm: "md" }} color="GrayText">
-                    {card.text}
+                    {card.description}
                   </Text>
                 </Stack>
               </Container> */}

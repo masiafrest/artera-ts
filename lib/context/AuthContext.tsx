@@ -201,6 +201,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
+    try {
+      const session = supabase.auth.session();
+      if (session) {
+        user || setUser(session.user);
+        setIsAdmin(session.user!.user_metadata.isadmin);
+        setLoggedIn(true);
+      }
+    } catch (err) {
+      console.log(err);
+      setUser(null);
+      setIsAdmin(false);
+      setLoggedIn(false);
+    }
+  }, [router]);
+
+  useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setServerSession(event, session);
@@ -231,7 +247,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       authListener?.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, []);
 
   return (
     <AuthContext.Provider

@@ -32,11 +32,7 @@ const cards = [
     text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
     image: "https://drive.google.com/uc?id=1Sn8wxQ2ZFGy6Pb7PFnQuLinmedk9f1DF",
   },
-  {
-    title: "Design Projects 2",
-    text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-    image: "https://drive.google.com/uc?id=1LdFrBZrhrBXF8iRNTzrGktvphs2kEgcr",
-  },
+
   {
     title: "Design Projects 3",
     text: "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
@@ -125,7 +121,7 @@ export default function ImageCarousel({ images }: Props) {
           {cards.map((card) => (
             <Box
               key={card.image}
-              height={{ base: "56", sm: "80" }}
+              height={{ base: "80", sm: "80", md: "2xl" }}
               position="relative"
               backgroundPosition="center"
               backgroundSize="cover"

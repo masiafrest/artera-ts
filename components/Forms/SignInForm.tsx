@@ -83,6 +83,7 @@ export default function SignInForm({ options }: Props) {
             _hover={{
               bg: "blue.500",
             }}
+            disabled={loading}
           >
             Continuar
           </Button>

@@ -121,6 +121,7 @@ export default function SignUpForm({ isAdmin = false, options }: Props) {
               _hover={{
                 bg: "blue.500",
               }}
+              disabled={loading}
             >
               Continuar
             </Button>

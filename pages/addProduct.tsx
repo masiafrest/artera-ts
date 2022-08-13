@@ -1,31 +1,9 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Spinner,
-  Stack,
-  Textarea,
-  Tooltip,
-  useColorModeValue,
-  useToast,
-} from "@chakra-ui/react";
+import React from "react";
+import { useToast } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { supabase } from "lib/utils/supabaseClient";
 import { NextAppPageServerSideProps, ProductDetailInterface } from "lib/types";
-import { useForm, FormProvider, Controller } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
-import DropZoneInput from "components/DropZoneInput";
 import { uploadImgs, uploadProduct } from "lib/services/products-api";
-import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import ProductForm from "components/Forms/ProductForm";
 
 const defaultValues: ProductDetailInterface = {
@@ -36,9 +14,9 @@ const defaultValues: ProductDetailInterface = {
   caracteristica: "",
 };
 
-export default function AddProduct({}: InferGetServerSidePropsType<
-  typeof getServerSideProps
->): JSX.Element {
+export default function AddProduct(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+): JSX.Element {
   const toast = useToast({
     duration: 5000,
     isClosable: true,

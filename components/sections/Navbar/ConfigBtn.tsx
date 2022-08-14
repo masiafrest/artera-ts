@@ -23,7 +23,7 @@ export default function ConfigBtn({}: Props) {
         variant="outline"
       />
       <MenuList>
-        <NavLink href="/addProduct">
+        <NavLink href="product/new">
           <MenuItem icon={<AddIcon />}>Add Product</MenuItem>
         </NavLink>
       </MenuList>

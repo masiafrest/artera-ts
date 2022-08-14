@@ -201,10 +201,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     try {
       const session = supabase.auth.session();
+      console.log({ session });
       if (!session) {
         setUser(null);
         setIsAdmin(false);
-        router.push("/signin");
         return;
       }
       setUser(session?.user);

@@ -82,7 +82,7 @@ export default function ProductCard({ product, onDelete }: Props) {
                   size="md"
                   top="12"
                   right="-5"
-                  onClick={(e) => router.push(`/editProduct/${id}`)}
+                  onClick={(e) => router.push(`product/edit/${id}`)}
                 />
                 <AlertDialog
                   isOpen={isOpen}
@@ -126,7 +126,7 @@ export default function ProductCard({ product, onDelete }: Props) {
                 bg="red.200"
               />
             )} */}{" "}
-            <NextLink href={`/products/${sku}`} passHref>
+            <NextLink href={`/product/${sku}`} passHref>
               <LinkOverlay>
                 <Image
                   rounded={"lg"}

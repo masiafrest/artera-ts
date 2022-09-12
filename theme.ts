@@ -29,7 +29,7 @@ const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bg: mode("arterra.100", "arterra.400")(props),
+        bg: mode("arterra.200", "arterra.400")(props),
         // color: mode("arterra.400", "arterra.100")(props),
         borderColor: mode("arterra.400", "arterra.100")(props),
         // accentColor: mode("arterra.400", "arterra.100")(props),

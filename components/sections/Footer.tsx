@@ -22,6 +22,7 @@ const SocialButton = ({
   return (
     <chakra.button
       // bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      bg="arterra.200"
       rounded={"full"}
       w={8}
       h={8}
@@ -49,6 +50,7 @@ export default function SmallWithSocial() {
       // color={useColorModeValue("gray.700", "gray.200")}
       // position="fixed"
       // bottom="0"
+      bg="arterra.100"
       width="full"
     >
       <Container

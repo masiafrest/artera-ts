@@ -189,7 +189,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     event: AuthChangeEvent,
     session: Session | null
   ) => {
-    console.log("setSession to db");
     await fetch("/api/auth", {
       method: "POST",
       headers: new Headers({ "Content-Type": "application/json" }),
@@ -201,7 +200,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     try {
       const session = supabase.auth.session();
-      console.log({ session });
       if (!session) {
         setUser(null);
         setIsAdmin(false);

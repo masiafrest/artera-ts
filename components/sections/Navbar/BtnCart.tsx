@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { Button, useDisclosure, Icon, Box } from "@chakra-ui/react";
 import { BsCart } from "react-icons/bs";
 import CartDrawer from "components/CartDrawer";
@@ -23,22 +23,7 @@ export default function BtnCart({ closeFirstModal }: Props) {
 
   return (
     <Button ref={btnRef} onClick={onOpen} pos="relative">
-      {!!totalQty && (
-        <Box
-          pos="absolute"
-          top="-2"
-          right="-2"
-          rounded="full"
-          h="6"
-          w="6"
-          bg="red.500"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {totalQty}
-        </Box>
-      )}
+      {!!totalQty && <NotificationBadge content={totalQty} />}
       <Icon as={BsCart} />
       <CartDrawer
         disclosureProps={{
@@ -50,3 +35,23 @@ export default function BtnCart({ closeFirstModal }: Props) {
     </Button>
   );
 }
+
+const NotificationBadge = ({ content }: { content: string | number }) => {
+  return (
+    <Box
+      pos="absolute"
+      top="-2"
+      right="-2"
+      rounded="full"
+      h="6"
+      w="6"
+      bg="red.300"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      fontSize="xs"
+    >
+      {content}
+    </Box>
+  );
+};

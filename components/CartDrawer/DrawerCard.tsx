@@ -12,7 +12,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 import { CartProductDetailInterface } from "lib/types";
 import { useCart } from "lib/context/CartContext";
-import { toCurrency } from "lib/utils";
+import { getUrlSlides, toCurrency } from "lib/utils";
 
 type Props = CartProductDetailInterface;
 
@@ -21,7 +21,9 @@ export default function DrawerCard({
   descripcion = "description",
   precio = "10",
   sku,
+  imagenes
 }: Props) {
+
   const { setCart } = useCart();
 
   const onClickMore = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -53,7 +55,7 @@ export default function DrawerCard({
         height={135}
         width={135}
         objectFit={"cover"}
-        src={"/images/vasija_card.webp"}
+        src={getUrlSlides(imagenes)[0]}
         alt="img"
       />
       <VStack

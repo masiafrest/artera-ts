@@ -21,9 +21,8 @@ export default function DrawerCard({
   descripcion = "description",
   precio = "10",
   sku,
-  imagenes
+  imagenes,
 }: Props) {
-
   const { setCart } = useCart();
 
   const onClickMore = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -70,15 +69,6 @@ export default function DrawerCard({
             <Text>Precio: {toCurrency(precio)}</Text>
             <Text>Total: {toCurrency(Number(precio) * qty)}</Text>
           </VStack>
-          <Box h="20">
-            <IconButton
-              aria-label="delete item"
-              icon={<CloseIcon />}
-              onClick={(e) => {
-                setCart((prevCart) => prevCart.filter((c) => c.sku !== sku));
-              }}
-            />
-          </Box>
         </HStack>
         <HStack maxW="36">
           <Button onClick={onClickMore}>+</Button>
@@ -86,6 +76,15 @@ export default function DrawerCard({
           <Button onClick={onClickLess}>-</Button>
         </HStack>
       </VStack>
+      <Box h="20">
+        <IconButton
+          aria-label="delete item"
+          icon={<CloseIcon />}
+          onClick={(e) => {
+            setCart((prevCart) => prevCart.filter((c) => c.sku !== sku));
+          }}
+        />
+      </Box>
     </HStack>
   );
 }
